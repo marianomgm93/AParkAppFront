@@ -3,20 +3,30 @@
     {
       "id": "u1-uuid",
       "email": "owner@aparkapp.com",
+      "password": "1234",
       "role": "OWNER",
       "name": "Dueño Cochera Centro"
     },
     {
       "id": "u2-uuid",
       "email": "client@aparkapp.com",
+      "password": "1234",
       "role": "CLIENT",
       "name": "Cliente Frecuente"
     },
     {
-      "id": "u3-uuid",
-      "email": "employee@aparkapp.com",
-      "role": "EMPLOYEE",
-      "name": "Empleado Turno Mañana"
+      "id": "c019b996-3ab6-48e9-92d8-b222ede791df",
+      "email": "mariano@aparkapp.com",
+      "password": "asd123",
+      "name": "mariano",
+      "role": "CLIENT"
+    },
+    {
+      "id": "9b7e6189-dd1b-455b-bf35-464265f240c2",
+      "email": "asdasdasdasdasdasd@asd",
+      "password": "adsasdas",
+      "name": "21312321",
+      "role": "CLIENT"
     }
   ],
   "vehicles": [
@@ -97,8 +107,8 @@
     {
       "id": "t1-uuid",
       "reservationId": "r2-uuid",
-      "amount": 5000.00,
-      "paid": 2500.00,
+      "amount": 5000,
+      "paid": 2500,
       "creationDate": "2026-10-22T08:05:00Z",
       "status": "PARTIALLY_PAID",
       "note": "Pago parcial al ingreso"
