@@ -1,0 +1,34 @@
+<form [formRoot]="registerForm">
+    <div class="form-control">
+        <label for="email">Email:</label>
+        <input type="email" id="email" [formField]="registerForm.email" />
+        @if(registerForm.email().touched() && registerForm.email().invalid()){
+            @for (error of registerForm.email().errors(); track $index) {
+                <small class="error-message">{{ error.message }}</small>
+            }
+        }
+    </div>
+    <div class="form-control">
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" [formField]="registerForm.name" />
+                @if(registerForm.name().touched() && registerForm.name().invalid()){
+            @for (error of registerForm.name().errors(); track $index) {
+                <small class="error-message">{{ error.message }}</small>
+            }
+        }
+    </div>
+    <div class="form-control">
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" [formField]="registerForm.password" />
+                @if(registerForm.password().touched() && registerForm.password().invalid()){
+            @for (error of registerForm.password().errors(); track $index) {
+                <small class="error-message">{{ error.message }}</small>
+            }
+        }
+    </div>
+    <!-- <div class="form-control">
+        <label for="confirmPassword">Confirmar Contraseña:</label>
+        <input type="password" id="confirmPassword" [formField]="registerForm.confirmPassword" />
+    </div> -->
+    <button type="submit" [disabled]="registerForm().invalid()">Registrarse</button>
+</form>
