@@ -4,9 +4,5 @@ export interface User {
   role: string;
   name: string;
 }
-export type userFormModel = Omit<User, 'id' | 'role'>;
-export interface registerFormModel {
-    email: string;
-    name: string;
-    password: string;
-};
+export type UserFormModel = Omit<User, 'id' | 'role'>;
+
