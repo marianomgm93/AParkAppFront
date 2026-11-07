@@ -27,6 +27,13 @@
       "password": "adsasdas",
       "name": "21312321",
       "role": "CLIENT"
+    },
+    {
+      "id": "2aa31f52-0579-4542-b7f0-8f3cad28e5be",
+      "email": "marianomgm93@gmail.com",
+      "password": "asd123",
+      "name": "mariano gonzalez",
+      "role": "CLIENT"
     }
   ],
   "vehicles": [

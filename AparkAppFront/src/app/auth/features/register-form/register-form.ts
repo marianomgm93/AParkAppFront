@@ -1,7 +1,8 @@
 import { Component, computed, inject, input, output, signal } from '@angular/core';
-import { UserClient } from '../../data-access/user-client';
-import { User, registerFormModel } from '../../data-access/user';
+import { UserClient } from '../../../user/data-access/user-client';
 import { email, form, FormField, FormRoot, minLength, required } from '@angular/forms/signals';
+import { RegisterFormModel } from '../../auth-models';
+import { AuthService } from '../../auth-service';
 
 @Component({
   imports: [FormRoot, FormField],
@@ -10,15 +11,15 @@ import { email, form, FormField, FormRoot, minLength, required } from '@angular/
   templateUrl: './register-form.html',
 })
 export class RegisterForm {
-  private readonly client = inject(UserClient);
+  private readonly client = inject(AuthService);
 
-  private readonly valoresIniciales: registerFormModel = {
+  private readonly valoresIniciales: RegisterFormModel = {
     email: '',
     name: '',
     password: '',
   };
 
-  private readonly formularioVacio = signal<registerFormModel>({
+  private readonly formularioVacio = signal<RegisterFormModel>({
     ...this.valoresIniciales,
   });
 
@@ -37,7 +38,7 @@ export class RegisterForm {
         action: async (field) => {
           const data = field().value();
 
-          this.client.create(data).subscribe((res) => {
+          this.client.register(data).subscribe((res) => {
             alert('Se ha registrado correctamente');
             this.resetForm();
           });
