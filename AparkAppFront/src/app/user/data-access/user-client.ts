@@ -7,9 +7,9 @@ import { RegisterFormModel } from '../../auth/auth-models';
 @Service()
 export class UserClient {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = 'http://localhost:3000/users';
-    private readonly authUrl = 'http://localhost:3000/api/auth/register';
-    private readonly loginUrl = 'http://localhost:3000/api/auth/login'
+    private readonly baseUrl = 'http://localhost:8080/users';
+    private readonly authUrl = 'http://localhost:8080/api/auth/register';
+    private readonly loginUrl = 'http://localhost:8080/api/auth/login'
     getAll(): Observable<User[]> {
         return this.http.get<User[]>(this.baseUrl);
     }

@@ -6,7 +6,7 @@ import { tap } from 'rxjs';
 @Service()
 export class AuthService {
   private readonly http = inject(HttpClient);
-  private readonly authEndpoint = 'http://localhost:3000/api/auth';
+  private readonly authEndpoint = 'http://localhost:8080/api/auth';
 
   private readonly accessTokenKey = 'accessToken';
   
