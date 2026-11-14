@@ -1,1 +1,92 @@
-<p>parking-lot-form works!</p>
+<form [formRoot]="ParkingLotForm">
+  <h2>{{ isEditing() ? 'Editar Estacionamiento' : 'Nuevo Estacionamiento' }}</h2>
+
+  <!-- Datos del Estacionamiento -->
+  <fieldset>
+    <legend>Datos del Estacionamiento</legend>
+
+    <div class="form-control">
+      <label for="name">Nombre:</label>
+      <input type="text" id="name" placeholder="Nombre del estacionamiento" [formField]="ParkingLotForm.name" />
+      @if (ParkingLotForm.name().touched() && ParkingLotForm.name().invalid()) {
+        @for (error of ParkingLotForm.name().errors(); track $index) {
+          <small class="error-message">{{ error.message }}</small>
+        }
+      }
+    </div>
+
+    <div class="form-row">
+      <div class="form-control">
+        <label for="capacity">Capacidad:</label>
+        <input type="number" id="capacity" placeholder="Ej: 50" [formField]="ParkingLotForm.capacity" />
+        @if (ParkingLotForm.capacity().touched() && ParkingLotForm.capacity().invalid()) {
+          @for (error of ParkingLotForm.capacity().errors(); track $index) {
+            <small class="error-message">{{ error.message }}</small>
+          }
+        }
+      </div>
+
+      <div class="form-control">
+        <label for="active">Activo:</label>
+        <div class="toggle-wrapper">
+          <input type="checkbox" id="active" [formField]="ParkingLotForm.active" />
+          <span class="toggle-label">{{ ParkingLotForm.active().value() ? 'Sí' : 'No' }}</span>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+
+  <!-- Datos del Usuario -->
+  <fieldset>
+    <legend>Responsable</legend>
+
+    <div class="form-control">
+      <label for="userName">Nombre:</label>
+      <input type="text" id="userName" placeholder="Nombre del responsable" [formField]="ParkingLotForm.user.name" />
+    </div>
+
+    <div class="form-control">
+      <label for="userEmail">Email:</label>
+      <input type="email" id="userEmail" placeholder="email@ejemplo.com" [formField]="ParkingLotForm.user.email" />
+    </div>
+  </fieldset>
+
+  <!-- Datos de la Dirección -->
+  <fieldset>
+    <legend>Dirección</legend>
+
+    <div class="form-row">
+      <div class="form-control form-control--grow">
+        <label for="street">Calle:</label>
+        <input type="text" id="street" placeholder="Nombre de la calle" [formField]="ParkingLotForm.address.street" />
+      </div>
+
+      <div class="form-control form-control--small">
+        <label for="number">Número:</label>
+        <input type="number" id="number" placeholder="Nro" [formField]="ParkingLotForm.address.number" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-control">
+        <label for="zipcode">Código Postal:</label>
+        <input type="text" id="zipcode" placeholder="Ej: 5000" [formField]="ParkingLotForm.address.zipcode" />
+      </div>
+
+      <div class="form-control">
+        <label for="notes">Notas:</label>
+        <input type="text" id="notes" placeholder="Entre calles, referencias..." [formField]="ParkingLotForm.address.notes" />
+      </div>
+    </div>
+  </fieldset>
+
+  <!-- Acciones -->
+  <div class="action">
+    <button type="submit" [disabled]="ParkingLotForm().invalid()">
+      {{ isEditing() ? 'Guardar Cambios' : 'Crear Estacionamiento' }}
+    </button>
+    @if (!isEditing()) {
+      <button type="button" (click)="resetForm()">Limpiar</button>
+    }
+  </div>
+</form>

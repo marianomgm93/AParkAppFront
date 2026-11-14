@@ -1,0 +1,85 @@
+<form [formRoot]="AddressForm">
+  <h2>{{ isEditing() ? 'Editar Dirección' : 'Nueva Dirección' }}</h2>
+
+
+
+  <fieldset>
+    <legend>Dirección</legend>
+
+    <div class="form-control">
+      <label for="street">Calle:</label>
+      <input
+        type="text"
+        id="street"
+        placeholder="Nombre de la calle"
+        [formField]="AddressForm.street"
+      />
+      @if (AddressForm.street().touched() && AddressForm.street().invalid()) {
+        @for (error of AddressForm.street().errors(); track $index) {
+          <small class="error-message">{{ error.message }}</small>
+        }
+      }
+    </div>
+
+    <div class="form-row">
+      <div class="form-control form-control--small">
+        <label for="number">Número:</label>
+        <input
+          type="number"
+          id="number"
+          placeholder="Nro"
+          [formField]="AddressForm.number"
+        />
+        @if (AddressForm.number().touched() && AddressForm.number().invalid()) {
+          @for (error of AddressForm.number().errors(); track $index) {
+            <small class="error-message">{{ error.message }}</small>
+          }
+        }
+      </div>
+
+
+
+      <div class="form-control">
+        <label for="zipcode">Código Postal:</label>
+        <input
+          type="text"
+          id="zipcode"
+          placeholder="Ej: 5000"
+          [formField]="AddressForm.zipcode"
+        />
+        @if (AddressForm.zipcode().touched() && AddressForm.zipcode().invalid()) {
+          @for (error of AddressForm.zipcode().errors(); track $index) {
+            <small class="error-message">{{ error.message }}</small>
+          }
+        }
+      </div>
+
+    
+    </div>
+
+    <div class="form-control">
+      <label for="notes">Notas:</label>
+      <input
+        type="text"
+        id="notes"
+        placeholder="Referencias, entre calles..."
+        [formField]="AddressForm.notes"
+      />
+    </div>
+
+
+  </fieldset>
+
+  <div class="action">
+
+    <button type="submit" [disabled]="AddressForm().invalid()">
+
+      {{ isEditing() ? 'Guardar Cambios' : 'Crear Dirección' }}
+    </button>
+
+    @if (!isEditing()) {
+      <button type="button" (click)="resetForm()">Limpiar</button>
+    }
+  </div>
+  
+</form>
