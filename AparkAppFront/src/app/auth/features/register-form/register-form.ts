@@ -10,7 +10,7 @@ import { AuthService } from '../../auth-service';
   styleUrl: './register-form.css',
   templateUrl: './register-form.html',
 })
-export class RegisterForm {
+export default class RegisterForm {
   private readonly client = inject(AuthService);
 
   private readonly valoresIniciales: RegisterFormModel = {
