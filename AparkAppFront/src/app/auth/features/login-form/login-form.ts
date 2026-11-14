@@ -12,7 +12,7 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './login-form.css',
   templateUrl: './login-form.html',
 })
-export class LoginForm {
+export default class LoginForm {
   private readonly client = inject(AuthService);
   private readonly router = inject(Router);
   readonly reason = input<string>('');
