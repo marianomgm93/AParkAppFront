@@ -14,6 +14,7 @@ export class Header {
   private readonly router = inject(Router);
 
   protected readonly isAuthenticated = this.authService.isAuthenticated;
+  protected readonly userRole = this.authService.userRole;
   protected readonly commands= ROUTE_COMMANDS;
 
   logout() {

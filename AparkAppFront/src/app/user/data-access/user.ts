@@ -1,7 +1,7 @@
 export interface User {
   id: string | number;
   email: string;
-  role: string;
+  roles: string;
   name: string;
 }
 export type UserFormModel = Omit<User, 'id' | 'role'>;
