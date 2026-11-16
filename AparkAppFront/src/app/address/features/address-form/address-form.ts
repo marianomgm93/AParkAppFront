@@ -12,7 +12,7 @@ import { firstValueFrom } from 'rxjs';
   templateUrl: './address-form.html',
 })
 
-export class AddressForm implements OnInit {
+export default class AddressForm implements OnInit {
   private readonly client = inject(AddressService);
   readonly editingAddress = input<AddressModel>();
   readonly editedAddress = output<AddressModel>();

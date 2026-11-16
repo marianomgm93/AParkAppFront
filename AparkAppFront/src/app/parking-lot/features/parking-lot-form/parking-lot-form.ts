@@ -11,7 +11,7 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './parking-lot-form.css',
   templateUrl: './parking-lot-form.html',
 })
-export class ParkingLotForm implements OnInit {
+export default class ParkingLotForm implements OnInit {
   private readonly client = inject(ParkingLotService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
