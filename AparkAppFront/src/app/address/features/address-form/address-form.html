@@ -1,7 +1,6 @@
 <form [formRoot]="AddressForm">
   <h2>{{ isEditing() ? 'Editar Dirección' : 'Nueva Dirección' }}</h2>
 
-  <!-- Datos de la Dirección -->
   <fieldset>
     <legend>Dirección</legend>
 
@@ -43,7 +42,6 @@
     </div>
   </fieldset>
 
-  <!-- Acciones -->
   <div class="action">
     <button type="submit" [disabled]="AddressForm().invalid()">
       {{ isEditing() ? 'Guardar Cambios' : 'Crear Dirección' }}

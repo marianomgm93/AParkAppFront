@@ -14,7 +14,6 @@ form {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* ── Fieldsets ── */
 
 fieldset {
   border: 1px solid var(--border-color);
@@ -32,7 +31,6 @@ legend {
   background-color: transparent;
 }
 
-/* ── Form controls ── */
 
 .form-control {
   display: flex;
@@ -82,7 +80,6 @@ input::placeholder {
   opacity: 0.6;
 }
 
-/* ── Checkbox / Toggle ── */
 
 .toggle-wrapper {
   display: flex;
@@ -130,7 +127,6 @@ input[type="checkbox"]:checked::after {
   background-color: transparent;
 }
 
-/* ── Row layout ── */
 
 .form-row {
   display: flex;
@@ -138,7 +134,6 @@ input[type="checkbox"]:checked::after {
   background-color: transparent;
 }
 
-/* ── Error messages ── */
 
 .error-message {
   color: var(--text-error);
@@ -149,7 +144,6 @@ input[type="checkbox"]:checked::after {
   background-color: transparent;
 }
 
-/* ── Action buttons ── */
 
 .action {
   display: flex;
@@ -200,7 +194,6 @@ button[type="button"]:hover {
   color: var(--text-primary);
 }
 
-/* ── Responsive ── */
 
 @media (max-width: 600px) {
   form {

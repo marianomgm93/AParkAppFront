@@ -11,9 +11,9 @@ import { firstValueFrom } from 'rxjs';
   styleUrl: './address-form.css',
   templateUrl: './address-form.html',
 })
+
 export class AddressForm implements OnInit {
   private readonly client = inject(AddressService);
-  // Input address when editing; undefined when creating new
   readonly editingAddress = input<AddressModel>();
   readonly editedAddress = output<AddressModel>();
 
@@ -30,7 +30,6 @@ export class AddressForm implements OnInit {
   ngOnInit() {
     const addr = this.editingAddress();
     if (this.isEditing() && addr) {
-      // remove id property for form model
       const { id, ...rest } = addr as any;
       this.addressFormModel.set(rest);
     }
