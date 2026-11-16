@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../auth/auth-service';
+import { ROUTE_COMMANDS } from '../../app.route.segments';
 
 @Component({
   imports: [RouterLinkActive, RouterLink],
@@ -10,7 +11,14 @@ import { AuthService } from '../../auth/auth-service';
 })
 export class Header {
   protected readonly authService = inject(AuthService);
-  protected readonly isAuthenticated = this.authService.isAuthenticated;
+  private readonly router = inject(Router);
 
+  protected readonly isAuthenticated = this.authService.isAuthenticated;
+  protected readonly commands= ROUTE_COMMANDS;
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(ROUTE_COMMANDS.login);
+  }
 
 }
