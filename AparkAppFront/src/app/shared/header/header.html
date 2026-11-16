@@ -1,10 +1,13 @@
-    <h1>AParkAPP</h1>
-    <nav>
-        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
-        <a [routerLink]="commands.signup" routerLinkActive="active">Registrarse</a>
-        @if (isAuthenticated()) {
-            <a (click)="authService.logout()">Cerrar sesión</a>
-        } @else {
-        <a [routerLink]="commands.login" routerLinkActive="active">Iniciar sesión</a>
-        }
-    </nav>
+<h1>AParkAPP</h1>
+<nav>
+  <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+  @if (isAuthenticated()) {
+    @if (userRole() === 'ROLE_ADMIN') {
+      <a [routerLink]="commands.userList" routerLinkActive="active">Usuarios</a>
+    }
+    <a (click)="authService.logout()">Cerrar sesión</a>
+  } @else {
+    <a [routerLink]="commands.signup" routerLinkActive="active">Registrarse</a>
+    <a [routerLink]="commands.login" routerLinkActive="active">Iniciar sesión</a>
+  }
+</nav>
