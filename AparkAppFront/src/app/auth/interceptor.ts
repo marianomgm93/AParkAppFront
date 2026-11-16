@@ -13,7 +13,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const accessToken = auth.accessToken();
 
-  if (!req.url.startsWith('/api') || req.url.includes('/auth') || !accessToken) {
+  if (req.url.includes('/auth') || !accessToken) {
     return next(req);
   }
 

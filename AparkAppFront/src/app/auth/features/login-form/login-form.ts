@@ -5,6 +5,7 @@ import { LoginCredentials } from '../../auth-models';
 import { AuthService } from '../../auth-service';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs'; 
+import { ROUTE_COMMANDS } from '../../../app.route.segments';
 
 @Component({
   imports: [FormRoot, FormField],
@@ -43,7 +44,9 @@ export default class LoginForm {
             
             if (res.token) {
               alert('Inicio de sesión exitoso');
-              this.router.navigate(['/']);
+              if(this.client.userRole() === 'ROLE_ADMIN'){
+              this.router.navigate(ROUTE_COMMANDS.userList);
+              }
             }
           } catch (error) {
             // Manejo visual para el usuario
