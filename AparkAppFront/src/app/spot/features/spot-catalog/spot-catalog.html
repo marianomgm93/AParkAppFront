@@ -1,0 +1,20 @@
+<div class="catalogo-container">
+  <h2>Catálogo de Espacios</h2>
+
+  <div class="filter-controls">
+    <span>Ordenar por:</span>
+    <button (click)="ordenarPor('spotNumber')" [class.active]="sortOrder() === 'spotNumber'">Número</button>
+    <button (click)="ordenarPor('status')" [class.active]="sortOrder() === 'status'">Estado</button>
+  </div>
+
+  <div class="spots-grid">
+    @for (spot of filteredSpots(); track spot.id) {
+      <div class="spot-card" (click)="verDetalle(spot.id)" [class.free]="spot.status === 'FREE'" [class.occupied]="spot.status === 'OCCUPIED'">
+        <span class="spot-num">Espacio #{{ spot.spotNumber }}</span>
+        <span class="spot-stat">{{ spot.status }}</span>
+      </div>
+    } @empty {
+      <p class="empty-msg">No hay espacios disponibles en este momento.</p>
+    }
+  </div>
+</div>

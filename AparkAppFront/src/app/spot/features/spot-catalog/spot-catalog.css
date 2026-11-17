@@ -1,0 +1,90 @@
+.catalogo-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+}
+
+.catalogo-container h2 {
+  color: var(--color-accent);
+  margin-bottom: 15px;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.filter-controls button {
+  padding: 6px 12px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.filter-controls button.active {
+  background-color: var(--color-accent);
+  color: var(--text-on-accent);
+  font-weight: bold;
+  border-color: var(--color-accent);
+}
+
+.spots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+}
+
+.spot-card {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  padding: 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.spot-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+
+.spot-num {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.spot-stat {
+  font-size: 0.85rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.spot-card.free .spot-stat {
+  background-color: rgba(40, 167, 69, 0.2);
+  color: #5cb85c;
+}
+
+.spot-card.occupied .spot-stat {
+  background-color: rgba(220, 53, 69, 0.2);
+  color: var(--text-error);
+}
+
+.empty-msg {
+  color: var(--text-secondary);
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 20px;
+}

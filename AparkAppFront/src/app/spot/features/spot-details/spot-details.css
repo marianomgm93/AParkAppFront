@@ -1,0 +1,76 @@
+.spot-details-container {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+}
+
+.details-card h2 {
+  color: var(--color-accent);
+  margin-bottom: 20px;
+}
+
+.info-row {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.badge.free {
+  background-color: rgba(40, 167, 69, 0.2);
+  color: #5cb85c;
+  border: 1px solid #5cb85c;
+}
+
+.badge.occupied {
+  background-color: rgba(220, 53, 69, 0.2);
+  color: var(--text-error);
+  border: 1px solid var(--text-error);
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-edit {
+  background-color: var(--color-accent);
+  color: var(--text-on-accent);
+}
+
+.btn-delete {
+  background-color: transparent;
+  color: var(--text-error);
+  border: 1px solid var(--text-error);
+}
+
+.btn-back {
+  background-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.loading {
+  color: var(--text-secondary);
+  text-align: center;
+}

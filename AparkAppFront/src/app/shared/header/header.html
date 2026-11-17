@@ -2,6 +2,8 @@
     <nav>
         <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
         <a routerLink="/register" routerLinkActive="active">Registrarse</a>
+        <a routerLink="/spots">Espacios</a> 
+    <a routerLink="/spot-nuevo">Nuevo Espacio</a>
         @if (isAuthenticated()) {
             <a (click)="authService.logout()">Cerrar sesión</a>
         } @else {

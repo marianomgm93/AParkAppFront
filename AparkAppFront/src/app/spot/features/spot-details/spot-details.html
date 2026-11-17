@@ -1,0 +1,28 @@
+<div class="spot-details-container">
+  @if (spot(); as currentSpot) {
+    @if (!isEditing()) {
+      <div class="details-card">
+        <h2>Detalle del Espacio #{{ currentSpot.spotNumber }}</h2>
+        <div class="info-row">
+          <strong>Estado:</strong> 
+          <span class="badge" [class.free]="currentSpot.status === 'FREE'" [class.occupied]="currentSpot.status === 'OCCUPIED'">
+            {{ currentSpot.status }}
+          </span>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn-edit" (click)="toggleEdit()">Editar</button>
+          <button type="button" class="btn-delete" (click)="onDelete()">Eliminar</button>
+          <button type="button" class="btn-back" routerLink="/spots">Volver al catálogo</button>
+        </div>
+      </div>
+    } @else {
+      <div class="edit-section">
+        <app-spot-form [editingSpot]="currentSpot" (editedSpot)="onEdit($event)" />
+        <button type="button" class="btn-back" (click)="toggleEdit()">Cancelar edición</button>
+      </div>
+    }
+  } @else {
+    <p class="loading">Cargando detalles del espacio...</p>
+  }
+</div>

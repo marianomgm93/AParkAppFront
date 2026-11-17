@@ -1,0 +1,24 @@
+<div class="spot-form-container">
+  <h2>{{ isEditing() ? 'Editar Espacio' : 'Nuevo Espacio' }}</h2>
+
+  <form [formRoot]="spotForm">
+    <div class="form-group">
+      <label for="spotNumber">Número de Espacio:</label>
+      <input id="spotNumber" type="number" [formField]="spotForm.spotNumber" />
+      
+      @if (spotForm.spotNumber().touched() && spotForm.spotNumber().invalid()) {
+        <span class="error-msg">Número de espacio es requerido...</span>
+      }
+    </div>
+
+  
+    <div class="form-actions">
+      <button type="submit">
+        {{ isEditing() ? 'Actualizar' : 'Guardar' }}
+      </button>
+      @if (isEditing()) {
+        <button type="button" (click)="resetForm()">Cancelar</button>
+      }
+    </div>
+  </form>
+</div>
