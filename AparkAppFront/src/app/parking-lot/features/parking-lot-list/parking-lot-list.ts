@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 
 export default class ParkingLotList implements OnInit {
   private readonly service = inject(ParkingLotService);
-  private readonly router = inject(Router); 
+  private readonly router = inject(Router);
   private readonly parkingLots = signal<ParkingLotModel[]>([]);
   readonly sortedParkingLots = computed(() =>
     [...this.parkingLots()].sort((a, b) => a.name.localeCompare(b.name))
@@ -23,13 +23,16 @@ export default class ParkingLotList implements OnInit {
     this.service.getAllParkingLots().subscribe((list) => this.parkingLots.set(list));
   }
 
-  edit(id: string | number) {
-    this.router.navigate(['/parkingLotForm', id]);
+  edit(id: string) {
+    this.router.navigate(['/parking-lot/parking-lot-form', id]);
   }
-  delete(id: string | number) {
+
+  delete(id: string) {
+    if (!confirm('¿Desea eliminar este estacionamiento?')) return;
     this.service.deleteParkingLot(id).subscribe(() => {
       this.parkingLots.update((list) => list.filter((p) => p.id !== id));
     });
   }
 }
+
 

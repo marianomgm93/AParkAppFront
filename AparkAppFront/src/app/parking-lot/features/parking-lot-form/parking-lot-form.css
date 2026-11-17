@@ -2,6 +2,123 @@ h2 {
   margin-bottom: 1.5rem;
 }
 
+/* ── Wizard steps indicator ─────────────────────────── */
+.wizard-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 2rem;
+}
+
+.wizard-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.step-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--border-color);
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.wizard-step.active .step-number {
+  background-color: var(--color-accent);
+  color: var(--text-on-accent);
+}
+
+.wizard-step.done .step-number {
+  background-color: var(--color-accent);
+  color: var(--text-on-accent);
+  opacity: 0.7;
+}
+
+.step-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.wizard-step.active .step-label {
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+.wizard-connector {
+  flex: 1;
+  height: 2px;
+  background-color: var(--border-color);
+  margin: 0 0.5rem;
+  margin-bottom: 1.2rem;
+  max-width: 80px;
+  transition: background-color 0.3s;
+}
+
+.wizard-connector.done {
+  background-color: var(--color-accent);
+  opacity: 0.7;
+}
+
+/* ── Resumen de dirección ────────────────────────────── */
+.address-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--color-accent);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.address-summary__icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.address-summary__text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.15rem;
+}
+
+.address-summary__text strong {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.address-summary__text small {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.address-summary__change {
+  width: auto !important;
+  padding: 0.3rem 0.8rem !important;
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+  background-color: transparent !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-secondary) !important;
+  margin-top: 0 !important;
+}
+
+.address-summary__change:hover {
+  border-color: var(--color-accent) !important;
+  color: var(--color-accent) !important;
+}
+
 form {
   background-color: var(--bg-secondary);
   padding: 2rem;
@@ -57,7 +174,8 @@ label {
 
 input[type="text"],
 input[type="email"],
-input[type="number"] {
+input[type="number"],
+select {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
@@ -69,7 +187,8 @@ input[type="number"] {
 
 input[type="text"]:focus,
 input[type="email"]:focus,
-input[type="number"]:focus {
+input[type="number"]:focus,
+select:focus {
   outline: none;
   border-color: var(--border-focus);
   box-shadow: 0 0 0 3px var(--color-accent-subtle);

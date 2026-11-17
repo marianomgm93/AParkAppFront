@@ -6,7 +6,7 @@ import { AddressModel, AddressModelForForm } from './address.model';
 export class AddressService {
 
     private readonly http=inject(HttpClient);
-    private baseUrl="http://localhost:8080/api/address"
+    private baseUrl="http://localhost:8080/Addresses"
 
 
 getAllAddresses()

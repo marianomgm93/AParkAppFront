@@ -1,12 +1,16 @@
+// Espeja el AddressResponse del back (campo zipCode con C mayúscula)
 export interface AddressModel {
-
-id:string|number;
-street:string;
-number:number;
-zipcode:string;
-notes:string;
-
-
+  id: string;
+  street: string;
+  number: number;
+  zipCode: string;   // ← el back usa zipCode (C mayúscula)
+  notes: string;
 }
 
-export type AddressModelForForm=Omit<AddressModel,'id'>
+// Lo que se manda al back (AddressRequest)
+export interface AddressModelForForm {
+  street: string;
+  number: number;
+  zipCode: string;   // ← igual, con C mayúscula
+  notes: string;
+}

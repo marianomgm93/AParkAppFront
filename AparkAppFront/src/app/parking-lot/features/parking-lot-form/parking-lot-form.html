@@ -1,20 +1,103 @@
-<form [formRoot]="ParkingLotForm">
-  <h2>{{ isEditing() ? 'Editar Estacionamiento' : 'Nuevo Estacionamiento' }}</h2>
-
-  <fieldset>
-    <legend>Datos del Estacionamiento</legend>
-
-    <div class="form-control">
-      <label for="name">Nombre:</label>
-      <input type="text" id="name" placeholder="Nombre del estacionamiento" [formField]="ParkingLotForm.name" />
-      @if (ParkingLotForm.name().touched() && ParkingLotForm.name().invalid()) {
-        @for (error of ParkingLotForm.name().errors(); track $index) {
-          <small class="error-message">{{ error.message }}</small>
-        }
-      }
+<!-- Indicador de pasos (oculto en edición) -->
+@if (!isEditing()) {
+  <div class="wizard-steps">
+    <div class="wizard-step" [class.active]="step() === 'address'" [class.done]="step() === 'parking-lot'">
+      <span class="step-number">{{ step() === 'parking-lot' ? '✓' : '1' }}</span>
+      <span class="step-label">Dirección</span>
     </div>
+    <div class="wizard-connector" [class.done]="step() === 'parking-lot'"></div>
+    <div class="wizard-step" [class.active]="step() === 'parking-lot'">
+      <span class="step-number">2</span>
+      <span class="step-label">Estacionamiento</span>
+    </div>
+  </div>
+}
 
-    <div class="form-row">
+<!-- ── PASO 1: Dirección ───────────────────────────────────────── -->
+@if (step() === 'address') {
+  <form [formRoot]="AddressForm">
+    <h2>Nueva Dirección del Estacionamiento</h2>
+
+    <fieldset>
+      <legend>Domicilio</legend>
+
+      <div class="form-control">
+        <label for="street">Calle:</label>
+        <input type="text" id="street" placeholder="Nombre de la calle" [formField]="AddressForm.street" />
+        @if (AddressForm.street().touched() && AddressForm.street().invalid()) {
+          @for (error of AddressForm.street().errors(); track $index) {
+            <small class="error-message">{{ error.message }}</small>
+          }
+        }
+      </div>
+
+      <div class="form-row">
+        <div class="form-control form-control--small">
+          <label for="addrNumber">Número:</label>
+          <input type="number" id="addrNumber" placeholder="Nro" [formField]="AddressForm.number" />
+          @if (AddressForm.number().touched() && AddressForm.number().invalid()) {
+            @for (error of AddressForm.number().errors(); track $index) {
+              <small class="error-message">{{ error.message }}</small>
+            }
+          }
+        </div>
+
+        <div class="form-control">
+          <label for="zipcode">Código Postal:</label>
+          <input type="text" id="zipcode" placeholder="Ej: 5000" [formField]="AddressForm.zipCode" />
+          @if (AddressForm.zipCode().touched() && AddressForm.zipCode().invalid()) {
+            @for (error of AddressForm.zipCode().errors(); track $index) {
+              <small class="error-message">{{ error.message }}</small>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="form-control">
+        <label for="notes">Notas:</label>
+        <input type="text" id="notes" placeholder="Referencias, entre calles..." [formField]="AddressForm.notes" />
+      </div>
+    </fieldset>
+
+    <div class="action">
+      <button type="submit" [disabled]="AddressForm().invalid()">
+        Siguiente →
+      </button>
+      <button type="button" (click)="resetAddressForm()">Limpiar</button>
+    </div>
+  </form>
+}
+
+<!-- ── PASO 2: Parking Lot ────────────────────────────────────── -->
+@if (step() === 'parking-lot') {
+  <form [formRoot]="ParkingLotForm">
+    <h2>{{ isEditing() ? 'Editar Estacionamiento' : 'Datos del Estacionamiento' }}</h2>
+
+    <!-- Resumen de la dirección creada (solo en creación) -->
+    @if (!isEditing() && createdAddress()) {
+      <div class="address-summary">
+        <span class="address-summary__icon">📍</span>
+        <div class="address-summary__text">
+          <strong>{{ createdAddress()!.street }} {{ createdAddress()!.number }}</strong>
+          <small>CP {{ createdAddress()!.zipCode }}{{ createdAddress()!.notes ? ' · ' + createdAddress()!.notes : '' }}</small>
+        </div>
+        <button type="button" class="address-summary__change" (click)="goBackToAddress()">Cambiar</button>
+      </div>
+    }
+
+    <fieldset>
+      <legend>Datos del Estacionamiento</legend>
+
+      <div class="form-control">
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" placeholder="Nombre del estacionamiento" [formField]="ParkingLotForm.name" />
+        @if (ParkingLotForm.name().touched() && ParkingLotForm.name().invalid()) {
+          @for (error of ParkingLotForm.name().errors(); track $index) {
+            <small class="error-message">{{ error.message }}</small>
+          }
+        }
+      </div>
+
       <div class="form-control">
         <label for="capacity">Capacidad:</label>
         <input type="number" id="capacity" placeholder="Ej: 50" [formField]="ParkingLotForm.capacity" />
@@ -24,65 +107,34 @@
           }
         }
       </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Responsable</legend>
 
       <div class="form-control">
-        <label for="active">Activo:</label>
-        <div class="toggle-wrapper">
-          <input type="checkbox" id="active" [formField]="ParkingLotForm.active" />
-          <span class="toggle-label">{{ ParkingLotForm.active().value() ? 'Sí' : 'No' }}</span>
-        </div>
+        <label for="ownerId">Propietario:</label>
+        <select id="ownerId" [formField]="ParkingLotForm.ownerId">
+          <option value="">-- Seleccione un propietario --</option>
+          @for (user of users(); track user.id) {
+            <option [value]="user.id">{{ user.name }} ({{ user.email }})</option>
+          }
+        </select>
+        @if (ParkingLotForm.ownerId().touched() && ParkingLotForm.ownerId().invalid()) {
+          @for (error of ParkingLotForm.ownerId().errors(); track $index) {
+            <small class="error-message">{{ error.message }}</small>
+          }
+        }
       </div>
+    </fieldset>
+
+    <div class="action">
+      <button type="submit" [disabled]="ParkingLotForm().invalid()">
+        {{ isEditing() ? 'Guardar Cambios' : 'Crear Estacionamiento' }}
+      </button>
+      @if (!isEditing()) {
+        <button type="button" (click)="goBackToAddress()">← Volver</button>
+      }
     </div>
-  </fieldset>
-
-  <fieldset>
-    <legend>Responsable</legend>
-
-    <div class="form-control">
-      <label for="userName">Nombre:</label>
-      <input type="text" id="userName" placeholder="Nombre del responsable" [formField]="ParkingLotForm.user.name" />
-    </div>
-
-    <div class="form-control">
-      <label for="userEmail">Email:</label>
-      <input type="email" id="userEmail" placeholder="email@ejemplo.com" [formField]="ParkingLotForm.user.email" />
-    </div>
-  </fieldset>
-
-  <fieldset>
-    <legend>Dirección</legend>
-
-    <div class="form-row">
-      <div class="form-control form-control--grow">
-        <label for="street">Calle:</label>
-        <input type="text" id="street" placeholder="Nombre de la calle" [formField]="ParkingLotForm.address.street" />
-      </div>
-
-      <div class="form-control form-control--small">
-        <label for="number">Número:</label>
-        <input type="number" id="number" placeholder="Nro" [formField]="ParkingLotForm.address.number" />
-      </div>
-    </div>
-
-    <div class="form-row">
-      <div class="form-control">
-        <label for="zipcode">Código Postal:</label>
-        <input type="text" id="zipcode" placeholder="Ej: 5000" [formField]="ParkingLotForm.address.zipcode" />
-      </div>
-
-      <div class="form-control">
-        <label for="notes">Notas:</label>
-        <input type="text" id="notes" placeholder="Entre calles, referencias..." [formField]="ParkingLotForm.address.notes" />
-      </div>
-    </div>
-  </fieldset>
-
-  <div class="action">
-    <button type="submit" [disabled]="ParkingLotForm().invalid()">
-      {{ isEditing() ? 'Guardar Cambios' : 'Crear Estacionamiento' }}
-    </button>
-    @if (!isEditing()) {
-      <button type="button" (click)="resetForm()">Limpiar</button>
-    }
-  </div>
-</form>
+  </form>
+}

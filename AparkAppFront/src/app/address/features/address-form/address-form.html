@@ -26,10 +26,10 @@
       </div>
 
       <div class="form-control">
-        <label for="zipcode">Código Postal:</label>
-        <input type="text" id="zipcode" placeholder="Ej: 5000" [formField]="AddressForm.zipcode" />
-        @if (AddressForm.zipcode().touched() && AddressForm.zipcode().invalid()) {
-          @for (error of AddressForm.zipcode().errors(); track $index) {
+        <label for="zipCode">Código Postal:</label>
+        <input type="text" id="zipCode" placeholder="Ej: 5000" [formField]="AddressForm.zipCode" />
+        @if (AddressForm.zipCode().touched() && AddressForm.zipCode().invalid()) {
+          @for (error of AddressForm.zipCode().errors(); track $index) {
             <small class="error-message">{{ error.message }}</small>
           }
         }

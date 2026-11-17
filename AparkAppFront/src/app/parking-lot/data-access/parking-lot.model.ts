@@ -1,15 +1,19 @@
-import { AddressModelForForm } from "../../address/data-access/address.model";
-import { UserFormModel } from "../../user/data-access/user";
-
+// Modelo que refleja exactamente el ParkingLotResponse del back
 export interface ParkingLotModel {
-
-    id:string|number;
-    name:string;
-    active:boolean;
-    capacity:number;
-    user:UserFormModel;
-    address:AddressModelForForm;
-
+  id: string;
+  name: string;
+  ownerId: string;
+  ownerUsername: string;
+  addressId: string;
+  capacity: number;
+  active: boolean;
 }
 
-export type ParkingLotModelForForm=Omit<ParkingLotModel,'id'>
+// Modelo que refleja exactamente el ParkingLotRequest del back
+export interface ParkingLotRequest {
+  name: string;
+  addressId: string;
+  capacity: number;
+  ownerId: string;
+}
+

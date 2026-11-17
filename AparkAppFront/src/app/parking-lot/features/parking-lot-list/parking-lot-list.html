@@ -12,7 +12,7 @@
         <th>Capacidad</th>
         <th>Activo</th>
         <th>Responsable</th>
-        <th>Dirección</th>
+        <th>ID Dirección</th>
         <th class="actions-col">Acciones</th>
       </tr>
     </thead>
@@ -24,11 +24,8 @@
           <td>
             <span class="badge" [class.active]="lot.active">{{ lot.active ? 'Sí' : 'No' }}</span>
           </td>
-          <td>{{ lot.user?.name }} <br><small>{{ lot.user?.email }}</small></td>
-          <td>
-            {{ lot.address?.street }} {{ lot.address?.number }}, {{ lot.address?.zipcode }}<br>
-            <small>{{ lot.address?.notes }}</small>
-          </td>
+          <td>{{ lot.ownerUsername }}</td>
+          <td><small>{{ lot.addressId }}</small></td>
           <td class="actions">
             <button type="button" class="edit-btn"
                     (click)="edit(lot.id)">

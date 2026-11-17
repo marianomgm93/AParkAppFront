@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { ROUTE_SEGMENTS } from '../app.route.segments';
 
 const parkingLotRoutes: Routes = [
   {
@@ -9,6 +8,10 @@ const parkingLotRoutes: Routes = [
   },
   {
     path: 'parking-lot-form',
+    loadComponent: () => import('./features/parking-lot-form/parking-lot-form'),
+  },
+  {
+    path: 'parking-lot-form/:id',
     loadComponent: () => import('./features/parking-lot-form/parking-lot-form'),
   },
   {

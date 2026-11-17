@@ -20,7 +20,7 @@ export default class AddressForm implements OnInit {
   private readonly emptyAddress: AddressModelForForm = {
     street: '',
     number: Number.NaN,
-    zipcode: '',
+    zipCode: '',
     notes: '',
   };
 
@@ -39,7 +39,7 @@ export default class AddressForm implements OnInit {
     this.addressFormModel,
     (address) => {
       required(address.street, { message: 'Calle requerida' });
-      required(address.zipcode, { message: 'Código postal requerido' });
+      required(address.zipCode, { message: 'Código postal requerido' });
       min(address.number, 0, { message: 'Número debe ser mayor o igual a 0' });
     },
     {
