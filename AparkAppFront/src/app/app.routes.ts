@@ -6,12 +6,11 @@ import { SpotDetails } from './spot/features/spot-details/spot-details';
 import { SpotCatalog } from './spot/features/spot-catalog/spot-catalog';
 
 export const routes: Routes = [
-    {path: 'register', component: RegisterForm},
-    {path: 'login', component:LoginForm},
-    {path:'', pathMatch:'full' , redirectTo:'register'},
-    {path:'**' , redirectTo:'/'},
-    {path: 'spots',component: SpotForm},
-    { path: '', redirectTo: 'spots', pathMatch: 'full' },
-    { path: 'spots',  component: SpotCatalog },
-    {  path: 'spot-detalle/:id', component: SpotDetails }
+  { path: 'register', component: RegisterForm },
+  { path: 'login', component: LoginForm },
+  { path: 'spots', component: SpotCatalog },
+  { path: 'spot-nuevo', component: SpotForm },
+  { path: 'spot-detalle/:id', component: SpotDetails },
+  { path: '', pathMatch: 'full', redirectTo: 'spots' },
+  { path: '**', redirectTo: '/' }
 ];

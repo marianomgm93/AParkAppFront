@@ -260,6 +260,11 @@ server.use((req, res, next) => {
   }
 });
 
+// Reescribir /api/spots hacia /spots para emular el endpoint de Spring Boot
+server.use(jsonServer.rewriter({
+  '/api/spots*': '/spots$1'
+}));
+
 // Usar el router de json-server para el resto de los endpoints
 server.use(router);
 

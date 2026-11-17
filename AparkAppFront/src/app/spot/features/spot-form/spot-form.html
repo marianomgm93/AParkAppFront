@@ -7,18 +7,25 @@
       <input id="spotNumber" type="number" [formField]="spotForm.spotNumber" />
       
       @if (spotForm.spotNumber().touched() && spotForm.spotNumber().invalid()) {
-        <span class="error-msg">Número de espacio es requerido...</span>
+        <span class="error-msg">El número de espacio es requerido y debe ser mayor a 0...</span>
       }
     </div>
 
-  
+    <div class="form-group">
+      <label for="status">Estado:</label>
+      <select id="status" [formField]="spotForm.status">
+        <option value="FREE">Libre (FREE)</option>
+        <option value="OCCUPIED">Ocupado (OCCUPIED)</option>
+      </select>
+    </div>
+
     <div class="form-actions">
       <button type="submit">
         {{ isEditing() ? 'Actualizar' : 'Guardar' }}
       </button>
-      @if (isEditing()) {
-        <button type="button" (click)="resetForm()">Cancelar</button>
-      }
+      <button type="button" class="btn-cancel" (click)="onCancel()">
+        {{ isEditing() ? 'Cancelar' : 'Volver' }}
+      </button>
     </div>
   </form>
 </div>

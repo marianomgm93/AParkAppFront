@@ -1,13 +1,13 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { SpotService } from '../../data-access/spot-client';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { Spot } from '../../data-access/spot-model';
-import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
+import { firstValueFrom } from 'rxjs';
 import { SpotForm } from '../spot-form/spot-form';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  imports: [CommonModule, SpotForm],
+  imports: [CommonModule, SpotForm, RouterLink],
   selector: 'app-spot-details',
   styleUrl: './spot-details.css',
   templateUrl: './spot-details.html',
@@ -24,7 +24,7 @@ export class SpotDetails implements OnInit {
   async ngOnInit() {
     if (this.id) {
       try {
-        const foundSpot = await firstValueFrom(this.client.getSpotById(this.id));
+        const foundSpot = await firstValueFrom(this.client.getSpotById(Number(this.id)));
         this.spot.set(foundSpot);
       } catch (error) {
         alert('No se pudo cargar el espacio');

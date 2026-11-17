@@ -48,6 +48,10 @@
   font-weight: bold;
 }
 
+.form-actions button.btn-cancel {
+  background-color: #6c757d;
+}
+
 .form-actions button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;

@@ -2,7 +2,8 @@ import { Component, inject, signal, input, output, computed, OnInit } from '@ang
 import { form, FormField, FormRoot, required, min } from '@angular/forms/signals';
 import { SpotService } from '../../data-access/spot-client';
 import { SpotFormModel, Spot } from '../../data-access/spot-model';
-import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
+import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   imports: [FormRoot, FormField],
@@ -12,6 +13,7 @@ import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 })
 export class SpotForm implements OnInit {
   private readonly client = inject(SpotService);
+  private readonly router = inject(Router);
 
   private readonly emptySpot: SpotFormModel = {
     spotNumber: NaN,
@@ -22,12 +24,16 @@ export class SpotForm implements OnInit {
 
   readonly editingSpot = input<Spot>();
   readonly editedSpot = output<Spot>();
+  readonly cancelEdit = output<void>();
   protected readonly isEditing = computed(() => this.editingSpot() !== undefined);
 
   async ngOnInit() {
     const editing = this.editingSpot();
     if (this.isEditing() && editing) {
-      this.spotFormModel.set(editing);
+      this.spotFormModel.set({
+        spotNumber: editing.spotNumber,
+        status: editing.status
+      });
     }
   }
 
@@ -36,6 +42,7 @@ export class SpotForm implements OnInit {
     (spot) => {
       required(spot.spotNumber, { message: 'El número de espacio es requerido' });
       min(spot.spotNumber, 1, { message: 'El número debe ser mayor a 0' });
+      required(spot.status, { message: 'El estado es requerido' });
     },
     {
       submission: {
@@ -51,7 +58,7 @@ export class SpotForm implements OnInit {
           } else {
             await firstValueFrom(this.client.addSpot(data));
             alert('Espacio agregado con éxito!');
-            this.resetForm();
+            this.router.navigate(['/spots']);
           }
         },
         onInvalid: () => {
@@ -60,6 +67,14 @@ export class SpotForm implements OnInit {
       }
     }
   );
+
+  onCancel() {
+    if (this.isEditing()) {
+      this.cancelEdit.emit();
+    } else {
+      this.router.navigate(['/spots']);
+    }
+  }
 
   resetForm() {
     this.spotFormModel.set({ ...this.emptySpot });

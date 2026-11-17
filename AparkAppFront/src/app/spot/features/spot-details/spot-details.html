@@ -18,8 +18,7 @@
       </div>
     } @else {
       <div class="edit-section">
-        <app-spot-form [editingSpot]="currentSpot" (editedSpot)="onEdit($event)" />
-        <button type="button" class="btn-back" (click)="toggleEdit()">Cancelar edición</button>
+        <app-spot-form [editingSpot]="currentSpot" (editedSpot)="onEdit($event)" (cancelEdit)="toggleEdit()" />
       </div>
     }
   } @else {
