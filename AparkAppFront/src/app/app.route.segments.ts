@@ -1,4 +1,5 @@
 export const ROUTE_SEGMENTS= {
+    home: '',
     users: 'user',
     auth: 'auth',
     login: 'login',
@@ -8,6 +9,7 @@ export const ROUTE_SEGMENTS= {
 } as const;
 
 export const ROUTE_COMMANDS = {
+    home: ['/'],
     login: [`/${ROUTE_SEGMENTS.auth}/${ROUTE_SEGMENTS.login}`],
     signup: [`/${ROUTE_SEGMENTS.auth}/${ROUTE_SEGMENTS.signup}`],
     userList: [`/${ROUTE_SEGMENTS.users}/${ROUTE_SEGMENTS.userList}`],

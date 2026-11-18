@@ -36,7 +36,6 @@ export default class LoginForm {
       submission: {
         action: async (field) => {
           try {
-            // Limpiamos errores previos al hacer un nuevo intento
             this.erroMsg.set('');
             
             const data = field().value();
@@ -46,10 +45,11 @@ export default class LoginForm {
               alert('Inicio de sesión exitoso');
               if(this.client.userRole() === 'ROLE_ADMIN'){
               this.router.navigate(ROUTE_COMMANDS.userList);
+              } else {
+              this.router.navigate(ROUTE_COMMANDS.home);
               }
             }
           } catch (error) {
-            // Manejo visual para el usuario
             if (
               error instanceof HttpErrorResponse &&
               error.status === HttpStatusCode.Unauthorized
@@ -59,10 +59,8 @@ export default class LoginForm {
               this.erroMsg.set('Ocurrió un error inesperado al iniciar sesión.');
             }
             
-            // Registro técnico
             console.error('Fallo en el intento de Login:', error);
             
-            // Le avisamos a la librería del formulario que la acción falló
             throw error;
           }
         },
@@ -75,6 +73,6 @@ export default class LoginForm {
 
   resetForm() {
     this.loginForm().reset(this.valoresIniciales);
-    this.erroMsg.set(''); // Limpiar también el error manual al resetear
+    this.erroMsg.set('');
   }
 }

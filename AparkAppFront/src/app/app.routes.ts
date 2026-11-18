@@ -3,6 +3,11 @@ import { ROUTE_SEGMENTS } from './app.route.segments';
 
 export const routes: Routes = [
   {
+    path: ROUTE_SEGMENTS.home,
+    pathMatch: 'full',
+    loadComponent: () => import('./home/home'),
+  },
+  {
     path: ROUTE_SEGMENTS.offers,
     loadComponent: () => import('./offer/ui/offer-layout/offer-layout'),
     loadChildren: () => import('./offer/offer.routes'),
