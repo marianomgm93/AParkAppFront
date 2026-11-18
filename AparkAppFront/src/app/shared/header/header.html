@@ -9,6 +9,9 @@
     @if (userRole() === 'ROLE_ADMIN' || userRole() === 'ROLE_OWNER') {
       <a routerLink="/parking-lot/parking-lot-form" routerLinkActive="active">Nuevo Estacionamiento</a>
     }
+    @if (userRole() === 'ROLE_CLIENT' || userRole() === 'ROLE_OWNER'){
+      <a [routerLink]="commands.offers" routerLinkActive="active">Ofertas</a>
+    }
     <a (click)="authService.logout()">Cerrar sesión</a>
   } @else {
     <a [routerLink]="commands.signup" routerLinkActive="active">Registrarse</a>

@@ -1,0 +1,34 @@
+@let offers = this.offers();
+@let vehicles = this.userVehicles();
+<section class="offer-list">
+  <h1>Ofertas Disponibles</h1>
+  <ul>
+    @for (offer of offers; track offer.id) {
+      <li class="offer-container">
+        <div class="offer-info">
+          <p>{{ offer.parkingLotName || 'Estacionamiento' }} - {{ offer.stayType }}</p>
+          <small>
+            Inicio: {{ offer.startTime | date: 'dd/MM/yyyy HH:mm' }} - Fin: {{ offer.endTime | date: 'dd/MM/yyyy HH:mm' }}
+          </small>
+        </div>
+        <div class="reservation-actions">
+          <select #vehicleSelect (change)="0">
+            <option value="" disabled selected>Selecciona tu vehículo</option>
+            @for (v of vehicles; track v.id) {
+              <option [value]="v.id">{{ v.plate }} ({{ v.brand }} {{ v.model }})</option>
+            }
+          </select>
+          <button 
+            [disabled]="!vehicleSelect.value" 
+            (click)="reserveOffer(offer.id, vehicleSelect.value)">
+            Reservar
+          </button>
+        </div>
+      </li>
+    } @empty {
+      <li class="offer-container">
+        <p>No se encontraron ofertas activas en este momento.</p>
+      </li>
+    }
+  </ul>
+</section>
