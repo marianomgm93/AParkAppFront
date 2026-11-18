@@ -1,0 +1,20 @@
+@let users = this.users();
+<section class="user-list">
+  <h1>Usuarios</h1>
+  <ul>
+    @for (user of users; track user.id) {
+      <li class="user-container">
+        <div class="user-info">
+          <p>{{ user.name }}</p>
+          <small>{{ user.roles }}</small>
+        </div>
+        <p>{{ user.email }}</p>
+        <button (click)="banUser(user.id)">Banear</button>
+      </li>
+    } @empty {
+      <li class="user-container">
+        <p>No se encontraron usuarios registrados.</p>
+      </li>
+    }
+  </ul>
+</section>

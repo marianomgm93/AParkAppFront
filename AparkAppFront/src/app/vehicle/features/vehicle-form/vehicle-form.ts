@@ -11,7 +11,7 @@ import { NewVehicleDTO, VehicleTypeEnum } from '../../data-access/vehicle-model'
   templateUrl: './vehicle-form.html',
   styleUrl: './vehicle-form.css'
 })
-export class VehicleFormComponent implements OnInit {
+export default class VehicleFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly vehicleService = inject(VehicleService);
   private readonly route = inject(ActivatedRoute);

@@ -3,11 +3,37 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "firefox",
+      "request": "launch",
+      "reAttach": true,
+      "name": "Launch add-on",
+      "addonPath": "${workspaceFolder}"
+    },
+    
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Run json-server",
+      "runtimeExecutable": "json-server",
+      "cwd": "${workspaceFolder}",
+      "args": []
+    },
+    {
       "name": "ng serve",
       "type": "chrome",
       "request": "launch",
       "preLaunchTask": "npm: start",
       "url": "http://localhost:4200/"
+    },
+
+    {
+      "name": "ng serve (Firefox)",
+      "type": "firefox",
+      "request": "launch",
+      "reAttach": true,
+      "url": "http://localhost:4200/",
+      "webRoot": "${workspaceFolder}",
+      "firefoxExecutable": "/usr/bin/firefox"
     },
     {
       "name": "ng test",

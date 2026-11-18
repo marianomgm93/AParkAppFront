@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { VehicleLayout } from './vehicle-layout';
+import VehicleLayout from './vehicle-layout';
 
 describe('VehicleLayout', () => {
   let component: VehicleLayout;

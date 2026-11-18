@@ -6,4 +6,4 @@ import { Component } from '@angular/core';
   styleUrl: './vehicle-layout.css',
   templateUrl: './vehicle-layout.html',
 })
-export class VehicleLayout {}
+export default class VehicleLayout {}

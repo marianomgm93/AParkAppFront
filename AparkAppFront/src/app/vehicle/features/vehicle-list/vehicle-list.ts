@@ -11,7 +11,7 @@ import { VehicleDTO } from '../../data-access/vehicle-model';
   templateUrl: './vehicle-list.html',
   styleUrl: './vehicle-list.css'
 })
-export class VehicleListComponent implements OnInit {
+export default class VehicleListComponent implements OnInit {
   private readonly vehicleService = inject(VehicleService);
 
   vehicles = signal<VehicleDTO[]>([]);
