@@ -37,6 +37,19 @@ export default class ParkingLotForm implements OnInit {
 
   readonly users = signal<User[]>([]);
 
+  readonly ownerUsers = computed(() =>
+    this.users().filter((user) => {
+      const roles = user.roles;
+      if (Array.isArray(roles)) {
+        return roles.some((r) => r === 'ROLE_OWNER' || r === 'OWNER');
+      }
+      if (typeof roles === 'string') {
+        return roles.includes('ROLE_OWNER') || roles.includes('OWNER');
+      }
+      return false;
+    })
+  );
+
   // Dirección creada en el paso 1
   readonly createdAddress = signal<AddressModel | undefined>(undefined);
 
@@ -141,13 +154,17 @@ export default class ParkingLotForm implements OnInit {
           } catch (error: any) {
             console.error('Error al guardar estacionamiento:', error);
             const msg = error?.error?.message || error?.error?.error || error?.message || 'Error de conexión con el servidor';
-            alert(`No se pudo crear el estacionamiento: ${msg}`);
+            alert(`No se pudo ${this.isEditing() ? 'modificar' : 'crear'} el estacionamiento: ${msg}`);
           }
         },
         onInvalid: () => alert('¡Revise el formulario!'),
       },
     },
   );
+
+  readonly userRole = this.authService.userRole;
+  readonly isAdmin = computed(() => this.userRole() === 'ROLE_ADMIN');
+  readonly isOwner = computed(() => this.userRole() === 'ROLE_OWNER');
 
   // ── Ciclo de vida ────────────────────────────────────────────────────────────
 
@@ -158,10 +175,28 @@ export default class ParkingLotForm implements OnInit {
       return;
     }
 
-    try {
-      this.users.set(await firstValueFrom(this.userClient.getAll()));
-    } catch (e) {
-      console.error('Error cargando usuarios:', e);
+    const role = this.authService.userRole();
+    if (role !== 'ROLE_ADMIN' && role !== 'ROLE_OWNER') {
+      alert('Solo los administradores y propietarios tienen permiso para crear o editar estacionamientos.');
+      this.router.navigate(['/parking-lot/parking-lot-list']);
+      return;
+    }
+
+    if (role === 'ROLE_ADMIN') {
+      try {
+        this.users.set(await firstValueFrom(this.userClient.getAll()));
+      } catch (e) {
+        console.error('Error cargando usuarios:', e);
+      }
+    } else if (role === 'ROLE_OWNER') {
+      try {
+        const me = this.authService.currentUser() ?? await firstValueFrom(this.userClient.getMe());
+        if (me && me.id) {
+          this.parkingLotFormModel.update(v => ({ ...v, ownerId: String(me.id) }));
+        }
+      } catch (e) {
+        console.error('Error cargando perfil del propietario:', e);
+      }
     }
 
     const inputLot = this.editingParkingLot();

@@ -27,4 +27,16 @@ export class ParkingLotService {
   deleteParkingLot(id: string) {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
+
+  restoreParkingLot(id: string) {
+    return this.http.patch<void>(`${this.baseUrl}/${id}/restore`, {});
+  }
+
+  getActiveParkingLots() {
+    return this.http.get<ParkingLotModel[]>(`${this.baseUrl}/active`);
+  }
+
+  getMyParkingLots() {
+    return this.http.get<ParkingLotModel[]>(`${this.baseUrl}/owner`);
+  }
 }

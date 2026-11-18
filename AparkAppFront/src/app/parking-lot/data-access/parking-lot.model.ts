@@ -5,6 +5,10 @@ export interface ParkingLotModel {
   ownerId: string;
   ownerUsername: string;
   addressId: string;
+  street?: string;
+  number?: number;
+  zipCode?: string;
+  notes?: string;
   capacity: number;
   active: boolean;
 }

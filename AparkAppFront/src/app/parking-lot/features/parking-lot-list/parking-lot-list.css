@@ -12,6 +12,15 @@
 .list-wrapper h2 {
   margin-bottom: 1rem;
   color: var(--color-accent);
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.role-hint {
+  font-size: 0.85rem;
+  font-weight: normal;
+  color: var(--text-secondary);
 }
 
 .empty-msg {
@@ -39,7 +48,19 @@
 }
 .parking-table tbody td {
   padding: 0.75rem 0.5rem;
-  vertical-align: top;
+  vertical-align: middle;
+}
+
+.address-main {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.address-subtext {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-top: 0.15rem;
 }
 
 .badge {
@@ -51,11 +72,15 @@
   color: var(--text-primary);
 }
 .badge.active {
-  background-color: var(--color-accent);
-  color: var(--text-on-accent);
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+.badge.inactive {
+  background-color: #555555;
+  color: #cccccc;
 }
 
-.actions-col { width: 140px; }
+.actions-col { width: 180px; }
 .actions {
   display: flex;
   gap: 0.5rem;
@@ -63,11 +88,13 @@
 
 button {
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   padding: 0.4rem 0.6rem;
   border-radius: 4px;
   border: none;
-  transition: background-color 0.2s ease;
+  font-weight: 500;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  white-space: nowrap;
 }
 
 .edit-btn {
@@ -80,11 +107,19 @@ button {
 }
 
 .del-btn {
-  background-color: var(--text-error);
-  color: var(--text-on-accent);
+  background-color: #c62828;
+  color: #ffffff;
 }
 .del-btn:hover {
-  background-color: #ff4c4c;
+  background-color: #d32f2f;
+}
+
+.activate-btn {
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+.activate-btn:hover {
+  background-color: #388e3c;
 }
 
 @media (max-width: 700px) {

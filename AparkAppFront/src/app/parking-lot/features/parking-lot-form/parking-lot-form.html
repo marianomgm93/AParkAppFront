@@ -73,7 +73,7 @@
   <form [formRoot]="ParkingLotForm">
     <h2>{{ isEditing() ? 'Editar Estacionamiento' : 'Datos del Estacionamiento' }}</h2>
 
-    <!-- Resumen de la dirección creada (solo en creación) -->
+    <!-- Resumen de la dirección creada (en creación) o existente (en edición) -->
     @if (!isEditing() && createdAddress()) {
       <div class="address-summary">
         <span class="address-summary__icon">📍</span>
@@ -82,6 +82,14 @@
           <small>CP {{ createdAddress()!.zipCode }}{{ createdAddress()!.notes ? ' · ' + createdAddress()!.notes : '' }}</small>
         </div>
         <button type="button" class="address-summary__change" (click)="goBackToAddress()">Cambiar</button>
+      </div>
+    } @else if (isEditing() && currentParkingLot()?.street) {
+      <div class="address-summary">
+        <span class="address-summary__icon">📍</span>
+        <div class="address-summary__text">
+          <strong>{{ currentParkingLot()!.street }} {{ currentParkingLot()!.number }}</strong>
+          <small>CP {{ currentParkingLot()!.zipCode }}{{ currentParkingLot()!.notes ? ' · ' + currentParkingLot()!.notes : '' }}</small>
+        </div>
       </div>
     }
 
@@ -112,20 +120,31 @@
     <fieldset>
       <legend>Responsable</legend>
 
-      <div class="form-control">
-        <label for="ownerId">Propietario:</label>
-        <select id="ownerId" [formField]="ParkingLotForm.ownerId">
-          <option value="">-- Seleccione un propietario --</option>
-          @for (user of users(); track user.id) {
-            <option [value]="user.id">{{ user.name }} ({{ user.email }})</option>
+      @if (isAdmin()) {
+        <div class="form-control">
+          <label for="ownerId">Propietario:</label>
+          <select id="ownerId" [formField]="ParkingLotForm.ownerId">
+            <option value="">-- Seleccione un propietario --</option>
+            @for (user of ownerUsers(); track user.id) {
+              <option [value]="user.id">{{ user.name }} ({{ user.email }})</option>
+            }
+            @if (ownerUsers().length === 0) {
+              <option disabled>No hay usuarios con rol OWNER registrados</option>
+            }
+          </select>
+          @if (ParkingLotForm.ownerId().touched() && ParkingLotForm.ownerId().invalid()) {
+            @for (error of ParkingLotForm.ownerId().errors(); track $index) {
+              <small class="error-message">{{ error.message }}</small>
+            }
           }
-        </select>
-        @if (ParkingLotForm.ownerId().touched() && ParkingLotForm.ownerId().invalid()) {
-          @for (error of ParkingLotForm.ownerId().errors(); track $index) {
-            <small class="error-message">{{ error.message }}</small>
-          }
-        }
-      </div>
+        </div>
+      } @else {
+        <div class="form-control">
+          <label>Propietario asignado:</label>
+          <input type="text" [value]="authService.currentUser()?.name ? authService.currentUser()!.name + ' (' + authService.currentUser()!.email + ')' : 'Usted (Propietario)'" disabled />
+          <small class="toggle-label">El estacionamiento quedará asociado automáticamente a su cuenta de propietario.</small>
+        </div>
+      }
     </fieldset>
 
     <div class="action">
