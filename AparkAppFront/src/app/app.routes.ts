@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
 
-<<<<<<< Updated upstream
-export const routes: Routes = [];
-=======
+
 export const routes: Routes = [
   { path: 'register', component: RegisterForm },
   { path: 'login', component: LoginForm },
@@ -16,4 +14,3 @@ export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'spots' },
   { path: '**', redirectTo: '/' },
 ];
->>>>>>> Stashed changes
