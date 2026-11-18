@@ -1,8 +1,8 @@
 export interface User {
   id: string | number;
   email: string;
-  roles: string;
+  roles?: string[] | string;
   name: string;
 }
-export type UserFormModel = Omit<User, 'id' | 'role'>;
+export type UserFormModel = Omit<User, 'id' | 'roles'>;
 

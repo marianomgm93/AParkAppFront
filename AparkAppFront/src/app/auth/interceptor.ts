@@ -25,7 +25,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: unknown) => {
       if (error instanceof HttpErrorResponse && error.status === HttpStatusCode.Unauthorized) {
         auth.logout();
-        router.navigate(['/login'], {
+        router.navigate(['/auth/login'], {
           queryParams: { reason: 'sesión expirada, autentíquese nuevamente' },
         });
       }

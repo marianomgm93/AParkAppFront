@@ -12,6 +12,14 @@ export const routes: Routes = [
     loadComponent: () => import('./user/ui/user-layout/user-layout'),
     loadChildren: () => import('./user/user.routes')
   },
-  { path: '', pathMatch: 'full', redirectTo: ROUTE_SEGMENTS.auth },
+  {
+    path: 'address',
+    loadChildren: () => import('./address/address.routes')
+  },
+  {
+    path: 'parking-lot',
+    loadChildren: () => import('./parking-lot/parking-lot.routes')
+  },
+  
   { path: '**', redirectTo: '/' },
 ];

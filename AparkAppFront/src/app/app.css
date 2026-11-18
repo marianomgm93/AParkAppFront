@@ -5,23 +5,21 @@
     'main'
     'footer';
   grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
 }
 main {
   grid-area: main;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  min-height: 80vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 0;
 }
 footer {
   grid-area: footer;
   display: flex;
-  position: absolute;
-  bottom: 0;
-  min-width: 100vw;
+  width: 100%;
   justify-content: center;
   align-items: center;
   background-color: var(--bg-secondary);
