@@ -1,0 +1,101 @@
+<div class="vehicles-container">
+  <header class="header-section">
+    <div>
+      <h1 class="page-title">Gestión de Vehículos</h1>
+      <p class="page-subtitle">Listado y administración de vehículos registrados en el sistema</p>
+    </div>
+    <a routerLink="/vehicles/new" class="btn btn-primary">
+      <span class="btn-icon">+</span> Registrar Vehículo
+    </a>
+  </header>
+
+  <!-- Filtro de Búsqueda -->
+  <div class="search-bar">
+    <input
+      type="text"
+      placeholder="Buscar por patente, marca o modelo..."
+      [ngModel]="searchTerm()"
+      (ngModelChange)="searchTerm.set($event)"
+      class="search-input"
+    />
+    @if (searchTerm()) {
+      <button class="btn-clear" (click)="searchTerm.set('')">✕</button>
+    }
+  </div>
+
+  <!-- Estado de Carga -->
+  @if (isLoading()) {
+    <div class="state-container">
+      <div class="spinner"></div>
+      <p>Cargando vehículos...</p>
+    </div>
+  }
+
+  <!-- Mensaje de Error -->
+  @if (errorMessage()) {
+    <div class="alert alert-error">
+      <strong>Atención:</strong> {{ errorMessage() }}
+    </div>
+  }
+
+  <!-- Lista o Tabla de Vehículos -->
+  @if (!isLoading() && !errorMessage()) {
+    @if (filteredVehicles().length === 0) {
+      <div class="state-container empty-state">
+        <p class="empty-icon">🚗</p>
+        <h3>No se encontraron vehículos</h3>
+        <p>No hay vehículos registrados que coincidan con la búsqueda.</p>
+        <a routerLink="/vehicles/new" class="btn btn-secondary">Crear el primer vehículo</a>
+      </div>
+    } @else {
+      <div class="table-card">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Patente</th>
+              <th>Tipo</th>
+              <th>Marca y Modelo</th>
+              <th>Color</th>
+              <th>Nota</th>
+              <th class="text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (vehicle of filteredVehicles(); track vehicle.id) {
+              <tr>
+                <td>
+                  <span class="badge-plate">{{ vehicle.plate }}</span>
+                </td>
+                <td>
+                  <span class="badge-type badge-{{ vehicle.vehicleType.toLowerCase() }}">
+                    {{ getTypeLabel(vehicle.vehicleType) }}
+                  </span>
+                </td>
+                <td>
+                  <strong>{{ vehicle.brand }}</strong> {{ vehicle.model }}
+                </td>
+                <td>
+                  <span class="color-indicator">
+                    <span class="color-dot" [style.background-color]="vehicle.color"></span>
+                    {{ vehicle.color }}
+                  </span>
+                </td>
+                <td class="cell-note">
+                  {{ vehicle.note || '—' }}
+                </td>
+                <td class="text-right actions-cell">
+                  <a [routerLink]="['/vehicles', vehicle.id, 'edit']" class="btn-action btn-edit" title="Editar">
+                    ✏️
+                  </a>
+                  <button (click)="deleteVehicle(vehicle.id, vehicle.plate)" class="btn-action btn-delete" title="Eliminar">
+                    🗑️
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,47 @@
+.vehicles-container{max-width:1100px;margin:2rem auto;padding:0 1.5rem;width:100%}
+.header-section{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+.page-title{font-size:1.85rem;font-weight:700;color:var(--color-accent);margin:0}
+.page-subtitle{color:var(--text-secondary);margin-top:0.35rem;font-size:0.95rem}
+
+.btn{display:inline-flex;align-items:center;gap:0.5rem;padding:0.75rem 1.25rem;border-radius:4px;font-weight:600;font-size:0.95rem;text-decoration:none;cursor:pointer;border:none;transition:all 0.2s}
+.btn-primary{background-color:var(--color-accent);color:var(--text-on-accent)}
+.btn-primary:hover{background-color:var(--color-accent-hover)}
+.btn-secondary{background-color:transparent;color:var(--text-secondary);border:1px solid var(--border-color)}
+.btn-secondary:hover{color:var(--text-primary);border-color:var(--text-primary);background:rgba(255,255,255,0.05)}
+
+.search-bar{position:relative;margin-bottom:1.5rem}
+.search-input{width:100%;padding:0.75rem 1rem;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:6px;color:var(--text-primary);font-size:0.95rem;outline:none}
+.search-input:focus{border-color:var(--border-focus);box-shadow:0 0 0 3px var(--color-accent-subtle)}
+.search-input::placeholder{color:var(--text-secondary);opacity:0.7}
+.btn-clear{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-secondary)}
+
+.table-card{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:8px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.2)}
+.data-table{width:100%;border-collapse:collapse;text-align:left}
+.data-table th{background:var(--bg-primary);padding:0.85rem 1.2rem;font-weight:600;color:var(--text-secondary);font-size:0.85rem;text-transform:uppercase;border-bottom:1px solid var(--border-color)}
+.data-table td{padding:1rem 1.2rem;border-bottom:1px solid var(--border-color);color:var(--text-primary);font-size:0.95rem;vertical-align:middle}
+.data-table tr:hover td{background-color:rgba(255,255,255,0.02)}
+
+.badge-plate{font-family:monospace;font-weight:700;background:var(--bg-primary);color:var(--color-accent);border:1px solid var(--border-color);padding:0.3rem 0.6rem;border-radius:4px}
+.badge-type{display:inline-block;padding:0.25rem 0.65rem;border-radius:4px;font-size:0.8rem;font-weight:600}
+.badge-car{background:rgba(56,189,248,0.15);color:#38bdf8;border:1px solid rgba(56,189,248,0.3)}
+.badge-motorcycle{background:rgba(251,191,36,0.15);color:#fbbf24;border:1px solid rgba(251,191,36,0.3)}
+.badge-truck{background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.3)}
+.badge-suv{background:rgba(192,132,252,0.15);color:#c084fc;border:1px solid rgba(192,132,252,0.3)}
+.badge-custom{background:rgba(154,160,171,0.15);color:var(--text-secondary);border:1px solid var(--border-color)}
+
+.color-indicator{display:inline-flex;align-items:center;gap:0.5rem}
+.color-dot{width:14px;height:14px;border-radius:50%;border:1px solid var(--border-color);display:inline-block}
+.cell-note{max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text-secondary);font-size:0.85rem}
+.text-right{text-align:right}
+.actions-cell{white-space:nowrap}
+
+.btn-action{background:var(--bg-primary);border:1px solid var(--border-color);border-radius:4px;padding:0.45rem 0.65rem;margin-left:0.4rem;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;transition:all 0.2s}
+.btn-action:hover{border-color:var(--color-accent);background:rgba(255,213,0,0.1)}
+.btn-delete:hover{border-color:var(--text-error);background:rgba(255,107,107,0.15)}
+
+.state-container{text-align:center;padding:3rem 1.5rem;background:var(--bg-secondary);border-radius:8px;border:1px dashed var(--border-color);color:var(--text-secondary)}
+.state-container h3{color:var(--text-primary);margin-bottom:0.5rem}
+.empty-icon{font-size:3rem;margin-bottom:0.5rem}
+.alert-error{background:rgba(255,107,107,0.15);color:var(--text-error);border:1px solid var(--text-error);padding:1rem;border-radius:6px;margin-bottom:1.5rem}
+.spinner{border:3px solid var(--border-color);border-top:3px solid var(--color-accent);border-radius:50%;width:32px;height:32px;animation:spin 0.8s linear infinite;margin:0 auto 1rem}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}

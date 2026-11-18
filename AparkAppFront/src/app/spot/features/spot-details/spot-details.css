@@ -1,0 +1,106 @@
+.spot-details-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  color: var(--text-primary);
+}
+
+.details-card h2 {
+  color: var(--color-accent);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.info-row {
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  color: var(--text-primary);
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.badge.free {
+  background-color: rgba(40, 167, 69, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.4);
+}
+
+.badge.occupied {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: var(--text-error);
+  border: 1px solid rgba(255, 107, 107, 0.4);
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-color);
+}
+
+button,
+.btn-back {
+  padding: 0.75rem 1.25rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-edit {
+  background-color: var(--color-accent);
+  color: var(--text-on-accent);
+}
+
+.btn-edit:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.btn-delete {
+  background-color: transparent;
+  color: var(--text-error);
+  border: 1px solid var(--text-error);
+}
+
+.btn-delete:hover {
+  background-color: rgba(255, 107, 107, 0.15);
+}
+
+.btn-back {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.btn-back:hover {
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.loading {
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 2rem;
+}

@@ -1,0 +1,109 @@
+.catalogo-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  color: var(--text-primary);
+  width: 100%;
+}
+
+.catalogo-container h2 {
+  color: var(--color-accent);
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.filter-controls {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.filter-controls button {
+  padding: 0.5rem 1rem;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.filter-controls button:hover {
+  color: var(--text-primary);
+  border-color: var(--text-secondary);
+}
+
+.filter-controls button.active {
+  background-color: var(--color-accent);
+  color: var(--text-on-accent);
+  font-weight: 600;
+  border-color: var(--color-accent);
+}
+
+.spots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 1rem;
+}
+
+.spot-card {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  padding: 1.25rem;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.spot-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.spot-num {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.spot-stat {
+  font-size: 0.85rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.spot-card.free .spot-stat {
+  background-color: rgba(40, 167, 69, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.4);
+}
+
+.spot-card.occupied .spot-stat {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: var(--text-error);
+  border: 1px solid rgba(255, 107, 107, 0.4);
+}
+
+.empty-msg {
+  color: var(--text-secondary);
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+}
