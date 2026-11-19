@@ -1,0 +1,78 @@
+<form [formRoot]="offerForm" class="offer-form">
+  <h2>Nueva Oferta</h2>
+
+  <div class="form-control">
+    <label for="parkingLotId">Estacionamiento:</label>
+    <select id="parkingLotId" [formField]="offerForm.parkingLotId" (change)="loadAvailableSpots()">
+      <option value="" selected disabled>Seleccione un estacionamiento</option>
+      @for (lot of myParkingLots(); track lot.id) {
+        <option [value]="lot.id">{{ lot.name }}</option>
+      }
+    </select>
+    @if (offerForm.parkingLotId().touched() && offerForm.parkingLotId().invalid()) {
+      @for (error of offerForm.parkingLotId().errors(); track $index) {
+        <small class="error-message">{{ error.message }}</small>
+      }
+    }
+  </div>
+
+  <div class="form-control">
+    <label for="stayType">Tipo de Estadía:</label>
+    <select id="stayType" [formField]="offerForm.stayType">
+      <option value="Hour">Por Hora</option>
+      <option value="Day">Por Día</option>
+      <option value="Week">Por Semana</option>
+      <option value="Month">Por Mes</option>
+    </select>
+    @if (offerForm.stayType().touched() && offerForm.stayType().invalid()) {
+      @for (error of offerForm.stayType().errors(); track $index) {
+        <small class="error-message">{{ error.message }}</small>
+      }
+    }
+  </div>
+
+  <div class="form-control">
+    <label for="startTime">Inicio:</label>
+    <input
+      type="datetime-local"
+      id="startTime"
+      [formField]="offerForm.startTime"
+      (change)="loadAvailableSpots()"
+      (input)="loadAvailableSpots()"
+    />
+    @if (offerForm.startTime().touched() && offerForm.startTime().invalid()) {
+      @for (error of offerForm.startTime().errors(); track $index) {
+        <small class="error-message">{{ error.message }}</small>
+      }
+    }
+  </div>
+
+  <div class="form-control">
+    <label for="endTime">Fin:</label>
+    <input
+      type="datetime-local"
+      id="endTime"
+      [formField]="offerForm.endTime"
+      (change)="loadAvailableSpots()"
+      (input)="loadAvailableSpots()"
+    />
+    @if (offerForm.endTime().touched() && offerForm.endTime().invalid()) {
+      @for (error of offerForm.endTime().errors(); track $index) {
+        <small class="error-message">{{ error.message }}</small>
+      }
+    }
+  </div>
+
+  <div class="form-control">
+    <label for="parkingSpotId">Plaza Disponible (Opcional):</label>
+    <select id="parkingSpotId" [formField]="offerForm.parkingSpotId">
+      <option value="">Sin plaza específica (Asignación libre)</option>
+      @for (spot of availableSpots(); track spot.id) {
+        <option [value]="spot.id">{{ spot.name || 'Plaza #' + spot.number }}</option>
+      }
+    </select>
+  </div>
+
+  <button type="submit" [disabled]="offerForm().invalid()">Crear Oferta</button>
+  <a routerLink="/offer-list">Cancelar</a>
+</form>
