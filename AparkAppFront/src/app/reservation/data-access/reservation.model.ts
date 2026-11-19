@@ -3,6 +3,7 @@ export interface ReservationModel {
   startTime: string;
   endTime: string;
   parkingLotId: string;
+  parkingLotName?: string;
   parkingSpotId: string;
   vehicleId: string;
   vehiclePlate?: string;

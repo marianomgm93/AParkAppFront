@@ -15,6 +15,17 @@ export default class OfferList implements OnInit {
   private readonly authService = inject(AuthService);
   readonly offers = signal<OfferModel[]>([]);
   readonly userVehicles = signal<VehicleOption[]>([]);
+  readonly userRole = this.authService.userRole;
+  cancelOffer(offerId: string): void {
+    if (!confirm('¿Confirma la cancelación de esta oferta?')) return;
+    this.offerService.deleteOffer(offerId).subscribe({
+      next: () => {
+        alert('Oferta cancelada exitosamente');
+        this.loadOffers();
+      },
+      error: (err) => console.error('Error al cancelar oferta:', err),
+    });
+  }
   ngOnInit(): void {
     this.loadOffers();
     this.loadVehicles();
