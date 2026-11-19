@@ -25,7 +25,10 @@ export class UserClient {
   getMe(): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}/me`);
   }
-  // login(user: LoginFormModel): Observable<{ success: boolean; message: string }> {
-  //     return this.http.post<{ success: boolean; message: string }>(this.loginUrl, user);
-  // }
+  changeRole(id: string | number, role: string): Observable<User> {
+    return this.http.patch<User>(`${this.baseUrl}/${id}/role`, { role });
+  }
+  toggleStatus(id: string | number): Observable<User> {
+    return this.http.patch<User>(`${this.baseUrl}/${id}/status`, {});
+  }
 }
