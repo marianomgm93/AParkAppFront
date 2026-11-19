@@ -12,6 +12,9 @@
     @if (userRole() === 'ROLE_CLIENT' || userRole() === 'ROLE_OWNER'){
       <a [routerLink]="commands.offers" routerLinkActive="active">Ofertas</a>
     }
+        @if (userRole() === 'ROLE_OWNER' || userRole() === 'ROLE_EMPLOYEE') {
+      <a [routerLink]="commands.reservations" routerLinkActive="active">Reservas</a>
+    }
     <a (click)="logout()">Cerrar sesión</a>
   } @else {
     <a [routerLink]="commands.signup" routerLinkActive="active">Registrarse</a>
