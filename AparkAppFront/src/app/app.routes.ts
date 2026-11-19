@@ -13,6 +13,11 @@ export const routes: Routes = [
     loadChildren: () => import('./offer/offer.routes'),
   },
   {
+    path: ROUTE_SEGMENTS.reservations,
+    loadComponent: () => import('./reservation/ui/reservation-layout/reservation-layout'),
+    loadChildren: () => import('./reservation/reservation.routes'),
+  },
+  {
     path: ROUTE_SEGMENTS.auth,
     loadComponent: () => import('./auth/ui/auth-layout/auth-layout'),
     loadChildren: () => import('./auth/auth.routes'),
