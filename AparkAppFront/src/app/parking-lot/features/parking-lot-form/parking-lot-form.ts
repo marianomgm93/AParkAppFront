@@ -86,6 +86,12 @@ export default class ParkingLotForm implements OnInit {
             return;
           }
 
+          if (this.authService.userRole() !== 'ROLE_ADMIN') {
+            alert('Solo los administradores tienen permiso para registrar un nuevo estacionamiento.');
+            this.router.navigate(['/parking-lot/parking-lot-list']);
+            return;
+          }
+
           if (!confirm('¿Confirmar los datos del domicilio?')) return;
           try {
             const address = fieldTree().value();
@@ -147,6 +153,10 @@ export default class ParkingLotForm implements OnInit {
                 this.router.navigate(['/parking-lot/parking-lot-list']);
               }
             } else {
+              if (this.authService.userRole() !== 'ROLE_ADMIN') {
+                alert('Solo los administradores tienen permiso para crear estacionamientos.');
+                return;
+              }
               await firstValueFrom(this.client.addParkingLot(parkingLot));
               alert('¡Estacionamiento agregado!');
               this.fullReset();
@@ -182,34 +192,41 @@ export default class ParkingLotForm implements OnInit {
       return;
     }
 
+    const inputLot = this.editingParkingLot();
+    const idParam = this.route.snapshot.paramMap.get('id');
+    const isEditMode = !!inputLot || !!idParam;
+
+    if (!isEditMode && role !== 'ROLE_ADMIN') {
+      alert('Solo los administradores tienen permiso para crear estacionamientos.');
+      this.router.navigate(['/parking-lot/parking-lot-list']);
+      return;
+    }
+
     if (role === 'ROLE_ADMIN') {
       try {
         this.users.set(await firstValueFrom(this.userClient.getAll()));
       } catch (e) {
         console.error('Error cargando usuarios:', e);
       }
-    } else if (role === 'ROLE_OWNER') {
-      try {
-        const me = this.authService.currentUser() ?? await firstValueFrom(this.userClient.getMe());
-        if (me && me.id) {
-          this.parkingLotFormModel.update(v => ({ ...v, ownerId: String(me.id) }));
-        }
-      } catch (e) {
-        console.error('Error cargando perfil del propietario:', e);
-      }
     }
 
-    const inputLot = this.editingParkingLot();
     if (inputLot) {
       this.setFormValues(inputLot);
       this.step.set('parking-lot');
       return;
     }
 
-    const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
       try {
         const lot = await firstValueFrom(this.client.getParkingLotById(idParam));
+        if (role === 'ROLE_OWNER') {
+          const me = this.authService.currentUser() ?? await firstValueFrom(this.userClient.getMe());
+          if (lot.ownerId !== me?.id) {
+            alert('No tiene permiso para editar un estacionamiento que no le pertenece.');
+            this.router.navigate(['/parking-lot/parking-lot-list']);
+            return;
+          }
+        }
         this.routeParkingLot.set(lot);
         this.setFormValues(lot);
         this.step.set('parking-lot');

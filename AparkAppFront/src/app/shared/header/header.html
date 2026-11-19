@@ -9,7 +9,7 @@
       <a [routerLink]="commands.userList" routerLinkActive="active">Usuarios</a>
     }
     <a routerLink="/parking-lot/parking-lot-list" routerLinkActive="active">Estacionamientos</a>
-    @if (userRole() === 'ROLE_ADMIN' || userRole() === 'ROLE_OWNER') {
+    @if (userRole() === 'ROLE_ADMIN') {
       <a routerLink="/parking-lot/parking-lot-form" routerLinkActive="active">Nuevo Estacionamiento</a>
     }
     @if (userRole() === 'ROLE_CLIENT' || userRole() === 'ROLE_OWNER'){
