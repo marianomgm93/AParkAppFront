@@ -1,0 +1,272 @@
+.ticket-list {
+  background-color: var(--bg-secondary);
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  min-width: 60vw;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-secondary);
+
+  h1 {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    background-color: var(--bg-secondary);
+  }
+}
+
+.btn-filter {
+  padding: 0.5rem 1rem;
+  background-color: var(--bg-primary);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-accent-subtle);
+  }
+}
+
+.state-msg {
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 2rem 0;
+  background-color: var(--bg-secondary);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ticket-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  transition: border-color 0.2s ease;
+
+  &:hover {
+    border-color: var(--border-focus);
+  }
+
+  &.status-paid {
+    border-left: 3px solid #4caf50;
+  }
+
+  &.status-open {
+    border-left: 3px solid var(--color-accent);
+  }
+
+  &.status-partially_paid {
+    border-left: 3px solid #ff9800;
+  }
+
+  &.status-cancelled {
+    border-left: 3px solid var(--text-error);
+    opacity: 0.6;
+  }
+}
+
+.ticket-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: var(--bg-primary);
+}
+
+.ticket-id {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background-color: var(--bg-primary);
+}
+
+.label {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: var(--bg-primary);
+}
+
+.value {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-weight: 500;
+  background-color: var(--bg-primary);
+}
+
+.value.mono {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.value.paid {
+  color: #4caf50;
+}
+
+.value.pending {
+  color: #ff9800;
+}
+
+.badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+
+  &.badge-open {
+    background-color: var(--color-accent-subtle);
+    color: var(--color-accent);
+  }
+
+  &.badge-partially_paid {
+    background-color: rgba(255, 152, 0, 0.15);
+    color: #ff9800;
+  }
+
+  &.badge-paid {
+    background-color: rgba(76, 175, 80, 0.15);
+    color: #4caf50;
+  }
+
+  &.badge-cancelled {
+    background-color: rgba(255, 107, 107, 0.15);
+    color: var(--text-error);
+  }
+}
+
+.ticket-amounts {
+  display: flex;
+  gap: 2rem;
+  background-color: var(--bg-primary);
+
+  .amount-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    background-color: var(--bg-primary);
+  }
+}
+
+.ticket-note {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  background-color: var(--bg-primary);
+  font-style: italic;
+}
+
+.ticket-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-primary);
+}
+
+.ticket-date {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background-color: var(--bg-primary);
+}
+
+.ticket-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background-color: var(--bg-primary);
+}
+
+button {
+  border: none;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.btn-pay {
+  background-color: var(--color-accent);
+  color: var(--text-on-accent);
+
+  &:hover {
+    background-color: var(--color-accent-hover);
+  }
+}
+
+.btn-cancel-ticket {
+  background-color: transparent;
+  color: var(--text-error);
+  border: 1px solid var(--text-error);
+
+  &:hover {
+    background-color: rgba(255, 107, 107, 0.1);
+  }
+}
+
+.pay-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background-color: var(--bg-primary);
+
+  input {
+    padding: 0.45rem 0.75rem;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 0.875rem;
+    width: 160px;
+
+    &:focus {
+      outline: none;
+      border-color: var(--border-focus);
+    }
+  }
+}
+
+.btn-confirm {
+  background-color: #4caf50;
+  color: #fff;
+
+  &:hover {
+    background-color: #43a047;
+  }
+}
+
+.btn-cancel-pay {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}

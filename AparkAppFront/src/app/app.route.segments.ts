@@ -5,7 +5,8 @@ export const ROUTE_SEGMENTS= {
     login: 'login',
     signup: 'register',
     userList: 'user-list',
-    offers: 'offer-list'
+    offers: 'offer-list',
+    tickets: 'tickets'
 } as const;
 
 export const ROUTE_COMMANDS = {
@@ -13,5 +14,6 @@ export const ROUTE_COMMANDS = {
     login: [`/${ROUTE_SEGMENTS.auth}/${ROUTE_SEGMENTS.login}`],
     signup: [`/${ROUTE_SEGMENTS.auth}/${ROUTE_SEGMENTS.signup}`],
     userList: [`/${ROUTE_SEGMENTS.users}/${ROUTE_SEGMENTS.userList}`],
-    offers: [`/${ROUTE_SEGMENTS.offers}`]
+    offers: [`/${ROUTE_SEGMENTS.offers}`],
+    tickets: [`/${ROUTE_SEGMENTS.tickets}`]
 }as const;
