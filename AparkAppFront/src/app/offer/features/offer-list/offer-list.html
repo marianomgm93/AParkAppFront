@@ -1,8 +1,7 @@
 @let offers = this.offers();
 @let vehicles = this.userVehicles();
 <section class="offer-list">
-  <h1>Ofertas Disponibles</h1>
-  <ul>
+  <h1>{{ userRole() === 'ROLE_OWNER' ? 'Mis Ofertas' : 'Ofertas Disponibles' }}</h1>  <ul>
     @for (offer of offers; track offer.id) {
       <li class="offer-container">
         <div class="offer-info">
@@ -11,18 +10,23 @@
             Inicio: {{ offer.startTime | date: 'dd/MM/yyyy HH:mm' }} - Fin: {{ offer.endTime | date: 'dd/MM/yyyy HH:mm' }}
           </small>
         </div>
-        <div class="reservation-actions">
-          <select #vehicleSelect (change)="0">
-            <option value="" disabled selected>Selecciona tu vehículo</option>
-            @for (v of vehicles; track v.id) {
-              <option [value]="v.id">{{ v.plate }} ({{ v.brand }} {{ v.model }})</option>
-            }
-          </select>
-          <button 
-            [disabled]="!vehicleSelect.value" 
-            (click)="reserveOffer(offer.id, vehicleSelect.value)">
-            Reservar
-          </button>
+                <div class="reservation-actions">
+          @if (userRole() === 'ROLE_CLIENT') {
+            <select #vehicleSelect (change)="0">
+              <option value="" disabled selected>Selecciona tu vehículo</option>
+              @for (v of vehicles; track v.id) {
+                <option [value]="v.id">{{ v.plate }} ({{ v.brand }} {{ v.model }})</option>
+              }
+            </select>
+            <button [disabled]="!vehicleSelect.value" (click)="reserveOffer(offer.id, vehicleSelect.value)">
+              Reservar
+            </button>
+          }
+          @if (userRole() === 'ROLE_OWNER' || userRole() === 'ROLE_EMPLOYEE') {
+            <button class="btn-cancel" (click)="cancelOffer(offer.id)">
+              Cancelar Oferta
+            </button>
+          }
         </div>
       </li>
     } @empty {
