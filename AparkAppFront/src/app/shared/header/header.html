@@ -7,12 +7,17 @@
     }
     <a routerLink="/parking-lot/parking-lot-list" routerLinkActive="active">Estacionamientos</a>
     @if (userRole() === 'ROLE_ADMIN' || userRole() === 'ROLE_OWNER') {
-      <a routerLink="/parking-lot/parking-lot-form" routerLinkActive="active">Nuevo Estacionamiento</a>
+      <a routerLink="/parking-lot/parking-lot-form" routerLinkActive="active"
+        >Nuevo Estacionamiento</a
+      >
     }
-    @if (userRole() === 'ROLE_CLIENT' || userRole() === 'ROLE_OWNER'){
+    @if (userRole() === 'ROLE_CLIENT') {
+      <a [routerLink]="commands.reservations" routerLinkActive="active">Mis Reservas</a>
+    }
+    @if (userRole() === 'ROLE_CLIENT' || userRole() === 'ROLE_OWNER') {
       <a [routerLink]="commands.offers" routerLinkActive="active">Ofertas</a>
     }
-        @if (userRole() === 'ROLE_OWNER' || userRole() === 'ROLE_EMPLOYEE') {
+    @if (userRole() === 'ROLE_OWNER' || userRole() === 'ROLE_EMPLOYEE') {
       <a [routerLink]="commands.reservations" routerLinkActive="active">Reservas</a>
     }
     <a (click)="logout()">Cerrar sesión</a>
