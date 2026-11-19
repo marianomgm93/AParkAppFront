@@ -6,12 +6,8 @@ export const ROUTE_SEGMENTS= {
     signup: 'register',
     userList: 'user-list',
     offers: 'offer-list',
-<<<<<<< HEAD
-    tickets: 'tickets'
-=======
+    tickets: 'tickets',
     reservations: 'reservation-list'
-
->>>>>>> develop
 } as const;
 
 export const ROUTE_COMMANDS = {
@@ -20,9 +16,6 @@ export const ROUTE_COMMANDS = {
     signup: [`/${ROUTE_SEGMENTS.auth}/${ROUTE_SEGMENTS.signup}`],
     userList: [`/${ROUTE_SEGMENTS.users}/${ROUTE_SEGMENTS.userList}`],
     offers: [`/${ROUTE_SEGMENTS.offers}`],
-<<<<<<< HEAD
-    tickets: [`/${ROUTE_SEGMENTS.tickets}`]
-=======
+    tickets: [`/${ROUTE_SEGMENTS.tickets}`],
     reservations: [`/${ROUTE_SEGMENTS.reservations}`]
->>>>>>> develop
 }as const;

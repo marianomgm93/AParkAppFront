@@ -1,9 +1,11 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { TicketService } from '../../data-access/ticket.service';
 import { Ticket } from '../../data-access/ticket.model';
+import { AuthService } from '../../../auth/auth-service';
 
-type DerivedStatus = 'OPEN' | 'PARTIALLY_PAID' | 'PAID';
+type DerivedStatus = 'OPEN' | 'PARTIALLY_PAID' | 'PAID' | 'CANCELLED';
+type StatusFilter = 'ALL' | 'PENDING' | 'PAID';
 
 @Component({
   selector: 'app-ticket-list',
@@ -13,12 +15,33 @@ type DerivedStatus = 'OPEN' | 'PARTIALLY_PAID' | 'PAID';
 })
 export default class TicketList implements OnInit {
   private readonly ticketService = inject(TicketService);
+  private readonly authService = inject(AuthService);
 
   readonly tickets = signal<Ticket[]>([]);
   readonly showOnlyToday = signal(false);
+  readonly statusFilter = signal<StatusFilter>('ALL');
   readonly loading = signal(false);
   readonly payingId = signal<string | null>(null);
   readonly payAmount = signal<number>(0);
+
+  readonly isOwner = computed(() => {
+    return this.authService.userRole() === 'ROLE_OWNER';
+  });
+
+  readonly filteredTickets = computed(() => {
+    const filter = this.statusFilter();
+    const list = this.tickets();
+    if (filter === 'PENDING') {
+      return list.filter((t) => {
+        const s = this.derivedStatus(t);
+        return s === 'OPEN' || s === 'PARTIALLY_PAID';
+      });
+    }
+    if (filter === 'PAID') {
+      return list.filter((t) => this.derivedStatus(t) === 'PAID');
+    }
+    return list;
+  });
 
   ngOnInit(): void {
     this.loadTickets();
@@ -41,7 +64,12 @@ export default class TicketList implements OnInit {
     this.loadTickets();
   }
 
+  setStatusFilter(filter: StatusFilter): void {
+    this.statusFilter.set(filter);
+  }
+
   openPayForm(id: string): void {
+    if (!this.isOwner()) return;
     this.payingId.set(id);
     this.payAmount.set(0);
   }
@@ -51,9 +79,10 @@ export default class TicketList implements OnInit {
   }
 
   submitPay(ticket: Ticket): void {
+    if (!this.isOwner()) return;
     const amount = this.payAmount();
-    if (!amount || amount <= 0) {
-      alert('Ingresá un monto válido.');
+    if (!amount || amount <= 0 || isNaN(amount)) {
+      alert('Ingresá un monto válido mayor a 0.');
       return;
     }
     const pending = this.pendingAmount(ticket);
@@ -71,14 +100,20 @@ export default class TicketList implements OnInit {
   }
 
   cancelTicket(id: string): void {
+    if (!this.isOwner()) return;
     if (!confirm('¿Cancelar este ticket?')) return;
     this.ticketService.cancel(id).subscribe({
-      next: () => this.tickets.update((list) => list.filter((t) => t.id !== id)),
+      next: () => {
+        this.tickets.update((list) =>
+          list.map((t) => (t.id === id ? { ...t, status: 'CANCELLED' } : t))
+        );
+      },
       error: () => alert('Error al cancelar el ticket.'),
     });
   }
 
   derivedStatus(ticket: Ticket): DerivedStatus {
+    if (ticket.status === 'CANCELLED') return 'CANCELLED';
     if (ticket.amount > 0 && ticket.paid >= ticket.amount) return 'PAID';
     if (ticket.paid > 0) return 'PARTIALLY_PAID';
     return 'OPEN';
@@ -89,6 +124,7 @@ export default class TicketList implements OnInit {
       OPEN: 'Abierto',
       PARTIALLY_PAID: 'Pago parcial',
       PAID: 'Pagado',
+      CANCELLED: 'Cancelado',
     };
     return labels[this.derivedStatus(ticket)];
   }
@@ -98,6 +134,7 @@ export default class TicketList implements OnInit {
   }
 
   isPaid(ticket: Ticket): boolean {
-    return this.derivedStatus(ticket) === 'PAID';
+    const status = this.derivedStatus(ticket);
+    return status === 'PAID' || status === 'CANCELLED';
   }
 }

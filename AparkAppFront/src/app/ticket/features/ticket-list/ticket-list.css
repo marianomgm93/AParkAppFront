@@ -1,6 +1,6 @@
 .ticket-list {
   background-color: var(--bg-secondary);
-  padding: 2rem;
+  padding: 1.5rem 2rem;
   border-radius: 8px;
   border: 1px solid var(--border-color);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -15,6 +15,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   background-color: var(--bg-secondary);
 
   h1 {
@@ -24,13 +26,51 @@
   }
 }
 
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  background-color: var(--bg-secondary);
+}
+
+.filter-group {
+  display: flex;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.btn-tab {
+  padding: 0.4rem 0.85rem;
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: none;
+  font-size: 0.825rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.active {
+    background-color: var(--color-accent);
+    color: var(--text-on-accent);
+    font-weight: 700;
+  }
+
+  &:hover:not(.active) {
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
 .btn-filter {
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 0.85rem;
   background-color: var(--bg-primary);
   color: var(--color-accent);
   border: 1px solid var(--color-accent);
   border-radius: 4px;
-  font-size: 0.875rem;
+  font-size: 0.825rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -85,7 +125,7 @@ ul {
 
   &.status-cancelled {
     border-left: 3px solid var(--text-error);
-    opacity: 0.6;
+    opacity: 0.65;
   }
 }
 
@@ -96,10 +136,10 @@ ul {
   background-color: var(--bg-primary);
 }
 
-.ticket-id {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
+.ticket-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
   background-color: var(--bg-primary);
 }
 
@@ -116,20 +156,20 @@ ul {
   color: var(--text-primary);
   font-weight: 500;
   background-color: var(--bg-primary);
-}
 
-.value.mono {
-  font-family: monospace;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-}
+  &.mono {
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
 
-.value.paid {
-  color: #4caf50;
-}
+  &.paid {
+    color: #4caf50;
+  }
 
-.value.pending {
-  color: #ff9800;
+  &.pending {
+    color: #ff9800;
+  }
 }
 
 .badge {
@@ -243,7 +283,7 @@ button {
     border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 0.875rem;
-    width: 160px;
+    width: 150px;
 
     &:focus {
       outline: none;
@@ -269,4 +309,10 @@ button {
   &:hover {
     color: var(--text-primary);
   }
+}
+
+.pending-checkout {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-style: italic;
 }

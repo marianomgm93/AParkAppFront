@@ -12,13 +12,11 @@
     @if (userRole() === 'ROLE_CLIENT' || userRole() === 'ROLE_OWNER'){
       <a [routerLink]="commands.offers" routerLinkActive="active">Ofertas</a>
     }
-<<<<<<< HEAD
-    @if (userRole() === 'ROLE_ADMIN' || userRole() === 'ROLE_OWNER') {
+    @if (userRole() === 'ROLE_OWNER' || userRole() === 'ROLE_CLIENT') {
       <a [routerLink]="commands.tickets" routerLinkActive="active">Tickets</a>
-=======
-        @if (userRole() === 'ROLE_OWNER' || userRole() === 'ROLE_EMPLOYEE') {
+    }
+    @if (userRole() === 'ROLE_OWNER' || userRole() === 'ROLE_EMPLOYEE') {
       <a [routerLink]="commands.reservations" routerLinkActive="active">Reservas</a>
->>>>>>> develop
     }
     <a (click)="logout()">Cerrar sesión</a>
   } @else {

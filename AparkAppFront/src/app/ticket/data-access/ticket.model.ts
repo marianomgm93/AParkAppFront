@@ -1,3 +1,5 @@
+export type TicketStatus = 'OPEN' | 'PARTIALLY_PAID' | 'PAID' | 'CANCELLED';
+
 export interface Ticket {
   id: string;
   reservationId: string;
@@ -5,6 +7,8 @@ export interface Ticket {
   paid: number;
   timeStamp: string;
   note: string | null;
+  parkingLotName?: string;
+  status?: TicketStatus;
 }
 
 export interface PaidRequest {

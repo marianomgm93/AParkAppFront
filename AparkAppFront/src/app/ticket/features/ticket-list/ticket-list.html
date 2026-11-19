@@ -1,14 +1,38 @@
-@let tickets = this.tickets();
+@let tickets = this.filteredTickets();
 @let loading = this.loading();
 @let onlyToday = this.showOnlyToday();
 @let activePayId = this.payingId();
+@let currentFilter = this.statusFilter();
+@let owner = this.isOwner();
 
 <section class="ticket-list">
   <div class="ticket-header">
     <h1>Tickets</h1>
-    <button class="btn-filter" (click)="toggleFilter()">
-      {{ onlyToday ? 'Ver todos' : 'Ver hoy' }}
-    </button>
+    <div class="header-controls">
+      <div class="filter-group">
+        <button
+          class="btn-tab"
+          [class.active]="currentFilter === 'ALL'"
+          (click)="setStatusFilter('ALL')">
+          Todos
+        </button>
+        <button
+          class="btn-tab"
+          [class.active]="currentFilter === 'PENDING'"
+          (click)="setStatusFilter('PENDING')">
+          Pendientes
+        </button>
+        <button
+          class="btn-tab"
+          [class.active]="currentFilter === 'PAID'"
+          (click)="setStatusFilter('PAID')">
+          Pagados
+        </button>
+      </div>
+      <button class="btn-filter" (click)="toggleFilter()">
+        {{ onlyToday ? 'Ver todos' : 'Ver hoy' }}
+      </button>
+    </div>
   </div>
 
   @if (loading) {
@@ -21,10 +45,7 @@
         @let status = derivedStatus(ticket);
         <li class="ticket-card status-{{ status.toLowerCase() }}">
           <div class="ticket-top">
-            <div class="ticket-id">
-              <span class="label">ID Reserva</span>
-              <span class="value mono">{{ ticket.reservationId }}</span>
-            </div>
+            <span class="ticket-title">{{ ticket.parkingLotName || 'Ticket' }}</span>
             <span class="badge badge-{{ status.toLowerCase() }}">
               {{ statusLabel(ticket) }}
             </span>
@@ -52,13 +73,16 @@
           <div class="ticket-footer">
             <span class="ticket-date">{{ ticket.timeStamp | date: 'dd/MM/yyyy HH:mm' }}</span>
 
-            @if (!isPaid(ticket)) {
+            @if (owner && !isPaid(ticket)) {
               <div class="ticket-actions">
-                @if (activePayId === ticket.id) {
+                @if (ticket.amount <= 0) {
+                  <span class="pending-checkout">Pendiente de Check-out</span>
+                } @else if (activePayId === ticket.id) {
                   <div class="pay-form">
                     <input
                       type="number"
                       min="0.01"
+                      step="0.01"
                       [max]="pendingAmount(ticket)"
                       [value]="this.payAmount()"
                       (input)="payAmount.set(+$any($event.target).value)"
