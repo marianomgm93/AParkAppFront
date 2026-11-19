@@ -120,5 +120,17 @@
       "status": "PARTIALLY_PAID",
       "note": "Pago parcial al ingreso"
     }
+  ],
+  "spots": [
+    {
+      "id": 1,
+      "spotNumber": 101,
+      "status": "FREE"
+    },
+    {
+      "id": 2,
+      "spotNumber": 102,
+      "status": "OCCUPIED"
+    }
   ]
 }

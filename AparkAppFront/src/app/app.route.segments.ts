@@ -8,14 +8,17 @@ export const ROUTE_SEGMENTS= {
     signup: 'register',
     userList: 'user-list',
     offers: 'offer-list',
-<<<<<<< HEAD
-    tickets: 'tickets',
-    reservations: 'reservation-list'
-=======
     reservation: 'reservation',
     reservations: 'reservation-list',
-
->>>>>>> origin/develop
+    tickets: 'tickets',
+    spots: 'spot-list',
+    spotNew: 'new',
+    spotEdit: 'edit',
+    spotDetail: 'details',
+    vehicles: 'vehicle-list', 
+    vehicleNew: 'new',
+    vehicleEdit: 'edit',
+    vehicleDetail: 'details',
 } as const;
 
 export const ROUTE_COMMANDS = {
@@ -24,10 +27,14 @@ export const ROUTE_COMMANDS = {
     signup: [`/${ROUTE_SEGMENTS.auth}/${ROUTE_SEGMENTS.signup}`],
     userList: [`/${ROUTE_SEGMENTS.users}/${ROUTE_SEGMENTS.userList}`],
     offers: [`/${ROUTE_SEGMENTS.offers}`],
-<<<<<<< HEAD
     tickets: [`/${ROUTE_SEGMENTS.tickets}`],
-    reservations: [`/${ROUTE_SEGMENTS.reservations}`]
-=======
     reservations: [`/${ROUTE_SEGMENTS.reservations}`],
->>>>>>> origin/develop
-}as const;
+    spots: [`/parking-spot/parking-spot-list`],
+    spotNew: [`/parking-spot/parking-spot-form`],
+    spotEdit: (id: string | number) => [`/parking-spot/parking-spot-form`, id],
+    spotDetail: (id: string | number) => [`/parking-spot/parking-spot-detail`, id],
+    vehicles: [`/vehicle/vehicle-list`],
+    vehicleNew: [`/vehicle/vehicle-form`],
+    vehicleEdit: (id: string | number) => [`/vehicle/vehicle-form`, id],
+    vehicleDetail: (id: string | number) => [`/vehicle/vehicle-detail`, id],
+} as const;

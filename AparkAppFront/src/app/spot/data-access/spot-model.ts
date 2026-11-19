@@ -1,0 +1,16 @@
+export type SpotStatus = 'FREE' | 'OCCUPIED';
+
+export interface ParkingSpotModel {
+  id: string;
+  name: string;
+  active: boolean;
+  status: SpotStatus;
+  number: number;
+}
+// Refleja ParkingSpotRequest del backend
+export interface ParkingSpotRequest {
+  name: string;
+  parkingLotId: string;
+  active: boolean;
+  number: number;
+}

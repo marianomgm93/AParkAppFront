@@ -1,0 +1,57 @@
+@if (loading()) {
+  <p class="loading-msg">Cargando vehículo...</p>
+} @else if (error()) {
+  <p class="error-msg">{{ error() }}</p>
+} @else if (vehicle()) {
+  <section class="detail-wrapper">
+    <div class="detail-header">
+      <h2>🚗 {{ vehicle()!.plate }}</h2>
+      <div class="header-actions">
+        <button type="button" class="edit-btn" (click)="goEdit()">Editar</button>
+        @if (isAdmin() || isOwner()) {
+          <button type="button" class="del-btn" (click)="delete()">Eliminar</button>
+        }
+        <button type="button" class="back-btn" (click)="router.navigate(['/vehicle/vehicle-list'])">← Volver</button>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <span class="detail-label">Patente</span>
+        <span class="detail-value plate">{{ vehicle()!.plate }}</span>
+      </div>
+
+      <div class="detail-card">
+        <span class="detail-label">Tipo</span>
+        <span class="type-badge">{{ vehicle()!.vehicleType }}</span>
+      </div>
+
+      <div class="detail-card">
+        <span class="detail-label">Marca</span>
+        <span class="detail-value">{{ vehicle()!.brand }}</span>
+      </div>
+
+      <div class="detail-card">
+        <span class="detail-label">Modelo</span>
+        <span class="detail-value">{{ vehicle()!.model }}</span>
+      </div>
+
+      <div class="detail-card">
+        <span class="detail-label">Color</span>
+        <span class="detail-value">{{ vehicle()!.color }}</span>
+      </div>
+
+      <div class="detail-card">
+        <span class="detail-label">Notas</span>
+        <span class="detail-value">{{ vehicle()!.note || '—' }}</span>
+      </div>
+
+      @if (isAdmin() || isOwner()) {
+        <div class="detail-card detail-card--wide">
+          <span class="detail-label">ID Propietario</span>
+          <span class="detail-value small">{{ vehicle()!.userId }}</span>
+        </div>
+      }
+    </div>
+  </section>
+}

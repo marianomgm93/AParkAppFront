@@ -1,0 +1,81 @@
+<div class="list-wrapper">
+  <div class="list-header">
+    <h2>Lugares de estacionamiento</h2>
+    @if (isAdmin() || isOwner()) {
+      <button type="button" class="new-btn" (click)="edit('')">
+        + Nuevo lugar
+      </button>
+    }
+  </div>
+
+  @if (sortedSpots().length === 0) {
+    <p class="empty-msg">No hay lugares de estacionamiento registrados.</p>
+  } @else {
+    <table class="spot-table">
+      <thead>
+        <tr>
+          <th>N°</th>
+          <th>Nombre</th>
+          <th>Ocupación</th>
+          <th>Estado</th>
+          <th class="actions-col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (spot of sortedSpots(); track spot.id) {
+          <tr>
+            <td>{{ spot.number }}</td>
+            <td>
+              <span class="spot-name" (click)="viewDetail(spot.id)">
+                {{ spot.name }}
+              </span>
+            </td>
+            <td>
+              @if (spot.status === 'OCCUPIED') {
+                <span class="badge occupied">Ocupado</span>
+              } @else {
+                <span class="badge free">Libre</span>
+              }
+            </td>
+            <td>
+              @if (spot.active) {
+                <span class="badge active">Activo</span>
+              } @else {
+                <span class="badge inactive">Inactivo</span>
+              }
+            </td>
+            <td class="actions-col">
+              <div class="actions">
+                @if (isAdmin() || isOwner()) {
+                  <button type="button" class="edit-btn" (click)="edit(spot.id)">
+                    Editar
+                  </button>
+
+                  @if (spot.active) {
+                    @if (spot.status === 'OCCUPIED') {
+                      <button type="button" class="release-btn" (click)="releaseSpot(spot)">
+                        Liberar
+                      </button>
+                    } @else {
+                      <button type="button" class="occupy-btn" (click)="occupySpot(spot)">
+                        Ocupar
+                      </button>
+                    }
+
+                    <button type="button" class="del-btn" (click)="toggleActive(spot)">
+                      Dar de baja
+                    </button>
+                  } @else {
+                    <button type="button" class="activate-btn" (click)="toggleActive(spot)">
+                      Dar de alta
+                    </button>
+                  }
+                }
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>
