@@ -1,0 +1,49 @@
+@let items = filteredAndSortedReservations();
+
+<section class="reservation-list">
+  <div class="list-header">
+    <h2>{{ userRole() === 'ROLE_CLIENT' ? 'Mis Reservas' : 'Gestión de Reservas' }}</h2>
+    <div class="header-actions">
+      <button type="button" class="btn-control" (click)="cycleStatusFilter()">
+        Estado: {{ statusLabels[statusFilter()] }}
+      </button>
+      <button type="button" class="btn-control" (click)="toggleSort()">
+        Fecha: {{ sortOrder() === 'asc' ? 'Ascendente ↑' : 'Descendente ↓' }}
+      </button>
+    </div>
+  </div>
+  <ul>
+    @for (res of items; track res.id) {
+      <li class="reservation-container">
+        <div class="reservation-info">
+          @if (userRole() === 'ROLE_CLIENT') {
+            <p>
+              <strong>{{ res.parkingLotName || 'Estacionamiento' }}</strong> - Patente:
+              <strong>{{ res.vehiclePlate || 'S/D' }}</strong>
+            </p>
+          } @else {
+            <p>
+              Cliente: <strong>{{ res.userName || 'Usuario' }}</strong> - Patente:
+              <strong>{{ res.vehiclePlate || 'S/D' }}</strong>
+            </p>
+          }
+          <small>Estado: {{ res.status }} | Inicio: {{ res.startTime | date: 'dd/MM/yyyy HH:mm' }}</small>
+          <a [routerLink]="[res.id]">Ver detalle</a>
+        </div>
+        @if (userRole() === 'ROLE_CLIENT' && res.status === 'RESERVED') {
+          <button (click)="onCancel(res.id)">Cancelar</button>
+        }
+        @if (userRole() !== 'ROLE_CLIENT') {
+          @if (res.status === 'RESERVED') {
+            <button (click)="onCheckIn(res.id)">Check-in</button>
+          }
+          @if (res.status === 'CHECKED_IN') {
+            <button (click)="onCheckOut(res.id)">Check-out</button>
+          }
+        }
+      </li>
+    } @empty {
+      <li class="empty-state">No existen reservas registradas.</li>
+    }
+  </ul>
+</section>

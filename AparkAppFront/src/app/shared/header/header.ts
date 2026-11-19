@@ -19,7 +19,7 @@ export class Header {
 
   logout() {
     this.authService.logout();
-    this.router.navigate(ROUTE_COMMANDS.login);
+    this.router.navigate(ROUTE_COMMANDS.home);
   }
 
 }
