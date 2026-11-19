@@ -15,4 +15,13 @@ export class ReservationService {
   checkOut(id: string) {
     return this.http.patch<ReservationModel>(`${this.endpoint}/${id}/check-out`, {});
   }
+    getMyReservations() {
+    return this.http.get<ReservationModel[]>(`${this.endpoint}/me`);
+  }
+    cancel(id: string) {
+    return this.http.patch<ReservationModel>(`${this.endpoint}/${id}/cancel`, {});
+  }
+    getById(id: string) {
+    return this.http.get<ReservationModel>(`${this.endpoint}/${id}`);
+  }
 }
