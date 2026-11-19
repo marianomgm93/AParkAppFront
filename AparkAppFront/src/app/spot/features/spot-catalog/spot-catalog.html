@@ -1,0 +1,54 @@
+<section class="spot-page">
+  <div class="spot-card">
+    <header class="spot-header">
+      <div>
+        <h2 class="spot-title">Espacios de Estacionamiento</h2>
+        <p class="spot-subtitle">
+          Libres: <strong>{{ freeCount() }}</strong> · Ocupados: <strong>{{ occupiedCount() }}</strong>
+        </p>
+      </div>
+
+      <div class="sort-actions">
+        <button
+          type="button"
+          class="btn-secondary"
+          [class.active]="sortOrder() === 'number'"
+          (click)="ordenarPor('number')">
+          Ordenar por N°
+        </button>
+        <button
+          type="button"
+          class="btn-secondary"
+          [class.active]="sortOrder() === 'status'"
+          (click)="ordenarPor('status')">
+          Ordenar por Estado
+        </button>
+      </div>
+    </header>
+
+    @if (filteredSpots().length > 0) {
+      <div class="spot-grid">
+        @for (spot of filteredSpots(); track spot.id) {
+          <article class="spot-item" (click)="verDetalle(spot.id)">
+            <div class="spot-item-top">
+              <span class="spot-number">#{{ spot.number }}</span>
+              <span
+                class="spot-badge"
+                [class.is-free]="spot.status === 'FREE'"
+                [class.is-occupied]="spot.status === 'OCCUPIED'">
+                {{ spot.status === 'FREE' ? 'Libre' : 'Ocupado' }}
+              </span>
+            </div>
+
+            <h3 class="spot-name">{{ spot.name }}</h3>
+            <p class="spot-meta">
+              Estado de celda: {{ spot.active ? 'Habilitada' : 'Inhabilitada' }}
+            </p>
+          </article>
+        }
+      </div>
+    } @else {
+      <p class="empty-state">No hay espacios registrados para esta cochera.</p>
+    }
+  </div>
+</section>

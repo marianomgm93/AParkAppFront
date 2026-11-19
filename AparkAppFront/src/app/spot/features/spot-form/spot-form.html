@@ -1,0 +1,42 @@
+<div class="form-card">
+  <h2 class="form-title">
+    {{ isEditing() ? 'Editar Espacio' : 'Nuevo Espacio' }}
+  </h2>
+
+  <form [formRoot]="spotForm" class="spot-form">
+    <div class="field-group">
+      <label for="spotName">Nombre:</label>
+      <input
+        id="spotName"
+        type="text"
+        [formField]="spotForm.name"
+        placeholder="Ej. Fila A - Lugar 1" />
+    </div>
+
+    <div class="field-group">
+      <label for="spotNumber">Número de espacio:</label>
+      <input
+        id="spotNumber"
+        type="number"
+        min="1"
+        [formField]="spotForm.number" />
+    </div>
+
+    <div class="checkbox-row">
+      <input
+        id="spotActive"
+        type="checkbox"
+        [formField]="spotForm.active" />
+      <label for="spotActive">Espacio habilitado (activo)</label>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="onCancel()">
+        Cancelar
+      </button>
+      <button type="submit" class="btn-submit">
+        {{ isEditing() ? 'Guardar Cambios' : 'Crear Espacio' }}
+      </button>
+    </div>
+  </form>
+</div>

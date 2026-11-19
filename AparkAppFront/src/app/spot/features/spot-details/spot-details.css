@@ -1,106 +1,96 @@
-.spot-details-container {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
+.details-page {
+  display: flex;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+  background-color: var(--bg-primary);
+}
+
+.details-card {
+  width: 100%;
+  max-width: 640px;
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  color: var(--text-primary);
+  padding: 1.75rem;
 }
 
-.details-card h2 {
-  color: var(--color-accent);
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-}
-
-.info-row {
-  font-size: 1.05rem;
-  margin-bottom: 1.5rem;
+.details-top {
   display: flex;
-  gap: 0.75rem;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  background-color: transparent;
+}
+
+.details-title {
+  font-size: 1.3rem;
   color: var(--text-primary);
+  background-color: transparent;
 }
 
-.badge {
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+.details-status {
+  margin-top: 0.35rem;
+  color: var(--text-secondary);
+  background-color: transparent;
 }
 
-.badge.free {
-  background-color: rgba(40, 167, 69, 0.15);
-  color: #4ade80;
-  border: 1px solid rgba(74, 222, 128, 0.4);
-}
-
-.badge.occupied {
-  background-color: rgba(239, 68, 68, 0.15);
+.error-text {
   color: var(--text-error);
-  border: 1px solid rgba(255, 107, 107, 0.4);
 }
 
-.actions {
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--border-color);
-}
-
-button,
-.btn-back {
-  padding: 0.75rem 1.25rem;
-  border-radius: 4px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  border: none;
+.back-link {
+  color: var(--color-accent);
   text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background-color: transparent;
 }
 
-.btn-edit {
+.details-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  background-color: transparent;
+}
+
+.btn-primary {
+  padding: 0.65rem 1.15rem;
+  border-radius: 6px;
+  border: none;
   background-color: var(--color-accent);
   color: var(--text-on-accent);
+  font-weight: 700;
+  cursor: pointer;
 }
 
-.btn-edit:hover {
+.btn-primary:hover {
   background-color: var(--color-accent-hover);
 }
 
-.btn-delete {
+.btn-ghost {
+  padding: 0.65rem 1.15rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-danger {
+  padding: 0.65rem 1.15rem;
+  border-radius: 6px;
+  border: 1px solid var(--text-error);
   background-color: transparent;
   color: var(--text-error);
-  border: 1px solid var(--text-error);
+  font-weight: 600;
+  cursor: pointer;
 }
 
-.btn-delete:hover {
-  background-color: rgba(255, 107, 107, 0.15);
-}
-
-.btn-back {
+.edit-wrapper {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-color);
   background-color: transparent;
-  color: var(--text-secondary);
-  border: 1px solid var(--border-color);
-}
-
-.btn-back:hover {
-  color: var(--text-primary);
-  border-color: var(--text-primary);
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.loading {
-  color: var(--text-secondary);
-  text-align: center;
-  padding: 2rem;
 }

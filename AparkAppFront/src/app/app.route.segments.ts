@@ -8,6 +8,7 @@ export const ROUTE_SEGMENTS= {
     vehicleNew: 'new',
     vehicleEdit: 'edit',
     vehicleForm: 'form',
+    spots: 'spots',
 } as const;
 
 export const ROUTE_COMMANDS = {

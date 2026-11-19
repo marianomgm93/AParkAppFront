@@ -1,0 +1,43 @@
+<section class="details-page">
+  @if (spot(); as currentSpot) {
+    <div class="details-card">
+      <div class="details-top">
+        <div>
+          <h2 class="details-title">{{ currentSpot.name }} (#{{ currentSpot.number }})</h2>
+          <p class="details-status">
+            Estado actual:
+            <strong [class.error-text]="currentSpot.status === 'OCCUPIED'">
+              {{ currentSpot.status === 'FREE' ? 'Libre' : 'Ocupado' }}
+            </strong>
+            · {{ currentSpot.active ? 'Habilitado' : 'Inhabilitado' }}
+          </p>
+        </div>
+        <a routerLink="/parking-lot" class="back-link">Volver</a>
+      </div>
+
+      <div class="details-actions">
+        @if (currentSpot.status === 'FREE') {
+          <button type="button" class="btn-primary" (click)="onOccupy()">Marcar Ocupado</button>
+        } @else {
+          <button type="button" class="btn-primary" (click)="onRelease()">Liberar Espacio</button>
+        }
+
+        <button type="button" class="btn-ghost" (click)="toggleEdit()">
+          {{ isEditing() ? 'Cerrar Edición' : 'Editar' }}
+        </button>
+
+        <button type="button" class="btn-danger" (click)="onDelete()">Eliminar</button>
+      </div>
+
+      @if (isEditing()) {
+        <div class="edit-wrapper">
+          <app-spot-form
+            [parkingLotId]="currentSpot.parkingLotId"
+            [editingSpot]="currentSpot"
+            (editedSpot)="onEdit($event)"
+            (cancelEdit)="toggleEdit()" />
+        </div>
+      }
+    </div>
+  }
+</section>
