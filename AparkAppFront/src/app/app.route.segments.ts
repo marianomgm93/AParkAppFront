@@ -7,7 +7,11 @@ export const ROUTE_SEGMENTS= {
     login: 'login',
     signup: 'register',
     userList: 'user-list',
-    offers: 'offer-list',
+    offer: 'offer',
+   // offers: 'offer-list',
+    offerDetail: 'offer-detail',
+    offerList: 'offer-list',
+    offerCreate: 'offer-create',
     reservation: 'reservation',
     reservations: 'reservation-list',
 
@@ -18,6 +22,8 @@ export const ROUTE_COMMANDS = {
     login: [`/${ROUTE_SEGMENTS.auth}/${ROUTE_SEGMENTS.login}`],
     signup: [`/${ROUTE_SEGMENTS.auth}/${ROUTE_SEGMENTS.signup}`],
     userList: [`/${ROUTE_SEGMENTS.users}/${ROUTE_SEGMENTS.userList}`],
-    offers: [`/${ROUTE_SEGMENTS.offers}`],
+    offerList: [`/${ROUTE_SEGMENTS.offer}/${ROUTE_SEGMENTS.offerList}`],
+    offerDetail: [`/${ROUTE_SEGMENTS.offer}/${ROUTE_SEGMENTS.offerDetail}`],
+    offerCreate: [`/${ROUTE_SEGMENTS.offer}/${ROUTE_SEGMENTS.offerCreate}`],
     reservations: [`/${ROUTE_SEGMENTS.reservations}`],
 }as const;

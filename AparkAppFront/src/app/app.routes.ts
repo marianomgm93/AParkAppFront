@@ -8,7 +8,7 @@ export const routes: Routes = [
     loadComponent: () => import('./home/home'),
   },
   {
-    path: ROUTE_SEGMENTS.offers,
+    path: ROUTE_SEGMENTS.offer,
     loadComponent: () => import('./offer/ui/offer-layout/offer-layout'),
     loadChildren: () => import('./offer/offer.routes'),
   },

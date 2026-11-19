@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
+import { ROUTE_SEGMENTS } from '../app.route.segments';
 const offerRoutes: Routes = [
   {
-    path: '',
+    path: ROUTE_SEGMENTS.offerList,
     loadComponent: () => import('./features/offer-list/offer-list'),
   },
   {
-    path: 'new',
+    path: ROUTE_SEGMENTS.offerCreate,
     loadComponent: () => import('./features/offer-form/offer-form'),
   },
 ];
