@@ -1,0 +1,22 @@
+@let items = reservations();
+<section class="reservation-list">
+  <h2>Gestión de Reservas</h2>
+  <ul>
+    @for (res of items; track res.id) {
+      <li class="reservation-container">
+        <div class="reservation-info">
+          <p><strong>{{ res.userName || 'Usuario sin nombre' }}</strong> — Patente: <strong>{{ res.vehiclePlate || 'S/D' }}</strong></p>
+          <small>Estado: {{ res.status }} | Inicio: {{ res.startTime | date:'short' }}</small>
+        </div>
+        @if (res.status === 'RESERVED') {
+          <button (click)="onCheckIn(res.id)">Check-in</button>
+        }
+        @if (res.status === 'CHECKED_IN') {
+          <button (click)="onCheckOut(res.id)">Check-out</button>
+        }
+      </li>
+    } @empty {
+      <li class="empty-state">No existen reservas registradas.</li>
+    }
+  </ul>
+</section>
