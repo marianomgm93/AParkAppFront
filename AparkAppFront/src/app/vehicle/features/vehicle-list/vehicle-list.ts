@@ -1,83 +1,57 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { VehicleService } from '../../data-access/vehicle-service';
-import { VehicleDTO } from '../../data-access/vehicle-model';
+import { VehicleModel } from '../../data-access/vehicle-model';
+import { AuthService } from '../../../auth/auth-service';
 
 @Component({
+  imports: [CommonModule],
   selector: 'app-vehicle-list',
-  imports: [CommonModule, RouterModule, FormsModule],
+  styleUrl: './vehicle-list.css',
   templateUrl: './vehicle-list.html',
-  styleUrl: './vehicle-list.css'
 })
-export default class VehicleListComponent implements OnInit {
-  private readonly vehicleService = inject(VehicleService);
+export default class VehicleList implements OnInit {
+  private readonly service = inject(VehicleService);
+  protected readonly authService = inject(AuthService);
+  protected readonly router = inject(Router);
 
-  vehicles = signal<VehicleDTO[]>([]);
-  searchTerm = signal<string>('');
-  isLoading = signal<boolean>(false);
-  errorMessage = signal<string | null>(null);
+  private readonly vehicles = signal<VehicleModel[]>([]);
 
-  ngOnInit(): void {
+  readonly userRole = this.authService.userRole;
+  readonly isAdmin = computed(() => this.userRole() === 'ROLE_ADMIN');
+  readonly isOwner = computed(() => this.userRole() === 'ROLE_OWNER');
+
+  readonly sortedVehicles = computed(() =>
+    [...this.vehicles()].sort((a, b) => a.plate.localeCompare(b.plate))
+  );
+
+  ngOnInit() {
     this.loadVehicles();
   }
 
-  loadVehicles(): void {
-    this.isLoading.set(true);
-    this.errorMessage.set(null);
-
-    this.vehicleService.getAll().subscribe({
-      next: (data) => {
-        this.vehicles.set(data);
-        this.isLoading.set(false);
-      },
-      error: (err) => {
-        console.error('Error al cargar vehículos:', err);
-        this.errorMessage.set(
-          err.status === 403 || err.status === 401
-            ? 'No tienes permisos o necesitas iniciar sesión para ver los vehículos.'
-            : 'Error al conectar con el servidor. Verifica que el backend esté corriendo.'
-        );
-        this.isLoading.set(false);
-      }
+  loadVehicles() {
+    this.service.getAllVehicles().subscribe({
+      next: (list) => this.vehicles.set(list),
+      error: (err) => console.error('Error al cargar vehículos:', err),
     });
   }
 
-  filteredVehicles(): VehicleDTO[] {
-    const term = this.searchTerm().trim().toLowerCase();
-    if (!term) return this.vehicles();
-
-    return this.vehicles().filter(v =>
-      v.plate.toLowerCase().includes(term) ||
-      v.brand.toLowerCase().includes(term) ||
-      v.model.toLowerCase().includes(term) ||
-      v.vehicleType.toLowerCase().includes(term)
-    );
+  viewDetail(id: string) {
+    this.router.navigate(['/vehicle/vehicle-detail', id]);
   }
 
-  deleteVehicle(id: string, plate: string): void {
-    if (confirm(`¿Estás seguro de que deseas eliminar el vehículo con patente "${plate}"?`)) {
-      this.vehicleService.delete(id).subscribe({
-        next: () => {
-          this.vehicles.update(list => list.filter(v => v.id !== id));
-        },
-        error: (err) => {
-          console.error('Error al eliminar vehículo:', err);
-          alert('No se pudo eliminar el vehículo. ' + (err.error?.message || 'Intente nuevamente.'));
-        }
-      });
-    }
+  edit(id: string) {
+    this.router.navigate(['/vehicle/vehicle-form', id]);
   }
 
-  getTypeLabel(type: string): string {
-    const map: Record<string, string> = {
-      Car: 'Auto',
-      MotorCycle: 'Moto',
-      Truck: 'Camión',
-      SUV: 'SUV',
-      Custom: 'Especial'
-    };
-    return map[type] || type;
+  delete(vehicle: VehicleModel) {
+    if (!confirm(`¿Eliminar el vehículo "${vehicle.plate}" (${vehicle.brand} ${vehicle.model})?`)) return;
+    this.service.deleteVehicle(vehicle.id).subscribe({
+      next: () =>
+        this.vehicles.update((list) => list.filter((v) => v.id !== vehicle.id)),
+      error: (err) =>
+        alert('Error al eliminar: ' + (err?.error?.message || err?.message)),
+    });
   }
 }

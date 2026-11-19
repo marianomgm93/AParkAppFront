@@ -35,14 +35,5 @@ export const routes: Routes = [
     path: 'parking-lot',
     loadChildren: () => import('./parking-lot/parking-lot.routes'),
   },
-<<<<<<< HEAD
-  {
-    path: ROUTE_SEGMENTS.vehicles,
-    loadComponent: () => import('./vehicle/ui/vehicle-layout/vehicle-layout'),
-    loadChildren: () => import('./vehicle/vehicle.routes')
-  },
-=======
-
->>>>>>> origin/develop
   { path: '**', redirectTo: '/' },
 ];

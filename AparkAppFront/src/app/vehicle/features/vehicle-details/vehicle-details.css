@@ -1,0 +1,150 @@
+.loading-msg,
+.error-msg {
+  font-style: italic;
+  color: var(--text-secondary);
+  padding: 2rem;
+  text-align: center;
+}
+
+.error-msg {
+  color: var(--text-error);
+}
+
+.detail-wrapper {
+  background-color: var(--bg-secondary);
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.detail-header h2 {
+  color: var(--color-accent);
+  margin: 0;
+  font-size: 1.3rem;
+  letter-spacing: 0.05em;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.detail-card {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.detail-card--wide {
+  grid-column: 1 / -1;
+}
+
+.detail-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.detail-value {
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.detail-value.plate {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.detail-value.small {
+  font-size: 0.82rem;
+  word-break: break-all;
+}
+
+.type-badge {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  background-color: var(--color-accent-subtle);
+  color: var(--text-primary);
+  align-self: flex-start;
+}
+
+button {
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.edit-btn {
+  background-color: var(--color-accent-subtle);
+  color: var(--text-primary);
+}
+
+.edit-btn:hover {
+  background-color: var(--color-accent);
+  color: var(--text-on-accent);
+}
+
+.del-btn {
+  background-color: #c62828;
+  color: #ffffff;
+}
+
+.del-btn:hover {
+  background-color: #d32f2f;
+}
+
+.back-btn {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.back-btn:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+@media (max-width: 600px) {
+  .detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

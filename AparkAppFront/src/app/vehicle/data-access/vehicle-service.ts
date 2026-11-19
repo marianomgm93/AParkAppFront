@@ -1,32 +1,30 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { NewVehicleDTO, VehicleDTO} from './vehicle-model'
+import { inject, Service } from '@angular/core';
+import { VehicleModel, NewVehicleRequest } from './vehicle-model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Service()
 export class VehicleService {
+
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'http://localhost:8080/vehicles';
+  private readonly baseUrl = 'http://localhost:8080/vehicles';
 
-  getAll(): Observable<VehicleDTO[]> {
-    return this.http.get<VehicleDTO[]>(this.apiUrl);
+  getAllVehicles() {
+    return this.http.get<VehicleModel[]>(this.baseUrl);
   }
 
-  getById(id: string): Observable<VehicleDTO> {
-    return this.http.get<VehicleDTO>(`${this.apiUrl}/${id}`);
+  getVehicleById(id: string) {
+    return this.http.get<VehicleModel>(`${this.baseUrl}/${id}`);
   }
 
-  create(vehicle: NewVehicleDTO): Observable<VehicleDTO> {
-    return this.http.post<VehicleDTO>(this.apiUrl, vehicle);
+  createVehicle(request: NewVehicleRequest) {
+    return this.http.post<VehicleModel>(this.baseUrl, request);
   }
 
-  update(id: string, vehicle: NewVehicleDTO): Observable<VehicleDTO> {
-    return this.http.put<VehicleDTO>(`${this.apiUrl}/${id}`, vehicle);
+  updateVehicle(id: string, request: NewVehicleRequest) {
+    return this.http.put<VehicleModel>(`${this.baseUrl}/${id}`, request);
   }
 
-  delete(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteVehicle(id: string) {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

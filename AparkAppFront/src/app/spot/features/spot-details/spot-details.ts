@@ -1,83 +1,72 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
-import { SpotService } from '../../data-access/spot-client';
-import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-import { Spot } from '../../data-access/spot-model';
-import { firstValueFrom } from 'rxjs';
-import { SpotForm } from '../spot-form/spot-form';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ParkingSpotService } from '../../data-access/spot-client';
+import { ParkingSpotModel } from '../../data-access/spot-model';
+import { firstValueFrom } from 'rxjs';
+import { AuthService } from '../../../auth/auth-service';
 
 @Component({
-  imports: [CommonModule, SpotForm, RouterLink],
-  selector: 'app-spot-details',
+  imports: [CommonModule],
+  selector: 'app-parking-spot-detail',
   styleUrl: './spot-details.css',
   templateUrl: './spot-details.html',
 })
-export class SpotDetails implements OnInit {
-  
+export default class ParkingSpotDetail implements OnInit {
+  private readonly service = inject(ParkingSpotService);
+  protected readonly authService = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
-  private readonly client = inject(SpotService);
   private readonly router = inject(Router);
 
-  private readonly id = this.route.snapshot.paramMap.get('id');
-  protected readonly spot = signal<Spot | null>(null);
-  protected readonly isEditing = signal(false);
+  readonly spot = signal<ParkingSpotModel | undefined>(undefined);
+  readonly loading = signal(true);
+  readonly error = signal<string | undefined>(undefined);
+
+  readonly userRole = this.authService.userRole;
+  readonly isAdmin = computed(() => this.userRole() === 'ROLE_ADMIN');
+  readonly isOwner = computed(() => this.userRole() === 'ROLE_OWNER');
 
   async ngOnInit() {
-    if (this.id) {
-      try {
-        const foundSpot = await firstValueFrom(this.client.getSpotById(this.id));
-        this.spot.set(foundSpot);
-      } catch {
-        alert('No se pudo cargar el espacio');
-        this.router.navigate(['/parking-lot']);
-      }
-    } else {
-      alert('No se encontró el identificador del espacio');
-      this.router.navigate(['/parking-lot']);
+    const id = this.route.snapshot.paramMap.get('id');
+    if (!id) {
+      this.error.set('ID no encontrado.');
+      this.loading.set(false);
+      return;
     }
-  }
-
-  async onOccupy() {
-    const current = this.spot();
-    if (!current) return;
     try {
-      await firstValueFrom(this.client.occupySpot(current.id));
-      const refreshed = await firstValueFrom(this.client.getSpotById(current.id));
-      this.spot.set(refreshed);
-    } catch {
-      alert('No se pudo marcar el espacio como ocupado');
+      const data = await firstValueFrom(this.service.getParkingSpotById(id));
+      this.spot.set(data);
+    } catch (e: any) {
+      this.error.set('No se pudo cargar el lugar de estacionamiento.');
+    } finally {
+      this.loading.set(false);
     }
   }
 
-  async onRelease() {
-    const current = this.spot();
-    if (!current) return;
-    try {
-      await firstValueFrom(this.client.releaseSpot(current.id));
-      const refreshed = await firstValueFrom(this.client.getSpotById(current.id));
-      this.spot.set(refreshed);
-    } catch {
-      alert('No se pudo liberar el espacio');
-    }
+  occupySpot() {
+    const s = this.spot();
+    if (!s || !confirm(`¿Marcar "${s.name}" como OCUPADO?`)) return;
+    this.service.occupyParkingSpot(s.id).subscribe({
+      next: () => this.spot.update((sp) => sp ? { ...sp, status: 'OCCUPIED' } : sp),
+      error: (err) => alert('Error: ' + (err?.error?.message || err?.message)),
+    });
   }
 
-  async onDelete() {
-    if (!confirm('¿Desea borrar este espacio?') || !this.id) return;
-    try {
-      await firstValueFrom(this.client.deleteSpot(this.id));
-      alert('Espacio eliminado con éxito');
-      this.router.navigate(['/parking-lot']);
-    } catch {
-      alert('Error al eliminar el espacio');
-    }
+  releaseSpot() {
+    const s = this.spot();
+    if (!s || !confirm(`¿Liberar el lugar "${s.name}"?`)) return;
+    this.service.releaseParkingSpot(s.id).subscribe({
+      next: () => this.spot.update((sp) => sp ? { ...sp, status: 'FREE' } : sp),
+      error: (err) => alert('Error: ' + (err?.error?.message || err?.message)),
+    });
   }
 
-  onEdit(updatedSpot: Spot) {
-    this.spot.set(updatedSpot);
-    this.isEditing.set(false);
+  goBack() {
+    this.router.navigate(['/parking-spot/parking-spot-list']);
   }
 
-  toggleEdit() {
-    this.isEditing.update(value => !value);
+  goEdit() {
+    const s = this.spot();
+    if (s) this.router.navigate(['/parking-spot/parking-spot-form', s.id]);
   }
 }

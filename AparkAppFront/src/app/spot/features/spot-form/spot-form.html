@@ -1,42 +1,41 @@
-<div class="form-card">
-  <h2 class="form-title">
-    {{ isEditing() ? 'Editar Espacio' : 'Nuevo Espacio' }}
-  </h2>
+<form [formRoot]="spotForm">
+  <div>
+    <label for="name">Nombre</label>
+    <input id="name" type="text" [formField]="spotForm.name" />
+    @if (spotForm.name().touched() && spotForm.name().invalid()) {
+      <small>{{ spotForm.name().errors()[0]?.message }}</small>
+    }
+  </div>
 
-  <form [formRoot]="spotForm" class="spot-form">
-    <div class="field-group">
-      <label for="spotName">Nombre:</label>
-      <input
-        id="spotName"
-        type="text"
-        [formField]="spotForm.name"
-        placeholder="Ej. Fila A - Lugar 1" />
-    </div>
+  <div>
+    <label for="parkingLotId">Estacionamiento</label>
+    <select id="parkingLotId" [formField]="spotForm.parkingLotId">
+      <option value="">Seleccione un estacionamiento</option>
+      @for (lot of parkingLots(); track lot.id) {
+        <option [value]="lot.id">{{ lot.name }}</option>
+      }
+    </select>
+    @if (spotForm.parkingLotId().touched() && spotForm.parkingLotId().invalid()) {
+      <small>{{ spotForm.parkingLotId().errors()[0]?.message }}</small>
+    }
+  </div>
 
-    <div class="field-group">
-      <label for="spotNumber">Número de espacio:</label>
-      <input
-        id="spotNumber"
-        type="number"
-        min="1"
-        [formField]="spotForm.number" />
-    </div>
+  <div>
+    <label for="number">Número</label>
+    <input id="number" type="number" [formField]="spotForm.number" />
+    @if (spotForm.number().touched() && spotForm.number().invalid()) {
+      <small>{{ spotForm.number().errors()[0]?.message }}</small>
+    }
+  </div>
 
-    <div class="checkbox-row">
-      <input
-        id="spotActive"
-        type="checkbox"
-        [formField]="spotForm.active" />
-      <label for="spotActive">Espacio habilitado (activo)</label>
-    </div>
+  <div>
+    <label>
+      <input type="checkbox" [formField]="spotForm.active" />
+      Activo
+    </label>
+  </div>
 
-    <div class="form-actions">
-      <button type="button" class="btn-cancel" (click)="onCancel()">
-        Cancelar
-      </button>
-      <button type="submit" class="btn-submit">
-        {{ isEditing() ? 'Guardar Cambios' : 'Crear Espacio' }}
-      </button>
-    </div>
-  </form>
-</div>
+  <button type="submit" [disabled]="spotForm().submitting()">
+    {{ isEditing() ? 'Guardar cambios' : 'Crear lugar' }}
+  </button>
+</form>

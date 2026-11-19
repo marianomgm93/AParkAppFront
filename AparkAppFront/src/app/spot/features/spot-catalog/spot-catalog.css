@@ -1,136 +1,204 @@
-.spot-page {
-  display: flex;
-  justify-content: center;
-  padding: 2.5rem 1rem;
-  background-color: var(--bg-primary);
-}
-
-.spot-card {
-  width: 100%;
-  max-width: 820px;
+.list-wrapper {
   background-color: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  padding: 2rem;
   border-radius: 8px;
-  padding: 1.75rem;
-}
-
-.spot-header {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.spot-title {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  background-color: transparent;
-}
-
-.spot-subtitle {
-  margin-top: 0.25rem;
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  background-color: transparent;
-}
-
-.sort-actions {
-  display: flex;
-  gap: 0.65rem;
-  background-color: transparent;
-}
-
-.btn-secondary {
-  padding: 0.55rem 0.95rem;
-  border-radius: 6px;
   border: 1px solid var(--border-color);
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.btn-secondary:hover {
-  border-color: var(--color-accent);
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
-.btn-secondary.active {
+.list-header h2 {
+  color: var(--color-accent);
+  margin: 0;
+}
+
+.new-btn {
   background-color: var(--color-accent);
   color: var(--text-on-accent);
-  border-color: var(--color-accent);
-}
-
-.spot-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
-  background-color: transparent;
-}
-
-.spot-item {
-  background-color: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 6px;
-  padding: 1rem;
-  cursor: pointer;
-  transition: border-color 0.15s ease;
-}
-
-.spot-item:hover {
-  border-color: var(--border-focus);
-}
-
-.spot-item-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.6rem;
-  background-color: transparent;
-}
-
-.spot-number {
-  font-weight: 700;
-  color: var(--color-accent);
-  background-color: transparent;
-}
-
-.spot-badge {
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 0.2rem 0.55rem;
+  border: none;
+  padding: 0.5rem 1rem;
   border-radius: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.spot-badge.is-free {
-  background-color: var(--color-accent-subtle);
+.new-btn:hover {
+  background-color: var(--color-accent-hover);
+}
+
+.empty-msg {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.spot-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+}
+
+.spot-table thead th {
+  text-align: left;
+  padding: 0.75rem 0.5rem;
+  border-bottom: 2px solid var(--border-color);
   color: var(--color-accent);
+  font-weight: 600;
 }
 
-.spot-badge.is-occupied {
-  background-color: rgba(255, 107, 107, 0.15);
-  color: var(--text-error);
+.spot-table tbody tr {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.spot-table tbody td {
+  padding: 0.75rem 0.5rem;
+  vertical-align: middle;
 }
 
 .spot-name {
-  font-size: 1rem;
-  color: var(--text-primary);
-  margin-bottom: 0.35rem;
-  background-color: transparent;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--color-accent);
+  text-decoration: underline;
 }
 
-.spot-meta {
+.spot-name:hover {
+  opacity: 0.8;
+}
+
+/* ── Badges ── */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.badge.free {
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+
+.badge.occupied {
+  background-color: #c62828;
+  color: #ffffff;
+}
+
+.badge.active {
+  background-color: #1565c0;
+  color: #ffffff;
+}
+
+.badge.inactive {
+  background-color: #555555;
+  color: #cccccc;
+}
+
+/* ── Actions ── */
+.actions-col {
+  width: 240px;
+}
+
+.actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+button {
+  cursor: pointer;
   font-size: 0.82rem;
-  color: var(--text-secondary);
-  background-color: transparent;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  border: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  white-space: nowrap;
 }
 
-.empty-state {
-  text-align: center;
-  color: var(--text-secondary);
-  padding: 1.5rem 0;
-  background-color: transparent;
+.edit-btn {
+  background-color: var(--color-accent-subtle);
+  color: var(--text-primary);
+}
+
+.edit-btn:hover {
+  background-color: var(--color-accent);
+  color: var(--text-on-accent);
+}
+
+.occupy-btn {
+  background-color: #e65100;
+  color: #ffffff;
+}
+
+.occupy-btn:hover {
+  background-color: #bf360c;
+}
+
+.release-btn {
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+
+.release-btn:hover {
+  background-color: #388e3c;
+}
+
+.del-btn {
+  background-color: #c62828;
+  color: #ffffff;
+}
+
+.del-btn:hover {
+  background-color: #d32f2f;
+}
+
+.activate-btn {
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+
+.activate-btn:hover {
+  background-color: #388e3c;
+}
+
+@media (max-width: 700px) {
+  .spot-table,
+  .spot-table thead,
+  .spot-table tbody,
+  .spot-table tr,
+  .spot-table td,
+  .spot-table th {
+    display: block;
+  }
+
+  .spot-table tr {
+    margin-bottom: 1rem;
+  }
+
+  .spot-table td,
+  .spot-table th {
+    padding: 0.4rem 0;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .list-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
 }

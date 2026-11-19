@@ -1,53 +1,46 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Spot, SpotFormModel } from './spot-model';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class SpotService {
+import { HttpClient } from '@angular/common/http';
+import { inject, Service } from '@angular/core';
+import { ParkingSpotModel, ParkingSpotRequest } from '../data-access/spot-model';
+@Service()
+export class ParkingSpotService {
   private readonly http = inject(HttpClient);
+  private readonly baseUrl = 'http://localhost:8080/parkingspots';
 
-  private readonly apiUrl = 'http://localhost:8080/parkingspots';
-
-  getAllSpots() {
-    return this.http.get<Spot[]>(this.apiUrl);
+  getAllParkingSpots() {
+    return this.http.get<ParkingSpotModel[]>(this.baseUrl);
   }
 
-  getSpotById(id: string) {
-    return this.http.get<Spot>(`${this.apiUrl}/${id}`);
+  getParkingSpotById(id: string) {
+    return this.http.get<ParkingSpotModel>(`${this.baseUrl}/${id}`);
   }
 
-  addSpot(data: SpotFormModel) {
-    return this.http.post<Spot>(this.apiUrl, data);
+  createParkingSpot(request: ParkingSpotRequest) {
+    return this.http.post<ParkingSpotModel>(this.baseUrl, request);
   }
 
-  updateSpot(id: string, data: SpotFormModel) {
-    return this.http.put<Spot>(`${this.apiUrl}/${id}`, data);
+  updateParkingSpot(id: string, request: ParkingSpotRequest) {
+    return this.http.put<ParkingSpotModel>(`${this.baseUrl}/${id}`, request);
   }
 
-  deleteSpot(id: string) {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  deleteParkingSpot(id: string) {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  restoreSpot(id: string) {
-    return this.http.patch<void>(`${this.apiUrl}/${id}/restore`, {});
+  restoreParkingSpot(id: string) {
+    return this.http.patch<void>(`${this.baseUrl}/${id}/restore`, {});
   }
 
-  occupySpot(id: string) {
-    return this.http.patch<void>(`${this.apiUrl}/${id}/occupy`, {});
+  occupyParkingSpot(id: string) {
+    return this.http.patch<void>(`${this.baseUrl}/${id}/occupy`, {});
   }
 
-  releaseSpot(id: string) {
-    return this.http.patch<void>(`${this.apiUrl}/${id}/release`, {});
+  releaseParkingSpot(id: string) {
+    return this.http.patch<void>(`${this.baseUrl}/${id}/release`, {});
   }
-
+  
   getAvailableSpots(parkingLotId: string, startTime: string, endTime: string) {
-    const params = new HttpParams()
-      .set('parkingLotId', parkingLotId)
-      .set('startTime', startTime)
-      .set('endTime', endTime);
-
-    return this.http.get<Spot[]>(`${this.apiUrl}/available`, { params });
+    return this.http.get<ParkingSpotModel[]>(`${this.baseUrl}/available`, {
+      params: { parkingLotId, startTime, endTime },
+    });
   }
 }

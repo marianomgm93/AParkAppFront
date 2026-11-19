@@ -1,43 +1,61 @@
-<section class="details-page">
-  @if (spot(); as currentSpot) {
-    <div class="details-card">
-      <div class="details-top">
-        <div>
-          <h2 class="details-title">{{ currentSpot.name }} (#{{ currentSpot.number }})</h2>
-          <p class="details-status">
-            Estado actual:
-            <strong [class.error-text]="currentSpot.status === 'OCCUPIED'">
-              {{ currentSpot.status === 'FREE' ? 'Libre' : 'Ocupado' }}
-            </strong>
-            · {{ currentSpot.active ? 'Habilitado' : 'Inhabilitado' }}
-          </p>
-        </div>
-        <a routerLink="/parking-lot" class="back-link">Volver</a>
-      </div>
+@if (loading()) {
+  <p class="loading-msg">Cargando detalle del lugar de estacionamiento...</p>
+} @else if (error()) {
+  <p class="error-msg">{{ error() }}</p>
+} @else if (spot(); as s) {
+  <div class="detail-wrapper">
+    <div class="detail-header">
+      <h2>{{ s.name }}</h2>
 
-      <div class="details-actions">
-        @if (currentSpot.status === 'FREE') {
-          <button type="button" class="btn-primary" (click)="onOccupy()">Marcar Ocupado</button>
-        } @else {
-          <button type="button" class="btn-primary" (click)="onRelease()">Liberar Espacio</button>
+      <div class="header-actions">
+        @if (isAdmin() || isOwner()) {
+          <button type="button" class="edit-btn" (click)="goEdit()">
+            Editar
+          </button>
         }
-
-        <button type="button" class="btn-ghost" (click)="toggleEdit()">
-          {{ isEditing() ? 'Cerrar Edición' : 'Editar' }}
+        <button type="button" class="back-btn" (click)="goBack()">
+          Volver
         </button>
+      </div>
+    </div>
 
-        <button type="button" class="btn-danger" (click)="onDelete()">Eliminar</button>
+    <div class="detail-grid">
+      <div class="detail-card">
+        <span class="detail-label">Número</span>
+        <span class="detail-value">#{{ s.number }}</span>
       </div>
 
-      @if (isEditing()) {
-        <div class="edit-wrapper">
-          <app-spot-form
-            [parkingLotId]="currentSpot.parkingLotId"
-            [editingSpot]="currentSpot"
-            (editedSpot)="onEdit($event)"
-            (cancelEdit)="toggleEdit()" />
-        </div>
-      }
+      <div class="detail-card">
+        <span class="detail-label">Ocupación</span>
+        @if (s.status === 'OCCUPIED') {
+          <span class="badge occupied">Ocupado</span>
+        } @else {
+          <span class="badge free">Libre</span>
+        }
+      </div>
+
+      <div class="detail-card">
+        <span class="detail-label">Estado</span>
+        @if (s.active) {
+          <span class="badge active">Activo</span>
+        } @else {
+          <span class="badge inactive">Inactivo</span>
+        }
+      </div>
     </div>
-  }
-</section>
+
+    @if ((isAdmin() || isOwner()) && s.active) {
+      <div class="status-actions">
+        @if (s.status === 'OCCUPIED') {
+          <button type="button" class="release-btn" (click)="releaseSpot()">
+            Liberar lugar
+          </button>
+        } @else {
+          <button type="button" class="occupy-btn" (click)="occupySpot()">
+            Marcar ocupado
+          </button>
+        }
+      </div>
+    }
+  </div>
+}

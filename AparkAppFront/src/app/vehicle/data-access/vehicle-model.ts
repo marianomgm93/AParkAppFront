@@ -1,22 +1,25 @@
+// Refleja VehicleTypeEnum del backend
 export type VehicleTypeEnum = 'Car' | 'MotorCycle' | 'Truck' | 'SUV' | 'Custom';
 
-export interface VehicleDTO {
-  id: string; // UUID generado por el backend
+export interface VehicleModel {
+  id: string;
   plate: string;
-  brand: string;
   model: string;
   color: string;
   note?: string;
-  userId: string; // UUID del propietario
+  brand: string;
+  userId: string;
   vehicleType: VehicleTypeEnum;
 }
 
-export interface NewVehicleDTO {
+export interface NewVehicleRequest {
   plate: string;
-  userId: string; // UUID
-  brand: string;
+  userId: string;
   model: string;
   color: string;
   note?: string;
+  brand: string;
   vehicleType: VehicleTypeEnum;
 }
+
+export const VEHICLE_TYPES: VehicleTypeEnum[] = ['Car', 'MotorCycle', 'Truck', 'SUV', 'Custom'];
