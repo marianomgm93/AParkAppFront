@@ -1,8 +1,9 @@
-
 <h1>AParkAPP</h1>
 <nav>
+ 
   <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
   @if (isAuthenticated()) {
+    
     @if (userRole() === 'ROLE_ADMIN') {
       <a [routerLink]="commands.userList" routerLinkActive="active">Usuarios</a>
     }
@@ -12,6 +13,8 @@
         >Nuevo Estacionamiento</a
       >
     }
+    <a routerLink="/vehicle/vehicle-list" routerLinkActive="active">Vehículos</a>
+    <a routerLink="/vehicle/vehicle-form" routerLinkActive="active">Nuevo Vehículo</a>
     @if (userRole() === 'ROLE_CLIENT') {
       <a [routerLink]="commands.reservations" routerLinkActive="active">Mis Reservas</a>
     }
@@ -28,4 +31,3 @@
     <a [routerLink]="commands.login" routerLinkActive="active">Iniciar sesión</a>
   }
 </nav>
-
