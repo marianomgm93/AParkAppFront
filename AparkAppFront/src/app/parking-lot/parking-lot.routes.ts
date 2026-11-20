@@ -17,7 +17,7 @@ const parkingLotRoutes: Routes = [
   {
     path: `${ROUTE_SEGMENTS.parkingLotForm}/:id`,
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['ROLE_ADMIN'] },
+    data: { roles: ['ROLE_ADMIN', 'ROLE_OWNER'] },
     loadComponent: () => import('./features/parking-lot-form/parking-lot-form'),
   },
   {

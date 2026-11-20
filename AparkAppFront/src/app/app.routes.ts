@@ -51,14 +51,17 @@ export const routes: Routes = [
     path: ROUTE_SEGMENTS.parkingSpot,
     canActivate: [authGuard],
     loadComponent: () => import('./spot/ui/parking-spot-layout/parking-spot-layout'),
-    loadChildren: () => import('./spot/parking-spot.routes')
+    loadChildren: () => import('./spot/parking-spot.routes'),
   },
   {
     path: ROUTE_SEGMENTS.vehicle,
+    canActivate: [authGuard],
     loadComponent: () => import('./vehicle/ui/vehicle-layout/vehicle-layout'),
-    loadChildren: () => import('./vehicle/vehicle.routes'),  },
+    loadChildren: () => import('./vehicle/vehicle.routes'),
+  },
   {
     path: ROUTE_SEGMENTS.tickets,
+    canActivate: [authGuard],
     loadComponent: () => import('./ticket/ui/ticket-layout/ticket-layout'),
     loadChildren: () => import('./ticket/ticket.routes'),
   },

@@ -4,41 +4,40 @@
   border-radius: 8px;
   border: 1px solid var(--border-color);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  max-width: 960px;
-  margin: 0 auto;
+  min-width: 60vw;
+  max-height: 75vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .list-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1rem;
-}
+  margin-bottom: 1.5rem;
+  gap: 1rem;
 
-.list-header h2 {
-  color: var(--color-accent);
-  margin: 0;
+  h2 {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    margin: 0;
+  }
 }
 
 .new-btn {
   background-color: var(--color-accent);
   color: var(--text-on-accent);
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.65rem 1.25rem;
   border-radius: 4px;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s ease;
-}
 
-.new-btn:hover {
-  background-color: var(--color-accent-hover);
-}
-
-.empty-msg {
-  font-style: italic;
-  color: var(--text-secondary);
+  &:hover {
+    background-color: var(--color-accent-hover);
+  }
 }
 
 .vehicle-table {
@@ -46,123 +45,94 @@
   border-collapse: collapse;
   font-size: 0.95rem;
   color: var(--text-primary);
-}
 
-.vehicle-table thead th {
-  text-align: left;
-  padding: 0.75rem 0.5rem;
-  border-bottom: 2px solid var(--border-color);
-  color: var(--color-accent);
-  font-weight: 600;
-}
+  thead th {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 2px solid var(--border-color);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+  }
 
-.vehicle-table tbody tr {
-  border-bottom: 1px solid var(--border-color);
-}
+  tbody tr {
+    border-bottom: 1px solid var(--border-color);
+  }
 
-.vehicle-table tbody td {
-  padding: 0.75rem 0.5rem;
-  vertical-align: middle;
+  tbody td {
+    padding: 0.75rem;
+    vertical-align: middle;
+  }
 }
 
 .plate-link {
-  font-weight: 700;
+  font-weight: 600;
   color: var(--color-accent);
   cursor: pointer;
-  text-decoration: underline;
-  letter-spacing: 0.05em;
-}
+  text-decoration: none;
+  transition: color 0.2s ease;
 
-.plate-link:hover {
-  opacity: 0.8;
-}
-
-.brand-model {
-  font-weight: 500;
+  &:hover {
+    text-decoration: underline;
+    color: var(--color-accent-hover);
+  }
 }
 
 .sub-text {
-  display: block;
-  font-size: 0.8rem;
   color: var(--text-secondary);
-  margin-top: 0.1rem;
+  font-size: 0.75rem;
 }
 
 .type-badge {
   display: inline-block;
   padding: 0.2rem 0.6rem;
-  border-radius: 12px;
-  font-size: 0.78rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
   font-weight: 600;
-  background-color: var(--color-accent-subtle);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
   color: var(--text-primary);
-}
-
-.actions-col {
-  width: 160px;
 }
 
 .actions {
   display: flex;
-  gap: 0.4rem;
-}
+  gap: 0.5rem;
 
-button {
-  cursor: pointer;
-  font-size: 0.82rem;
-  padding: 0.4rem 0.6rem;
-  border-radius: 4px;
-  border: none;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-  white-space: nowrap;
-}
-
-.edit-btn {
-  background-color: var(--color-accent-subtle);
-  color: var(--text-primary);
-}
-
-.edit-btn:hover {
-  background-color: var(--color-accent);
-  color: var(--text-on-accent);
-}
-
-.del-btn {
-  background-color: #c62828;
-  color: #ffffff;
-}
-
-.del-btn:hover {
-  background-color: #d32f2f;
-}
-
-@media (max-width: 700px) {
-  .vehicle-table,
-  .vehicle-table thead,
-  .vehicle-table tbody,
-  .vehicle-table tr,
-  .vehicle-table td,
-  .vehicle-table th {
-    display: block;
+  button {
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
 
-  .vehicle-table tr {
-    margin-bottom: 1rem;
+  .edit-btn {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+
+    &:hover {
+      border-color: var(--border-focus);
+      color: var(--color-accent);
+    }
   }
 
-  .vehicle-table td,
-  .vehicle-table th {
-    padding: 0.4rem 0;
-  }
+  .del-btn {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-error);
 
-  .actions {
-    flex-direction: column;
+    &:hover {
+      border-color: var(--text-error);
+      background-color: rgba(229, 57, 53, 0.1);
+    }
   }
+}
 
-  .list-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
+.empty-msg {
+  padding: 1.5rem;
+  color: var(--text-secondary);
+  text-align: center;
 }

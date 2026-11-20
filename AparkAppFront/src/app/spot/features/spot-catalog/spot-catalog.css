@@ -106,7 +106,7 @@
         gap: 0.25rem;
         background-color: var(--bg-primary);
 
-        p {
+        p,span {
           color: var(--text-secondary);
           font-size: 1rem;
           background-color: var(--bg-primary);
