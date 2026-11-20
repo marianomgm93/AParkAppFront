@@ -97,6 +97,7 @@
         p {
           color: var(--text-secondary);
           font-style: italic;
+          background: none;
         }
       }
 
@@ -109,7 +110,7 @@
         p,span {
           color: var(--text-secondary);
           font-size: 1rem;
-          background-color: var(--bg-primary);
+          background: none;
           margin: 0;
 
           .spot-title {

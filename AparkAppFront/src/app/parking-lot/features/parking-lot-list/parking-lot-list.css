@@ -26,6 +26,7 @@
 .empty-msg {
   font-style: italic;
   color: var(--text-secondary);
+  background: none;
 }
 
 .parking-table {
