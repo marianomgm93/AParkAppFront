@@ -81,9 +81,9 @@
   align-self: flex-start;
 }
 
-.badge.free    { background-color: #2e7d32; color: #fff; }
+.badge.free { background-color: #2e7d32; color: #fff; }
 .badge.occupied { background-color: #c62828; color: #fff; }
-.badge.active  { background-color: #1565c0; color: #fff; }
+.badge.active { background-color: #1565c0; color: #fff; }
 .badge.inactive { background-color: #555; color: #ccc; }
 
 /* ── Status actions ── */

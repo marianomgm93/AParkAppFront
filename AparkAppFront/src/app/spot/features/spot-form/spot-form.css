@@ -126,6 +126,11 @@ input[type="checkbox"]:checked::after {
   background-color: transparent;
 }
 
+.empty-msg {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
 .error-message {
   color: var(--text-error);
   font-size: 0.8rem;

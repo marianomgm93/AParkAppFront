@@ -1,61 +1,74 @@
 @if (loading()) {
-  <p class="loading-msg">Cargando detalle del lugar de estacionamiento...</p>
+  <p class="loading-msg">Cargando detalle del lugar...</p>
 } @else if (error()) {
-  <p class="error-msg">{{ error() }}</p>
-} @else if (spot(); as s) {
   <div class="detail-wrapper">
+    <p class="error-msg">{{ error() }}</p>
+    <div class="status-actions">
+      <button type="button" class="back-btn" (click)="goBack()">Volver</button>
+    </div>
+  </div>
+} @else if (spot(); as s) {
+  <section class="detail-wrapper">
     <div class="detail-header">
-      <h2>{{ s.name }}</h2>
-
+      <h2>{{ s.name }} (N° {{ s.number }})</h2>
       <div class="header-actions">
-        @if (isAdmin() || isOwner()) {
-          <button type="button" class="edit-btn" (click)="goEdit()">
-            Editar
-          </button>
-        }
-        <button type="button" class="back-btn" (click)="goBack()">
-          Volver
-        </button>
+        <button type="button" class="edit-btn" (click)="goEdit()">Editar</button>
+        <button type="button" class="back-btn" (click)="goBack()">Volver</button>
       </div>
     </div>
 
     <div class="detail-grid">
       <div class="detail-card">
         <span class="detail-label">Número</span>
-        <span class="detail-value">#{{ s.number }}</span>
-      </div>
-
-      <div class="detail-card">
-        <span class="detail-label">Ocupación</span>
-        @if (s.status === 'OCCUPIED') {
-          <span class="badge occupied">Ocupado</span>
-        } @else {
-          <span class="badge free">Libre</span>
-        }
+        <span class="detail-value">{{ s.number }}</span>
       </div>
 
       <div class="detail-card">
         <span class="detail-label">Estado</span>
-        @if (s.active) {
-          <span class="badge active">Activo</span>
-        } @else {
-          <span class="badge inactive">Inactivo</span>
-        }
+        <span
+          class="badge"
+          [class.free]="s.status === 'FREE'"
+          [class.occupied]="s.status === 'OCCUPIED'"
+        >
+          {{ s.status === 'FREE' ? 'Libre' : 'Ocupado' }}
+        </span>
       </div>
+
+      <div class="detail-card">
+        <span class="detail-label">Habilitación</span>
+        <span
+          class="badge"
+          [class.active]="s.active"
+          [class.inactive]="!s.active"
+        >
+          {{ s.active ? 'Activo' : 'Inactivo' }}
+        </span>
+      </div>
+
+      @if (!isClient()) {
+        <div class="detail-card">
+          <span class="detail-label">Reserva activa</span>
+          @if (activeReservation(); as res) {
+            <span class="detail-value">
+              {{ res.status }} — {{ res.vehiclePlate ?? res.vehicleId }}
+            </span>
+          } @else {
+            <span class="detail-value">Ninguna</span>
+          }
+        </div>
+      }
     </div>
 
-    @if ((isAdmin() || isOwner()) && s.active) {
-      <div class="status-actions">
-        @if (s.status === 'OCCUPIED') {
-          <button type="button" class="release-btn" (click)="releaseSpot()">
-            Liberar lugar
-          </button>
-        } @else {
-          <button type="button" class="occupy-btn" (click)="occupySpot()">
-            Marcar ocupado
-          </button>
-        }
-      </div>
-    }
-  </div>
+    <div class="status-actions">
+      @if (s.status === 'FREE') {
+        <button type="button" class="occupy-btn" (click)="occupySpot()">
+          Marcar ocupado
+        </button>
+      } @else {
+        <button type="button" class="release-btn" (click)="releaseSpot()">
+          Liberar lugar
+        </button>
+      }
+    </div>
+  </section>
 }

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ParkingSpotService } from '../../data-access/spot-client';
 import { ParkingSpotModel } from '../../data-access/spot-model';
+import { ReservationService } from '../../../reservation/data-access/reservation.service';
+import { ReservationModel } from '../../../reservation/data-access/reservation.model';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../auth/auth-service';
 
@@ -14,17 +16,29 @@ import { AuthService } from '../../../auth/auth-service';
 })
 export default class ParkingSpotDetail implements OnInit {
   private readonly service = inject(ParkingSpotService);
+  private readonly reservationService = inject(ReservationService);
   protected readonly authService = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
   readonly spot = signal<ParkingSpotModel | undefined>(undefined);
+  readonly activeReservation = signal<ReservationModel | undefined>(undefined);
   readonly loading = signal(true);
   readonly error = signal<string | undefined>(undefined);
 
   readonly userRole = this.authService.userRole;
-  readonly isAdmin = computed(() => this.userRole() === 'ROLE_ADMIN');
-  readonly isOwner = computed(() => this.userRole() === 'ROLE_OWNER');
+  readonly isAdmin = computed(() => {
+    const role = this.userRole();
+    return role === 'ROLE_ADMIN' || role === 'ADMIN';
+  });
+  readonly isOwner = computed(() => {
+    const role = this.userRole();
+    return role === 'ROLE_OWNER' || role === 'OWNER';
+  });
+  readonly isClient = computed(() => {
+    const role = this.userRole();
+    return role === 'ROLE_CLIENT' || role === 'CLIENT';
+  });
 
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -36,10 +50,28 @@ export default class ParkingSpotDetail implements OnInit {
     try {
       const data = await firstValueFrom(this.service.getParkingSpotById(id));
       this.spot.set(data);
-    } catch (e: any) {
+      await this.loadActiveReservationForSpot(data.id);
+    } catch {
       this.error.set('No se pudo cargar el lugar de estacionamiento.');
     } finally {
       this.loading.set(false);
+    }
+  }
+
+  private async loadActiveReservationForSpot(spotId: string) {
+    if (this.isClient()) {
+      return;
+    }
+    try {
+      const all = await firstValueFrom(this.reservationService.getAll());
+      const current = all.find(
+        (r) =>
+          String(r.parkingSpotId) === String(spotId) &&
+          (r.status === 'RESERVED' || r.status === 'CHECKED_IN')
+      );
+      this.activeReservation.set(current);
+    } catch {
+      // No bloquea la vista de detalle si falla la consulta auxiliar
     }
   }
 
@@ -47,16 +79,30 @@ export default class ParkingSpotDetail implements OnInit {
     const s = this.spot();
     if (!s || !confirm(`¿Marcar "${s.name}" como OCUPADO?`)) return;
     this.service.occupyParkingSpot(s.id).subscribe({
-      next: () => this.spot.update((sp) => sp ? { ...sp, status: 'OCCUPIED' } : sp),
+      next: () =>
+        this.spot.update((sp) => (sp ? { ...sp, active: true, status: 'OCCUPIED' } : sp)),
       error: (err) => alert('Error: ' + (err?.error?.message || err?.message)),
     });
   }
 
   releaseSpot() {
     const s = this.spot();
-    if (!s || !confirm(`¿Liberar el lugar "${s.name}"?`)) return;
+    if (!s) return;
+
+    const activeRes = this.activeReservation();
+    if (activeRes?.status === 'CHECKED_IN') {
+      alert(
+        `Este lugar tiene una reserva en curso (Patente: ${activeRes.vehiclePlate ?? activeRes.vehicleId}). Realizá el check-out desde Reservas.`
+      );
+      return;
+    }
+
+    if (!confirm(`¿Liberar el lugar "${s.name}"?`)) return;
     this.service.releaseParkingSpot(s.id).subscribe({
-      next: () => this.spot.update((sp) => sp ? { ...sp, status: 'FREE' } : sp),
+      next: () => {
+        this.spot.update((sp) => (sp ? { ...sp, active: false, status: 'FREE' } : sp));
+        this.activeReservation.set(undefined);
+      },
       error: (err) => alert('Error: ' + (err?.error?.message || err?.message)),
     });
   }

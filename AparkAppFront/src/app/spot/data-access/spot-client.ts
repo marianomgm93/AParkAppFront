@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
-import { ParkingSpotModel, ParkingSpotRequest } from '../data-access/spot-model';
+import { ParkingSpotModel, ParkingSpotRequest } from './spot-model';
+
 @Service()
 export class ParkingSpotService {
   private readonly http = inject(HttpClient);
@@ -37,7 +38,7 @@ export class ParkingSpotService {
   releaseParkingSpot(id: string) {
     return this.http.patch<void>(`${this.baseUrl}/${id}/release`, {});
   }
-  
+
   getAvailableSpots(parkingLotId: string, startTime: string, endTime: string) {
     return this.http.get<ParkingSpotModel[]>(`${this.baseUrl}/available`, {
       params: { parkingLotId, startTime, endTime },

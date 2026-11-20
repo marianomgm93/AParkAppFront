@@ -1,9 +1,13 @@
-<div class="list-wrapper">
+<section class="list-wrapper">
   <div class="list-header">
-    <h2>Lugares de estacionamiento</h2>
+    <h2>Celdas de parqueo</h2>
     @if (isAdmin() || isOwner()) {
-      <button type="button" class="new-btn" (click)="edit('')">
-        + Nuevo lugar
+      <button
+        type="button"
+        class="new-btn"
+        (click)="router.navigate(['/parking-spot/parking-spot-form'])"
+      >
+        + Nuevo Lugar
       </button>
     }
   </div>
@@ -16,8 +20,11 @@
         <tr>
           <th>N°</th>
           <th>Nombre</th>
-          <th>Ocupación</th>
           <th>Estado</th>
+          <th>Activo</th>
+          @if (!isClient()) {
+            <th>Reserva activa</th>
+          }
           <th class="actions-col">Acciones</th>
         </tr>
       </thead>
@@ -31,51 +38,80 @@
               </span>
             </td>
             <td>
-              @if (spot.status === 'OCCUPIED') {
-                <span class="badge occupied">Ocupado</span>
-              } @else {
-                <span class="badge free">Libre</span>
-              }
+              <span
+                class="badge"
+                [class.free]="spot.status === 'FREE'"
+                [class.occupied]="spot.status === 'OCCUPIED'"
+              >
+                {{ spot.status === 'FREE' ? 'Libre' : 'Ocupado' }}
+              </span>
             </td>
             <td>
-              @if (spot.active) {
-                <span class="badge active">Activo</span>
-              } @else {
-                <span class="badge inactive">Inactivo</span>
-              }
+              <span
+                class="badge"
+                [class.active]="spot.active"
+                [class.inactive]="!spot.active"
+              >
+                {{ spot.active ? 'Activo' : 'Inactivo' }}
+              </span>
             </td>
-            <td class="actions-col">
-              <div class="actions">
-                @if (isAdmin() || isOwner()) {
-                  <button type="button" class="edit-btn" (click)="edit(spot.id)">
-                    Editar
-                  </button>
-
-                  @if (spot.active) {
-                    @if (spot.status === 'OCCUPIED') {
-                      <button type="button" class="release-btn" (click)="releaseSpot(spot)">
-                        Liberar
-                      </button>
-                    } @else {
-                      <button type="button" class="occupy-btn" (click)="occupySpot(spot)">
-                        Ocupar
-                      </button>
-                    }
-
-                    <button type="button" class="del-btn" (click)="toggleActive(spot)">
-                      Dar de baja
-                    </button>
-                  } @else {
-                    <button type="button" class="activate-btn" (click)="toggleActive(spot)">
-                      Dar de alta
-                    </button>
-                  }
+            @if (!isClient()) {
+              <td>
+                @if (getActiveReservation(spot.id); as activeRes) {
+                  <span class="badge occupied">
+                    {{ activeRes.status }} ({{ activeRes.vehiclePlate ?? activeRes.vehicleId }})
+                  </span>
+                } @else {
+                  <span class="empty-msg">Sin reserva</span>
                 }
-              </div>
+              </td>
+            }
+            <td class="actions">
+              <button
+                type="button"
+                class="edit-btn"
+                (click)="edit(spot.id)"
+              >
+                Editar
+              </button>
+              @if (spot.status === 'FREE') {
+                <button
+                  type="button"
+                  class="occupy-btn"
+                  (click)="occupySpot(spot)"
+                >
+                  Ocupar
+                </button>
+              } @else {
+                <button
+                  type="button"
+                  class="release-btn"
+                  (click)="releaseSpot(spot)"
+                >
+                  Liberar
+                </button>
+              }
+              @if (spot.active) {
+                <button
+                  type="button"
+                  class="del-btn"
+                  (click)="toggleActive(spot)"
+                >
+                  Dar de baja
+                </button>
+              } @else {
+                <button
+                  type="button"
+                  class="activate-btn"
+                  (click)="toggleActive(spot)"
+                >
+                  Activar
+                </button>
+              }
             </td>
           </tr>
         }
       </tbody>
     </table>
   }
-</div>
+</section>

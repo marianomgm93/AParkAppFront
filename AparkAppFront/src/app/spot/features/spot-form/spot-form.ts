@@ -68,7 +68,7 @@ export default class ParkingSpotForm implements OnInit {
             const msg =
               error?.error?.message ||
               error?.message ||
-              'Error de conexión con el servidor';
+              'Error de conexión con el servidor o número de plaza duplicado.';
             alert(`No se pudo ${this.isEditing() ? 'modificar' : 'crear'} el lugar: ${msg}`);
           }
         },
@@ -87,6 +87,11 @@ export default class ParkingSpotForm implements OnInit {
       const idParam = this.route.snapshot.paramMap.get('id');
       if (idParam) {
         await this.loadSpotForEdit(idParam);
+      } else if (this.parkingLots().length > 0) {
+        this.formModel.update((curr) => ({
+          ...curr,
+          parkingLotId: curr.parkingLotId || this.parkingLots()[0].id,
+        }));
       }
     } finally {
       this.loading.set(false);
@@ -106,9 +111,13 @@ export default class ParkingSpotForm implements OnInit {
     try {
       const spot = await firstValueFrom(this.spotService.getParkingSpotById(id));
       this.editingSpot.set(spot);
+
+      // ParkingSpotResponse del backend no incluye parkingLotId; se usa el del spot si existe o el primero disponible
+      const fallbackLotId = spot.parkingLotId ?? this.parkingLots()[0]?.id ?? '';
+
       this.formModel.set({
         name: spot.name,
-        parkingLotId: (spot as any).parkingLotId ?? '',
+        parkingLotId: fallbackLotId,
         active: spot.active,
         number: spot.number,
       });
@@ -120,7 +129,8 @@ export default class ParkingSpotForm implements OnInit {
   }
 
   private resetForm(): void {
-    this.formModel.set({ ...this.emptyRequest });
+    const defaultLotId = this.parkingLots()[0]?.id ?? '';
+    this.formModel.set({ ...this.emptyRequest, parkingLotId: defaultLotId });
     this.spotForm().reset();
   }
 }

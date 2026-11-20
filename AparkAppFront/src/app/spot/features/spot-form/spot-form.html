@@ -1,41 +1,78 @@
-<form [formRoot]="spotForm">
-  <div>
-    <label for="name">Nombre</label>
-    <input id="name" type="text" [formField]="spotForm.name" />
-    @if (spotForm.name().touched() && spotForm.name().invalid()) {
-      <small>{{ spotForm.name().errors()[0]?.message }}</small>
-    }
-  </div>
+<h2>{{ isEditing() ? 'Editar lugar de estacionamiento' : 'Nuevo lugar de estacionamiento' }}</h2>
 
-  <div>
-    <label for="parkingLotId">Estacionamiento</label>
-    <select id="parkingLotId" [formField]="spotForm.parkingLotId">
-      <option value="">Seleccione un estacionamiento</option>
-      @for (lot of parkingLots(); track lot.id) {
-        <option [value]="lot.id">{{ lot.name }}</option>
-      }
-    </select>
-    @if (spotForm.parkingLotId().touched() && spotForm.parkingLotId().invalid()) {
-      <small>{{ spotForm.parkingLotId().errors()[0]?.message }}</small>
-    }
-  </div>
+@if (loading()) {
+  <p class="empty-msg">Cargando datos...</p>
+} @else {
+  <form [formRoot]="spotForm">
+    <fieldset>
+      <legend>Datos de la celda</legend>
 
-  <div>
-    <label for="number">Número</label>
-    <input id="number" type="number" [formField]="spotForm.number" />
-    @if (spotForm.number().touched() && spotForm.number().invalid()) {
-      <small>{{ spotForm.number().errors()[0]?.message }}</small>
-    }
-  </div>
+      <div class="form-row">
+        <div class="form-control">
+          <label for="spotName">Nombre</label>
+          <input
+            id="spotName"
+            type="text"
+            placeholder="Ej: Plaza A1"
+            [formField]="spotForm.name"
+          />
+          @for (err of spotForm.name().errors(); track err.kind) {
+            <span class="error-message">{{ err.message }}</span>
+          }
+        </div>
 
-  <div>
-    <label>
-      <input type="checkbox" [formField]="spotForm.active" />
-      Activo
-    </label>
-  </div>
+        <div class="form-control form-control--small">
+          <label for="spotNumber">Número</label>
+          <input
+            id="spotNumber"
+            type="number"
+            min="1"
+            [formField]="spotForm.number"
+          />
+          @for (err of spotForm.number().errors(); track err.kind) {
+            <span class="error-message">{{ err.message }}</span>
+          }
+        </div>
+      </div>
 
-  <button type="submit" [disabled]="spotForm().submitting()">
-    {{ isEditing() ? 'Guardar cambios' : 'Crear lugar' }}
-  </button>
-</form>
+      <div class="form-control">
+        <label for="parkingLotId">Estacionamiento</label>
+        <select id="parkingLotId" [formField]="spotForm.parkingLotId">
+          <option value="">Seleccione un estacionamiento</option>
+          @for (lot of parkingLots(); track lot.id) {
+            <option [value]="lot.id">{{ lot.name }}</option>
+          }
+        </select>
+        @for (err of spotForm.parkingLotId().errors(); track err.kind) {
+          <span class="error-message">{{ err.message }}</span>
+        }
+      </div>
+
+      <div class="form-control">
+        <label for="spotActive">Estado de habilitación</label>
+        <div class="toggle-wrapper">
+          <input
+            id="spotActive"
+            type="checkbox"
+            [formField]="spotForm.active"
+          />
+          <span class="toggle-label">
+            {{ spotForm.active().value() ? 'Activo' : 'Inactivo' }}
+          </span>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="action">
+      <button type="submit" [disabled]="spotForm().invalid()">
+        {{ isEditing() ? 'Guardar cambios' : 'Crear lugar' }}
+      </button>
+      <button
+        type="button"
+        (click)="router.navigate(['/parking-spot/parking-spot-list'])"
+      >
+        Cancelar
+      </button>
+    </div>
+  </form>
+}
