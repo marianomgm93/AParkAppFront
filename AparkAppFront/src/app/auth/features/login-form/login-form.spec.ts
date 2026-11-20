@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LoginForm } from './login-form';
+import LoginForm from './login-form';
 
 describe('LoginForm', () => {
   let component: LoginForm;

@@ -15,7 +15,11 @@ export class Header {
 
   protected readonly isAuthenticated = this.authService.isAuthenticated;
   protected readonly userRole = this.authService.userRole;
-  protected readonly commands= ROUTE_COMMANDS;
+  protected readonly commands = ROUTE_COMMANDS;
+
+  goToHome() {
+    this.router.navigate(ROUTE_COMMANDS.home);
+  }
 
   logout() {
     this.authService.logout();

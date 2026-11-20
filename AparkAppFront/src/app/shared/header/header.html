@@ -1,4 +1,7 @@
-<h1>AParkAPP</h1>
+<a [routerLink]="commands.home" (click)="goToHome()" class="brand-container">
+  <img src="logo.png" alt="AParkAPP Logo" class="header-logo" />
+  <h1>AParkAPP</h1>
+</a>
 <nav>
   <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
   @if (isAuthenticated()) {
@@ -6,16 +9,17 @@
       <a [routerLink]="commands.userList" routerLinkActive="active">Usuarios</a>
     }
     <a routerLink="/parking-lot/parking-lot-list" routerLinkActive="active">Estacionamientos</a>
-    @if (userRole() === 'ROLE_ADMIN' || userRole() === 'ROLE_OWNER') {
-      <a routerLink="/parking-lot/parking-lot-form" routerLinkActive="active"
-        >Nuevo Estacionamiento</a
-      >
+    @if (userRole() === 'ROLE_ADMIN') {
+      <a routerLink="/parking-lot/parking-lot-form" routerLinkActive="active">Nuevo Estacionamiento</a>
     }
     @if (userRole() === 'ROLE_CLIENT') {
       <a [routerLink]="commands.reservations" routerLinkActive="active">Mis Reservas</a>
     }
     @if (userRole() === 'ROLE_CLIENT' || userRole() === 'ROLE_OWNER') {
       <a [routerLink]="commands.offers" routerLinkActive="active">Ofertas</a>
+    }
+    @if (userRole() === 'ROLE_OWNER' || userRole() === 'ROLE_CLIENT') {
+      <a [routerLink]="commands.tickets" routerLinkActive="active">Tickets</a>
     }
     @if (userRole() === 'ROLE_OWNER' || userRole() === 'ROLE_EMPLOYEE') {
       <a routerLink="/offer-list/new" routerLinkActive="active">Nueva Oferta</a>

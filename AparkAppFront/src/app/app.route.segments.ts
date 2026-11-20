@@ -1,6 +1,4 @@
-import ReservationDetail from "./reservation/feature/reservation-detail/reservation-detail";
-
-export const ROUTE_SEGMENTS= {
+export const ROUTE_SEGMENTS = {
     home: '',
     users: 'user',
     auth: 'auth',
@@ -10,7 +8,7 @@ export const ROUTE_SEGMENTS= {
     offers: 'offer-list',
     reservation: 'reservation',
     reservations: 'reservation-list',
-
+    tickets: 'tickets',
 } as const;
 
 export const ROUTE_COMMANDS = {
@@ -19,5 +17,6 @@ export const ROUTE_COMMANDS = {
     signup: [`/${ROUTE_SEGMENTS.auth}/${ROUTE_SEGMENTS.signup}`],
     userList: [`/${ROUTE_SEGMENTS.users}/${ROUTE_SEGMENTS.userList}`],
     offers: [`/${ROUTE_SEGMENTS.offers}`],
+    tickets: [`/${ROUTE_SEGMENTS.tickets}`],
     reservations: [`/${ROUTE_SEGMENTS.reservations}`],
-}as const;
+} as const;

@@ -142,7 +142,7 @@
         <div class="form-control">
           <label>Propietario asignado:</label>
           <input type="text" [value]="authService.currentUser()?.name ? authService.currentUser()!.name + ' (' + authService.currentUser()!.email + ')' : 'Usted (Propietario)'" disabled />
-          <small class="toggle-label">El estacionamiento quedará asociado automáticamente a su cuenta de propietario.</small>
+          <small class="toggle-label">Propietario asignado al estacionamiento.</small>
         </div>
       }
     </fieldset>

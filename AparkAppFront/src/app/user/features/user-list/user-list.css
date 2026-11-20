@@ -5,7 +5,7 @@
   border: 1px solid var(--border-color);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   min-width: 60vw;
-  max-height: 75vh;
+  max-height: 85vh;
   display: flex;
   flex-direction: column;
 
@@ -28,46 +28,181 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.75rem 1rem;
+      padding: 0.85rem 1.15rem;
       background-color: var(--bg-primary);
       border: 1px solid var(--border-color);
-      border-radius: 4px;
+      border-radius: 6px;
       color: var(--text-primary);
       transition: border-color 0.2s ease;
-      .user-info{
-        display:flex;
-        flex-direction:column;
-        gap:0.25rem;
-        background-color: var(--bg-primary);
+      gap: 1.25rem;
+
+      &.inactive {
+        opacity: 0.55;
+        border-color: #444;
       }
+
       &:hover {
         border-color: var(--border-focus);
       }
 
-      p {
+      .user-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
         background-color: var(--bg-primary);
-        color: var(--text-secondary);
-        font-size: 1rem;
-      }
-      small{
-        background-color:none;
-        color: var(--text-secondary);
-        font-size: 0.75rem;
-      }
-      button {
-        background-color: var(--color-accent);
-        color: var(--text-on-accent);
-        border: none;
-        padding: 0.875rem;
-        font-size: 1rem;
-        font-weight: 600;
-        border-radius: 4px;
-        cursor: pointer;
-        transition:
-          background-color 0.3s ease;
+        min-width: 200px;
 
-        &:hover{
-          background-color: var(--color-accent-hover);
+        .user-name-row {
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+          background-color: var(--bg-primary);
+        }
+
+        .user-name {
+          background-color: var(--bg-primary);
+          color: var(--text-primary);
+          font-size: 1.05rem;
+          font-weight: 600;
+          margin: 0;
+        }
+
+        .user-email {
+          background-color: var(--bg-primary);
+          color: var(--text-secondary);
+          font-size: 0.85rem;
+          margin: 0;
+        }
+
+        .role-badge {
+          display: inline-flex;
+          align-items: center;
+          font-size: 0.68rem;
+          font-weight: 700;
+          padding: 0.2rem 0.55rem;
+          border-radius: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          line-height: 1;
+
+          &.badge-admin {
+            background-color: rgba(142, 68, 173, 0.25);
+            color: #d1b8ff;
+            border: 1px solid rgba(142, 68, 173, 0.6);
+          }
+
+          &.badge-owner {
+            background-color: rgba(230, 126, 34, 0.25);
+            color: #f39c12;
+            border: 1px solid rgba(230, 126, 34, 0.6);
+          }
+
+          &.badge-client {
+            background-color: rgba(41, 128, 185, 0.25);
+            color: #5dade2;
+            border: 1px solid rgba(41, 128, 185, 0.6);
+          }
+        }
+
+        .badge-inactive {
+          display: inline-block;
+          font-size: 0.65rem;
+          font-weight: 700;
+          padding: 0.15rem 0.45rem;
+          border-radius: 4px;
+          background-color: #4a4a4a;
+          color: #d0d0d0;
+          text-transform: uppercase;
+          letter-spacing: 0.4px;
+          line-height: 1;
+        }
+      }
+
+      .user-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+        background-color: var(--bg-primary);
+
+        .role-switch {
+          display: inline-flex;
+          align-items: center;
+          background-color: #121316;
+          border: 1px solid var(--border-color);
+          border-radius: 20px;
+          padding: 3px;
+          gap: 3px;
+
+          .switch-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.4rem 0.85rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: inherit;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+
+            &:hover:not(.active) {
+              color: var(--text-primary);
+              background-color: rgba(255, 255, 255, 0.08);
+            }
+
+            &.active {
+              cursor: default;
+
+              &.switch-client {
+                background-color: #2980b9;
+                color: #ffffff;
+                box-shadow: 0 2px 6px rgba(41, 128, 185, 0.45);
+              }
+
+              &.switch-owner {
+                background-color: #d35400;
+                color: #ffffff;
+                box-shadow: 0 2px 6px rgba(211, 84, 0, 0.45);
+              }
+
+              &.switch-admin {
+                background-color: #8e44ad;
+                color: #ffffff;
+                box-shadow: 0 2px 6px rgba(142, 68, 173, 0.45);
+              }
+            }
+          }
+        }
+
+        .btn-status {
+          border: none;
+          padding: 0.45rem 0.95rem;
+          font-size: 0.85rem;
+          font-weight: 600;
+          font-family: inherit;
+          border-radius: 6px;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+          white-space: nowrap;
+
+          &.btn-baja {
+            background-color: #c0392b;
+            color: #fff;
+
+            &:hover {
+              background-color: #a93226;
+            }
+          }
+
+          &.btn-alta {
+            background-color: #27ae60;
+            color: #fff;
+
+            &:hover {
+              background-color: #1e8449;
+            }
+          }
         }
       }
     }

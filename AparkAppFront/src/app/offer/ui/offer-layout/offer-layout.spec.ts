@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OfferLayout } from './offer-layout';
+import OfferLayout from './offer-layout';
 
 describe('OfferLayout', () => {
   let component: OfferLayout;

@@ -3,6 +3,7 @@ export interface User {
   email: string;
   roles?: string[] | string;
   name: string;
+  active: boolean;
 }
-export type UserFormModel = Omit<User, 'id' | 'roles'>;
+export type UserFormModel = Omit<User, 'id' | 'roles' | 'active'>;
 

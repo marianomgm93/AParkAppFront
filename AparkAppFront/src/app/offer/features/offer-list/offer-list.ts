@@ -53,9 +53,16 @@ export default class OfferList implements OnInit {
     this.offerService.acquireOffer(offerId, { userId: String(userId), vehicleId }).subscribe({
       next: () => {
         alert('¡Reserva creada exitosamente!');
-        this.loadOffers(); // Refresca las ofertas activas
+        this.loadOffers();
       },
-      error: (err) => console.error('Error al reservar oferta:', err),
+      error: (err) => {
+        const message = err?.error?.message;
+        if (message) {
+          alert(message);
+        } else {
+          alert('No se puede realizar la reserva: este vehículo ya cuenta con una reserva activa.');
+        }
+      },
     });
   }
 }

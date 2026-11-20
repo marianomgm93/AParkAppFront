@@ -4,7 +4,7 @@ const parkingLotRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'parking-lot-form',
+    redirectTo: 'parking-lot-list',
   },
   {
     path: 'parking-lot-form',

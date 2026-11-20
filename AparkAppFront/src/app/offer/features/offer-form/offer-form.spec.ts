@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { OfferForm } from './offer-form';
+import OfferForm from './offer-form';
 
 describe('OfferForm', () => {
   let component: OfferForm;
