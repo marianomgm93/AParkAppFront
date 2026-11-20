@@ -12,8 +12,12 @@
     @if (userRole() === 'ROLE_ADMIN') {
       <a routerLink="/parking-lot/parking-lot-form" routerLinkActive="active">Nuevo Estacionamiento</a>
     }
-    <a routerLink="/parking-spot/parking-spot-list" routerLinkActive="active">Lugares</a>
-    <a routerLink="/vehicle/vehicle-list" routerLinkActive="active">Vehículos</a>
+    @if (userRole() !== 'ROLE_CLIENT') {
+      <a routerLink="/parking-spot/parking-spot-list" routerLinkActive="active">Lugares</a>
+    }
+    @if (userRole() === 'ROLE_CLIENT') {
+      <a routerLink="/vehicle/vehicle-list" routerLinkActive="active">Vehículos</a>
+    }
     @if (userRole() === 'ROLE_CLIENT') {
       <a [routerLink]="commands.reservations" routerLinkActive="active">Mis Reservas</a>
     }

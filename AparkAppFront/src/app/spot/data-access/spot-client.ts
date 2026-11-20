@@ -10,6 +10,10 @@ export class ParkingSpotService {
     return this.http.get<ParkingSpotModel[]>(this.baseUrl);
   }
 
+  getMyParkingSpots() {
+    return this.http.get<ParkingSpotModel[]>(`${this.baseUrl}/owner`);
+  }
+
   getParkingSpotById(id: string) {
     return this.http.get<ParkingSpotModel>(`${this.baseUrl}/${id}`);
   }

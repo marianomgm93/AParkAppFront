@@ -1,15 +1,9 @@
+<h2>{{ isEditing() ? 'Editar Lugar de Estacionamiento' : 'Nuevo Lugar de Estacionamiento' }}</h2>
+
 <form [formRoot]="spotForm">
   <div>
-    <label for="name">Nombre</label>
-    <input id="name" type="text" [formField]="spotForm.name" />
-    @if (spotForm.name().touched() && spotForm.name().invalid()) {
-      <small>{{ spotForm.name().errors()[0]?.message }}</small>
-    }
-  </div>
-
-  <div>
     <label for="parkingLotId">Estacionamiento</label>
-    <select id="parkingLotId" [formField]="spotForm.parkingLotId">
+    <select id="parkingLotId" [formField]="spotForm.parkingLotId" (change)="onParkingLotChange($event)">
       <option value="">Seleccione un estacionamiento</option>
       @for (lot of parkingLots(); track lot.id) {
         <option [value]="lot.id">{{ lot.name }}</option>
@@ -21,10 +15,23 @@
   </div>
 
   <div>
-    <label for="number">Número</label>
+    <label for="name">Nombre / Identificador</label>
+    <input id="name" type="text" [formField]="spotForm.name" placeholder="Ej: A-1, Nivel 1 - Plaza 5..." />
+    @if (spotForm.name().touched() && spotForm.name().invalid()) {
+      <small>{{ spotForm.name().errors()[0]?.message }}</small>
+    }
+  </div>
+
+  <div>
+    <label for="number">Número de lugar</label>
     <input id="number" type="number" [formField]="spotForm.number" />
     @if (spotForm.number().touched() && spotForm.number().invalid()) {
       <small>{{ spotForm.number().errors()[0]?.message }}</small>
+    }
+    @if (suggestedNumber(); as sug) {
+      <small style="display: block; margin-top: 0.25rem; color: var(--color-accent, #1565c0);">
+        Sugerencia: el próximo número disponible en este estacionamiento es el {{ sug }}.
+      </small>
     }
   </div>
 
@@ -35,7 +42,12 @@
     </label>
   </div>
 
-  <button type="submit" [disabled]="spotForm().submitting()">
-    {{ isEditing() ? 'Guardar cambios' : 'Crear lugar' }}
-  </button>
+  <div class="actions">
+    <button type="submit" [disabled]="spotForm().submitting()">
+      {{ isEditing() ? 'Guardar cambios' : 'Crear lugar' }}
+    </button>
+    <button type="button" (click)="router.navigate(['/parking-spot/parking-spot-list'])">
+      Cancelar
+    </button>
+  </div>
 </form>

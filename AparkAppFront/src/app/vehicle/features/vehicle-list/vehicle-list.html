@@ -1,9 +1,11 @@
 <section class="list-wrapper">
   <div class="list-header">
     <h2>Vehículos</h2>
-    <button class="new-btn" (click)="router.navigate(['/vehicle/vehicle-form'])">
-      + Nuevo Vehículo
-    </button>
+    @if (isClient()) {
+      <button class="new-btn" (click)="router.navigate(commands.vehicleCreate)">
+        + Nuevo Vehículo
+      </button>
+    }
   </div>
 
   @if (sortedVehicles().length === 0) {

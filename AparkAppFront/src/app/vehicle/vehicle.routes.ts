@@ -7,6 +7,8 @@ const vehicleRoutes: Routes = [
     pathMatch: 'full',
     redirectTo: 'vehicle-list',
   },
+
+  /*
   {
     path: 'vehicle-list',
     loadComponent: () => import('./features/vehicle-list/vehicle-list'),
@@ -23,20 +25,22 @@ const vehicleRoutes: Routes = [
     path: 'vehicle-detail/:id',
     loadComponent: () => import('./features/vehicle-details/vehicle-details'),
   },
+  */
   {
     path: ROUTE_SEGMENTS.vehicles,
     loadComponent: () => import('./features/vehicle-list/vehicle-list'),
   },
   {
-    path: ROUTE_SEGMENTS.vehicleNew,
+    path: ROUTE_SEGMENTS.vehicleCreate,
+    loadComponent: () => import('./features/vehicle-form/vehicle-form'),
+  },
+  
+  {
+    path: `${ROUTE_SEGMENTS.vehicleEdit}/:id`,
     loadComponent: () => import('./features/vehicle-form/vehicle-form'),
   },
   {
-    path: `:id/${ROUTE_SEGMENTS.vehicleEdit}`,
-    loadComponent: () => import('./features/vehicle-form/vehicle-form'),
-  },
-  {
-    path: `:id/${ROUTE_SEGMENTS.vehicleDetail}`,
+    path: `${ROUTE_SEGMENTS.vehicleDetail}/:id`,
     loadComponent: () => import('./features/vehicle-details/vehicle-details'),
   },
 ];

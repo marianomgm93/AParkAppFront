@@ -1,8 +1,11 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ParkingSpotService } from '../../data-access/spot-client'
+import { firstValueFrom } from 'rxjs';
+import { ParkingSpotService } from '../../data-access/spot-client';
 import { ParkingSpotModel } from '../../data-access/spot-model';
+import { ParkingLotService } from '../../../parking-lot/data-access/parking-lot.service';
+import { ParkingLotModel } from '../../../parking-lot/data-access/parking-lot.model';
 import { AuthService } from '../../../auth/auth-service';
 
 @Component({
@@ -11,31 +14,70 @@ import { AuthService } from '../../../auth/auth-service';
   styleUrl: './spot-catalog.css',
   templateUrl: './spot-catalog.html',
 })
-export  default class SpotCatalog implements OnInit {
-
+export default class SpotCatalog implements OnInit {
   private readonly service = inject(ParkingSpotService);
+  private readonly parkingLotService = inject(ParkingLotService);
   protected readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 
   private readonly spots = signal<ParkingSpotModel[]>([]);
+  readonly parkingLots = signal<ParkingLotModel[]>([]);
+  readonly selectedLotId = signal<string>('');
 
   readonly userRole = this.authService.userRole;
   readonly isAdmin = computed(() => this.userRole() === 'ROLE_ADMIN');
   readonly isOwner = computed(() => this.userRole() === 'ROLE_OWNER');
 
+  readonly filteredSpots = computed(() => {
+    const lotId = this.selectedLotId();
+    if (!lotId) return this.spots();
+    return this.spots().filter((s) => String(s.parkingLotId) === lotId);
+  });
+
   readonly sortedSpots = computed(() =>
-    [...this.spots()].sort((a, b) => a.number - b.number)
+    [...this.filteredSpots()].sort((a, b) => {
+      const lotCompare = (a.parkingLotName || '').localeCompare(b.parkingLotName || '');
+      if (lotCompare !== 0) return lotCompare;
+      return a.number - b.number;
+    })
   );
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.loadParkingLots();
     this.loadSpots();
   }
 
+  async loadParkingLots() {
+    try {
+      const role = this.userRole();
+      const lots = role === 'ROLE_ADMIN'
+        ? await firstValueFrom(this.parkingLotService.getAllParkingLots())
+        : await firstValueFrom(this.parkingLotService.getMyParkingLots());
+      this.parkingLots.set(lots);
+    } catch (err) {
+      console.error('Error al cargar estacionamientos:', err);
+    }
+  }
+
   loadSpots() {
-    this.service.getAllParkingSpots().subscribe({
+    const role = this.userRole();
+    const fetch$ = role === 'ROLE_ADMIN'
+      ? this.service.getAllParkingSpots()
+      : this.service.getMyParkingSpots();
+
+    fetch$.subscribe({
       next: (list) => this.spots.set(list),
       error: (err) => console.error('Error al cargar lugares:', err),
     });
+  }
+
+  onFilterChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    this.selectedLotId.set(target.value);
+  }
+
+  create() {
+    this.router.navigate(['/parking-spot/parking-spot-form']);
   }
 
   viewDetail(id: string) {

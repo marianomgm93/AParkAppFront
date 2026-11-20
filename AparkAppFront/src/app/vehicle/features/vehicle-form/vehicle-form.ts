@@ -8,6 +8,7 @@ import { UserClient } from '../../../user/data-access/user-client';
 import { User } from '../../../user/data-access/user';
 import { AuthService } from '../../../auth/auth-service';
 import { CommonModule } from '@angular/common';
+import { ROUTE_COMMANDS } from '../../../app.route.segments';
 
 @Component({
   imports: [FormRoot, FormField, CommonModule],
@@ -19,6 +20,7 @@ export default class VehicleForm implements OnInit {
   private readonly service = inject(VehicleService);
   private readonly userClient = inject(UserClient);
   protected readonly authService = inject(AuthService);
+  protected readonly commands = (ROUTE_COMMANDS);
   private readonly route = inject(ActivatedRoute);
   protected readonly router = inject(Router);
 
@@ -82,6 +84,13 @@ export default class VehicleForm implements OnInit {
   );
 
   async ngOnInit() {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (!idParam && (this.isAdmin() || this.isOwner())) {
+      alert('Los administradores y propietarios no pueden registrar vehículos.');
+      this.router.navigate(this.commands.vehicles);
+      return;
+    }
+
     const role = this.userRole();
 
     if (role === 'ROLE_ADMIN' || role === 'ROLE_OWNER') {
@@ -102,7 +111,6 @@ export default class VehicleForm implements OnInit {
       }
     }
 
-    const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
       try {
         const v = await firstValueFrom(this.service.getVehicleById(idParam));
@@ -116,9 +124,10 @@ export default class VehicleForm implements OnInit {
           brand:       v.brand,
           vehicleType: v.vehicleType,
         });
-      } catch (e) {
+      } catch (e: any) {
         console.error('Error al cargar vehículo:', e);
-        alert('No se encontró el vehículo.');
+        const detail = e?.error?.message || e?.message || (e?.status ? `HTTP ${e.status}` : 'No se encontró el vehículo');
+        alert(`Error al cargar el vehículo: ${detail}`);
         this.router.navigate(['/vehicle/vehicle-list']);
       }
     }

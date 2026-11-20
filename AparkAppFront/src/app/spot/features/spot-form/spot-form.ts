@@ -8,6 +8,7 @@ import { ParkingSpotService } from '../../data-access/spot-client';
 import { ParkingSpotModel, ParkingSpotRequest } from '../../data-access/spot-model';
 import { ParkingLotService } from '../../../parking-lot/data-access/parking-lot.service';
 import { ParkingLotModel } from '../../../parking-lot/data-access/parking-lot.model';
+import { AuthService } from '../../../auth/auth-service';
 
 @Component({
   selector: 'app-parking-spot-form',
@@ -18,10 +19,13 @@ import { ParkingLotModel } from '../../../parking-lot/data-access/parking-lot.mo
 export default class ParkingSpotForm implements OnInit {
   private readonly spotService = inject(ParkingSpotService);
   private readonly parkingLotService = inject(ParkingLotService);
+  protected readonly authService = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
+  protected readonly router = inject(Router);
 
+  readonly userRole = this.authService.userRole;
   readonly parkingLots = signal<ParkingLotModel[]>([]);
+  readonly existingSpots = signal<ParkingSpotModel[]>([]);
   readonly editingSpot = signal<ParkingSpotModel | undefined>(undefined);
   readonly loading = signal<boolean>(false);
 
@@ -35,6 +39,12 @@ export default class ParkingSpotForm implements OnInit {
   };
 
   private readonly formModel = signal<ParkingSpotRequest>({ ...this.emptyRequest });
+
+  readonly suggestedNumber = computed(() => {
+    const lotId = this.formModel().parkingLotId;
+    if (!lotId || this.isEditing()) return null;
+    return this.calculateNextNumber(lotId);
+  });
 
   protected readonly spotForm = form(
     this.formModel,
@@ -54,6 +64,20 @@ export default class ParkingSpotForm implements OnInit {
           const payload = fieldTree().value();
           const spotId = this.editingSpot()?.id;
 
+          // Validación local de duplicado por estacionamiento
+          const duplicate = this.existingSpots().find(
+            (s) =>
+              String(s.parkingLotId) === String(payload.parkingLotId) &&
+              Number(s.number) === Number(payload.number) &&
+              s.id !== spotId
+          );
+          if (duplicate) {
+            alert(
+              `El número de lugar ${payload.number} ya está en uso en este estacionamiento ("${duplicate.name}"). Elija otro número.`
+            );
+            return;
+          }
+
           try {
             if (this.isEditing() && spotId) {
               await firstValueFrom(this.spotService.updateParkingSpot(spotId, payload));
@@ -62,11 +86,12 @@ export default class ParkingSpotForm implements OnInit {
             } else {
               await firstValueFrom(this.spotService.createParkingSpot(payload));
               alert('¡Lugar creado correctamente!');
-              this.resetForm();
+              await this.router.navigate(['/parking-spot/parking-spot-list']);
             }
           } catch (error: any) {
             const msg =
               error?.error?.message ||
+              error?.error?.error ||
               error?.message ||
               'Error de conexión con el servidor';
             alert(`No se pudo ${this.isEditing() ? 'modificar' : 'crear'} el lugar: ${msg}`);
@@ -82,6 +107,7 @@ export default class ParkingSpotForm implements OnInit {
   async ngOnInit(): Promise<void> {
     this.loading.set(true);
     try {
+      await this.loadExistingSpots();
       await this.loadParkingLots();
 
       const idParam = this.route.snapshot.paramMap.get('id');
@@ -93,10 +119,59 @@ export default class ParkingSpotForm implements OnInit {
     }
   }
 
+  private async loadExistingSpots(): Promise<void> {
+    try {
+      const role = this.userRole();
+      const spots = role === 'ROLE_ADMIN'
+        ? await firstValueFrom(this.spotService.getAllParkingSpots())
+        : await firstValueFrom(this.spotService.getMyParkingSpots());
+      this.existingSpots.set(spots);
+    } catch (error) {
+      console.error('Error al cargar lugares existentes:', error);
+    }
+  }
+
+  private calculateNextNumber(lotId: string): number {
+    const lotSpots = this.existingSpots().filter(
+      (s) => String(s.parkingLotId) === String(lotId)
+    );
+    if (lotSpots.length === 0) return 1;
+    const maxNum = Math.max(...lotSpots.map((s) => s.number));
+    return maxNum + 1;
+  }
+
+  onParkingLotChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const lotId = target.value;
+    if (!this.isEditing() && lotId) {
+      const nextNum = this.calculateNextNumber(lotId);
+      this.formModel.update((m) => ({
+        ...m,
+        parkingLotId: lotId,
+        number: nextNum,
+        name: m.name.startsWith('Lugar ') || !m.name ? `Lugar ${nextNum}` : m.name,
+      }));
+    }
+  }
+
   private async loadParkingLots(): Promise<void> {
     try {
-      const lots = await firstValueFrom(this.parkingLotService.getAllParkingLots());
+      const role = this.userRole();
+      const lots = role === 'ROLE_ADMIN'
+        ? await firstValueFrom(this.parkingLotService.getAllParkingLots())
+        : await firstValueFrom(this.parkingLotService.getMyParkingLots());
       this.parkingLots.set(lots);
+
+      if (lots.length === 1 && !this.isEditing()) {
+        const lotId = String(lots[0].id);
+        const nextNum = this.calculateNextNumber(lotId);
+        this.formModel.update((m) => ({
+          ...m,
+          parkingLotId: lotId,
+          number: nextNum,
+          name: m.name.startsWith('Lugar ') || !m.name ? `Lugar ${nextNum}` : m.name,
+        }));
+      }
     } catch (error) {
       console.error('Error al cargar estacionamientos:', error);
     }

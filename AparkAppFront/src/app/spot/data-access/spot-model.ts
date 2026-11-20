@@ -6,6 +6,8 @@ export interface ParkingSpotModel {
   active: boolean;
   status: SpotStatus;
   number: number;
+  parkingLotId?: string;
+  parkingLotName?: string;
 }
 // Refleja ParkingSpotRequest del backend
 export interface ParkingSpotRequest {

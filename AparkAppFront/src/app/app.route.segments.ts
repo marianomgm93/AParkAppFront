@@ -15,8 +15,9 @@ export const ROUTE_SEGMENTS= {
     spotNew: 'new',
     spotEdit: 'edit',
     spotDetail: 'details',
+    vehicle: 'vehicle',
     vehicles: 'vehicle-list', 
-    vehicleNew: 'new',
+    vehicleCreate: 'vehicle-form',
     vehicleEdit: 'edit',
     vehicleDetail: 'details',
 } as const;
@@ -33,8 +34,8 @@ export const ROUTE_COMMANDS = {
     spotNew: [`/parking-spot/parking-spot-form`],
     spotEdit: (id: string | number) => [`/parking-spot/parking-spot-form`, id],
     spotDetail: (id: string | number) => [`/parking-spot/parking-spot-detail`, id],
-    vehicles: [`/vehicle/vehicle-list`],
-    vehicleNew: [`/vehicle/vehicle-form`],
-    vehicleEdit: (id: string | number) => [`/vehicle/vehicle-form`, id],
-    vehicleDetail: (id: string | number) => [`/vehicle/vehicle-detail`, id],
+    vehicles: [`/${ROUTE_SEGMENTS.vehicle}/${ROUTE_SEGMENTS.vehicles}`],
+    vehicleCreate: [`/${ROUTE_SEGMENTS.vehicle}/${ROUTE_SEGMENTS.vehicleCreate}`],
+    vehicleEdit: (id: string | number) => [`/${ROUTE_SEGMENTS.vehicle}/${ROUTE_SEGMENTS.vehicleEdit}`, id],
+    vehicleDetail: (id: string | number) => [`/${ROUTE_SEGMENTS.vehicle}/${ROUTE_SEGMENTS.vehicleDetail}`, id],
 } as const;

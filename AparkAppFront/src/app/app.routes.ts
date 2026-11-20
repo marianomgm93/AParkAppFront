@@ -40,9 +40,9 @@ export const routes: Routes = [
     loadChildren: () => import('./spot/parking-spots.routes'),
   },
   {
-    path: 'vehicle',
-    loadChildren: () => import('./vehicle/vehicle.routes'),
-  },
+    path: ROUTE_SEGMENTS.vehicle,
+    loadComponent: () => import('./vehicle/ui/vehicle-layout/vehicle-layout'),
+    loadChildren: () => import('./vehicle/vehicle.routes'),  },
   {
     path: ROUTE_SEGMENTS.tickets,
     loadComponent: () => import('./ticket/ui/ticket-layout/ticket-layout'),

@@ -12,6 +12,10 @@ export class VehicleService {
     return this.http.get<VehicleModel[]>(this.baseUrl);
   }
 
+  getMyVehicles(userId: string) {
+    return this.http.get<VehicleModel[]>(`${this.baseUrl}/user/${userId}`);
+  }
+
   getVehicleById(id: string) {
     return this.http.get<VehicleModel>(`${this.baseUrl}/${id}`);
   }

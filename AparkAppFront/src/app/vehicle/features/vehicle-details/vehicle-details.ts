@@ -5,6 +5,7 @@ import { VehicleService } from '../../data-access/vehicle-service';
 import { VehicleModel } from '../../data-access/vehicle-model';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../auth/auth-service';
+import { ROUTE_COMMANDS } from '../../../app.route.segments';
 
 @Component({
   imports: [CommonModule],
@@ -17,6 +18,7 @@ export default class VehicleDetail implements OnInit {
   protected readonly authService = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
   protected readonly router = inject(Router);
+  protected readonly commands = ROUTE_COMMANDS;
 
   readonly vehicle = signal<VehicleModel | undefined>(undefined);
   readonly loading = signal(true);
@@ -50,7 +52,7 @@ export default class VehicleDetail implements OnInit {
     this.service.deleteVehicle(v.id).subscribe({
       next: () => {
         alert('Vehículo eliminado.');
-        this.router.navigate(['/vehicle/vehicle-list']);
+        this.router.navigate(this.commands.vehicles);
       },
       error: (err) => alert('Error al eliminar: ' + (err?.error?.message || err?.message)),
     });
@@ -58,6 +60,6 @@ export default class VehicleDetail implements OnInit {
 
   goEdit() {
     const v = this.vehicle();
-    if (v) this.router.navigate(['/vehicle/vehicle-form', v.id]);
+    if (v) this.router.navigate(this.commands.vehicleEdit(v.id));
   }
 }

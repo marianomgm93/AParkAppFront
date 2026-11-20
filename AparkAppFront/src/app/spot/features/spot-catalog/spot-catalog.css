@@ -1,204 +1,257 @@
-.list-wrapper {
+.spot-list {
   background-color: var(--bg-secondary);
   padding: 2rem;
   border-radius: 8px;
   border: 1px solid var(--border-color);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.list-header {
+  min-width: 60vw;
+  max-height: 75vh;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-}
+  flex-direction: column;
 
-.list-header h2 {
-  color: var(--color-accent);
-  margin: 0;
-}
+  .spot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    background-color: var(--bg-secondary);
 
-.new-btn {
-  background-color: var(--color-accent);
-  color: var(--text-on-accent);
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
+    h1 {
+      background-color: var(--bg-secondary);
+      margin: 0;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+    }
 
-.new-btn:hover {
-  background-color: var(--color-accent-hover);
-}
+    .btn-new {
+      background-color: var(--color-accent);
+      color: var(--text-on-accent);
+      border: none;
+      padding: 0.65rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
 
-.empty-msg {
-  font-style: italic;
-  color: var(--text-secondary);
-}
-
-.spot-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.95rem;
-  color: var(--text-primary);
-}
-
-.spot-table thead th {
-  text-align: left;
-  padding: 0.75rem 0.5rem;
-  border-bottom: 2px solid var(--border-color);
-  color: var(--color-accent);
-  font-weight: 600;
-}
-
-.spot-table tbody tr {
-  border-bottom: 1px solid var(--border-color);
-}
-
-.spot-table tbody td {
-  padding: 0.75rem 0.5rem;
-  vertical-align: middle;
-}
-
-.spot-name {
-  cursor: pointer;
-  font-weight: 500;
-  color: var(--color-accent);
-  text-decoration: underline;
-}
-
-.spot-name:hover {
-  opacity: 0.8;
-}
-
-/* ── Badges ── */
-.badge {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.badge.free {
-  background-color: #2e7d32;
-  color: #ffffff;
-}
-
-.badge.occupied {
-  background-color: #c62828;
-  color: #ffffff;
-}
-
-.badge.active {
-  background-color: #1565c0;
-  color: #ffffff;
-}
-
-.badge.inactive {
-  background-color: #555555;
-  color: #cccccc;
-}
-
-/* ── Actions ── */
-.actions-col {
-  width: 240px;
-}
-
-.actions {
-  display: flex;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-}
-
-button {
-  cursor: pointer;
-  font-size: 0.82rem;
-  padding: 0.4rem 0.6rem;
-  border-radius: 4px;
-  border: none;
-  font-weight: 500;
-  transition: background-color 0.2s ease, opacity 0.2s ease;
-  white-space: nowrap;
-}
-
-.edit-btn {
-  background-color: var(--color-accent-subtle);
-  color: var(--text-primary);
-}
-
-.edit-btn:hover {
-  background-color: var(--color-accent);
-  color: var(--text-on-accent);
-}
-
-.occupy-btn {
-  background-color: #e65100;
-  color: #ffffff;
-}
-
-.occupy-btn:hover {
-  background-color: #bf360c;
-}
-
-.release-btn {
-  background-color: #2e7d32;
-  color: #ffffff;
-}
-
-.release-btn:hover {
-  background-color: #388e3c;
-}
-
-.del-btn {
-  background-color: #c62828;
-  color: #ffffff;
-}
-
-.del-btn:hover {
-  background-color: #d32f2f;
-}
-
-.activate-btn {
-  background-color: #2e7d32;
-  color: #ffffff;
-}
-
-.activate-btn:hover {
-  background-color: #388e3c;
-}
-
-@media (max-width: 700px) {
-  .spot-table,
-  .spot-table thead,
-  .spot-table tbody,
-  .spot-table tr,
-  .spot-table td,
-  .spot-table th {
-    display: block;
+      &:hover {
+        background-color: var(--color-accent-hover);
+      }
+    }
   }
 
-  .spot-table tr {
-    margin-bottom: 1rem;
-  }
-
-  .spot-table td,
-  .spot-table th {
-    padding: 0.4rem 0;
-  }
-
-  .actions {
-    flex-direction: column;
-  }
-
-  .list-header {
-    flex-direction: column;
-    align-items: flex-start;
+  .filter-container {
+    display: flex;
+    align-items: center;
     gap: 0.75rem;
+    margin-bottom: 1rem;
+    background-color: var(--bg-secondary);
+
+    label {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      background-color: var(--bg-secondary);
+    }
+
+    select {
+      padding: 0.5rem 0.75rem;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 0.875rem;
+      outline: none;
+
+      &:focus {
+        border-color: var(--border-focus);
+      }
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .spot-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      background-color: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      color: var(--text-primary);
+      transition: border-color 0.2s ease;
+
+      &:hover {
+        border-color: var(--border-focus);
+      }
+
+      &.empty {
+        justify-content: center;
+        p {
+          color: var(--text-secondary);
+          font-style: italic;
+        }
+      }
+
+      .spot-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        background-color: var(--bg-primary);
+
+        p {
+          color: var(--text-secondary);
+          font-size: 1rem;
+          background-color: var(--bg-primary);
+          margin: 0;
+
+          .spot-title {
+            color: var(--text-primary);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+
+            &:hover {
+              color: var(--color-accent);
+            }
+          }
+
+          .spot-num {
+            color: var(--color-accent);
+            font-weight: 500;
+          }
+        }
+
+        small {
+          color: var(--text-secondary);
+          font-size: 0.8rem;
+          background-color: var(--bg-primary);
+
+          .status-active {
+            color: #388e3c;
+            font-weight: 600;
+          }
+
+          .status-inactive {
+            color: #9aa0ab;
+            font-weight: 600;
+          }
+
+          .status-free {
+            color: #2e7d32;
+            font-weight: 600;
+          }
+
+          .status-occupied {
+            color: #f57c00;
+            font-weight: 600;
+          }
+        }
+      }
+
+      .spot-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: var(--bg-primary);
+
+        button {
+          border: none;
+          padding: 0.5rem 0.9rem;
+          font-size: 0.85rem;
+          font-weight: 600;
+          border-radius: 4px;
+          cursor: pointer;
+          transition: background-color 0.2s ease, opacity 0.2s ease;
+          white-space: nowrap;
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+          }
+        }
+
+        .btn-edit {
+          background-color: var(--color-accent);
+          color: var(--text-on-accent);
+
+          &:hover {
+            background-color: var(--color-accent-hover);
+          }
+        }
+
+        .btn-release {
+          background-color: #2e7d32;
+          color: #ffffff;
+
+          &:hover {
+            background-color: #388e3c;
+          }
+        }
+
+        .btn-occupy {
+          background-color: #e65100;
+          color: #ffffff;
+
+          &:hover {
+            background-color: #f57c00;
+          }
+        }
+
+        .btn-cancel {
+          background-color: #c62828;
+          color: #ffffff;
+
+          &:hover {
+            background-color: #d32f2f;
+          }
+        }
+
+        .btn-activate {
+          background-color: #1565c0;
+          color: #ffffff;
+
+          &:hover {
+            background-color: #1976d2;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .spot-list {
+    min-width: 90vw;
+    padding: 1rem;
+
+    .spot-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+
+      .btn-new {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    ul .spot-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+
+      .spot-actions {
+        width: 100%;
+        flex-wrap: wrap;
+      }
+    }
   }
 }
