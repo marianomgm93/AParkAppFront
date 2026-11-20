@@ -64,7 +64,6 @@ export default class ParkingSpotForm implements OnInit {
           const payload = fieldTree().value();
           const spotId = this.editingSpot()?.id;
 
-          // Validación local de duplicado por estacionamiento
           const duplicate = this.existingSpots().find(
             (s) =>
               String(s.parkingLotId) === String(payload.parkingLotId) &&

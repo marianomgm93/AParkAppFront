@@ -50,15 +50,11 @@ export default class ParkingLotForm implements OnInit {
     })
   );
 
-  // Dirección creada en el paso 1
   readonly createdAddress = signal<AddressModel | undefined>(undefined);
 
-  // Paso actual del wizard (en edición se salta directo al paso 2)
   readonly step = signal<WizardStep>('address');
 
   protected readonly isEditing = computed(() => this.currentParkingLot() !== undefined);
-
-  // ── Paso 1: formulario de dirección ─────────────────────────────────────────
 
   private readonly emptyAddress: AddressModelForForm = {
     street: '',
@@ -97,7 +93,6 @@ export default class ParkingLotForm implements OnInit {
             const address = fieldTree().value();
             const created = await firstValueFrom(this.addressService.addAddress(address));
             this.createdAddress.set(created);
-            // Pre-cargar el addressId en el form de parking lot
             this.parkingLotFormModel.update(v => ({ ...v, addressId: created.id as string }));
             this.step.set('parking-lot');
           } catch (error: any) {
@@ -114,8 +109,6 @@ export default class ParkingLotForm implements OnInit {
   protected resetAddressForm() {
     this.addressFormModel.set({ ...this.emptyAddress });
   }
-
-  // ── Paso 2: formulario de parking lot ───────────────────────────────────────
 
   private readonly emptyRequest: ParkingLotRequest = {
     name: '',
@@ -175,8 +168,6 @@ export default class ParkingLotForm implements OnInit {
   readonly userRole = this.authService.userRole;
   readonly isAdmin = computed(() => this.userRole() === 'ROLE_ADMIN');
   readonly isOwner = computed(() => this.userRole() === 'ROLE_OWNER');
-
-  // ── Ciclo de vida ────────────────────────────────────────────────────────────
 
   async ngOnInit() {
     if (!this.authService.isAuthenticated()) {
@@ -245,7 +236,6 @@ export default class ParkingLotForm implements OnInit {
     });
   }
 
-  /** Volver al paso 1 y limpiar todo */
   protected goBackToAddress() {
     this.createdAddress.set(undefined);
     this.parkingLotFormModel.update(v => ({ ...v, addressId: '' }));

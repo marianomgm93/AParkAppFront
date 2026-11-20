@@ -43,7 +43,6 @@ export default class ParkingLotList implements OnInit {
         error: (err) => console.error('Error al cargar estacionamientos del propietario:', err)
       });
     } else {
-      // Para CLIENT / usuarios generales: solo los activos
       this.service.getActiveParkingLots().subscribe({
         next: (list) => this.parkingLots.set(list),
         error: (err) => console.error('Error al cargar estacionamientos activos:', err)
