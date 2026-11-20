@@ -71,7 +71,6 @@
   font-weight: 500;
 }
 
-/* ── Badges ── */
 .badge {
   display: inline-block;
   padding: 0.25rem 0.65rem;
@@ -86,7 +85,6 @@
 .badge.active  { background-color: #1565c0; color: #fff; }
 .badge.inactive { background-color: #555; color: #ccc; }
 
-/* ── Status actions ── */
 .status-actions {
   display: flex;
   gap: 0.75rem;

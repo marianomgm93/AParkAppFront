@@ -50,7 +50,7 @@ nav {
   align-items: center;
   
 a {
-  color: var(--text-secondary); /* #9AA0AB */
+  color: var(--text-secondary);
   text-decoration: none;
   font-weight: 500;
   font-size: 0.95rem;
@@ -60,7 +60,7 @@ a {
 }
 
 a:hover {
-    color: var(--text-primary); /* #F0F2F5 */
+    color: var(--text-primary);
     cursor: pointer;
 }
 
@@ -68,7 +68,7 @@ a:focus-visible {
   outline: none;
   color: var(--text-primary);
   border-radius: 4px;
-  box-shadow: 0 0 0 2px var(--border-focus); /* #FFD500 */
+  box-shadow: 0 0 0 2px var(--border-focus);
 }
 
 a.active {

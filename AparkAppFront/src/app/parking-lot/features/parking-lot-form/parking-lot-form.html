@@ -1,4 +1,3 @@
-<!-- Indicador de pasos (oculto en edición) -->
 @if (!isEditing()) {
   <div class="wizard-steps">
     <div class="wizard-step" [class.active]="step() === 'address'" [class.done]="step() === 'parking-lot'">
@@ -13,7 +12,6 @@
   </div>
 }
 
-<!-- ── PASO 1: Dirección ───────────────────────────────────────── -->
 @if (step() === 'address') {
   <form [formRoot]="AddressForm">
     <h2>Nueva Dirección del Estacionamiento</h2>
@@ -68,12 +66,10 @@
   </form>
 }
 
-<!-- ── PASO 2: Parking Lot ────────────────────────────────────── -->
 @if (step() === 'parking-lot') {
   <form [formRoot]="ParkingLotForm">
     <h2>{{ isEditing() ? 'Editar Estacionamiento' : 'Datos del Estacionamiento' }}</h2>
 
-    <!-- Resumen de la dirección creada (en creación) o existente (en edición) -->
     @if (!isEditing() && createdAddress()) {
       <div class="address-summary">
         <span class="address-summary__icon">📍</span>

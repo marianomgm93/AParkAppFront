@@ -9,7 +9,7 @@ export interface ParkingSpotModel {
   parkingLotId?: string;
   parkingLotName?: string;
 }
-// Refleja ParkingSpotRequest del backend
+
 export interface ParkingSpotRequest {
   name: string;
   parkingLotId: string;

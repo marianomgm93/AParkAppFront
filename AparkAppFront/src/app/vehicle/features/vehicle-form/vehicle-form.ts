@@ -100,7 +100,6 @@ export default class VehicleForm implements OnInit {
         console.error('Error al cargar usuarios:', e);
       }
     } else {
-      // Cliente: se asigna automáticamente su propio userId
       try {
         const me = this.authService.currentUser() ?? await firstValueFrom(this.userClient.getMe());
         if (me?.id) {

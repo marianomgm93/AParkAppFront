@@ -2,7 +2,6 @@ h2 {
   margin-bottom: 1.5rem;
 }
 
-/* ── Wizard steps indicator ─────────────────────────── */
 .wizard-steps {
   display: flex;
   align-items: center;
@@ -69,7 +68,6 @@ h2 {
   opacity: 0.7;
 }
 
-/* ── Resumen de dirección ────────────────────────────── */
 .address-summary {
   display: flex;
   align-items: center;
