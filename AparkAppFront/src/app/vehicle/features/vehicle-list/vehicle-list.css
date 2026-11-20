@@ -41,6 +41,16 @@
   color: var(--text-secondary);
 }
 
+.error-msg {
+  background-color: rgba(198, 40, 40, 0.15);
+  border: 1px solid #c62828;
+  color: #ff8a80;
+  padding: 0.6rem 0.85rem;
+  border-radius: 4px;
+  font-size: 0.88rem;
+  margin-bottom: 1rem;
+}
+
 .vehicle-table {
   width: 100%;
   border-collapse: collapse;
@@ -99,11 +109,12 @@
 }
 
 .actions-col {
-  width: 160px;
+  width: 240px;
 }
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.4rem;
 }
 
@@ -124,6 +135,17 @@ button {
 }
 
 .edit-btn:hover {
+  background-color: var(--color-accent);
+  color: var(--text-on-accent);
+}
+
+.res-btn {
+  background-color: var(--color-accent-subtle);
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+}
+
+.res-btn:hover {
   background-color: var(--color-accent);
   color: var(--text-on-accent);
 }

@@ -1,4 +1,3 @@
-// Refleja VehicleTypeEnum del backend
 export type VehicleTypeEnum = 'Car' | 'MotorCycle' | 'Truck' | 'SUV' | 'Custom';
 
 export interface VehicleModel {

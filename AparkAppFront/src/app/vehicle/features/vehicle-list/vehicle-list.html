@@ -1,12 +1,22 @@
 <section class="list-wrapper">
   <div class="list-header">
     <h2>Vehículos</h2>
-    <button class="new-btn" (click)="router.navigate(['/vehicle/vehicle-form'])">
+    <button
+      type="button"
+      class="new-btn"
+      (click)="router.navigate(['/vehicle/vehicle-form'])"
+    >
       + Nuevo Vehículo
     </button>
   </div>
 
-  @if (sortedVehicles().length === 0) {
+  @if (errorMessage()) {
+    <p class="error-msg">{{ errorMessage() }}</p>
+  }
+
+  @if (loading()) {
+    <p class="empty-msg">Cargando vehículos...</p>
+  } @else if (sortedVehicles().length === 0) {
     <p class="empty-msg">No hay vehículos registrados.</p>
   } @else {
     <table class="vehicle-table">
@@ -16,8 +26,8 @@
           <th>Marca / Modelo</th>
           <th>Tipo</th>
           <th>Color</th>
-          @if (isAdmin() || isOwner()) {
-            <th>Usuario ID</th>
+          @if (canManageAll()) {
+            <th>Dueño</th>
           }
           <th class="actions-col">Acciones</th>
         </tr>
@@ -26,7 +36,12 @@
         @for (vehicle of sortedVehicles(); track vehicle.id) {
           <tr>
             <td>
-              <span class="plate-link" (click)="viewDetail(vehicle.id)">{{ vehicle.plate }}</span>
+              <span class="plate-link" (click)="viewDetail(vehicle.id)">
+                {{ vehicle.plate }}
+              </span>
+              @if (vehicle.note) {
+                <small class="sub-text">{{ vehicle.note }}</small>
+              }
             </td>
             <td>
               <div class="brand-model">{{ vehicle.brand }}</div>
@@ -36,13 +51,39 @@
               <span class="type-badge">{{ vehicle.vehicleType }}</span>
             </td>
             <td>{{ vehicle.color }}</td>
-            @if (isAdmin() || isOwner()) {
-              <td><small class="sub-text">{{ vehicle.userId }}</small></td>
+            @if (canManageAll()) {
+              <td><small class="sub-text">{{ getOwnerLabel(vehicle.userId) }}</small></td>
             }
             <td class="actions">
-              <button type="button" class="edit-btn" (click)="edit(vehicle.id)">Editar</button>
-              @if (isAdmin() || isOwner()) {
-                <button type="button" class="del-btn" (click)="delete(vehicle)">Eliminar</button>
+              <button
+                type="button"
+                class="edit-btn"
+                (click)="edit(vehicle.id)"
+              >
+                Editar
+              </button>
+              <button
+                type="button"
+                class="res-btn"
+                (click)="goToNewReservation(vehicle)"
+              >
+                Reservar
+              </button>
+              @if (canManageAll()) {
+                <button
+                  type="button"
+                  class="res-btn"
+                  (click)="viewReservations(vehicle.plate)"
+                >
+                  Reservas
+                </button>
+                <button
+                  type="button"
+                  class="del-btn"
+                  (click)="delete(vehicle)"
+                >
+                  Eliminar
+                </button>
               }
             </td>
           </tr>
