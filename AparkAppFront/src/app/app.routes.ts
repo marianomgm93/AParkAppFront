@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { ROUTE_SEGMENTS } from './app.route.segments';
-import { authGuard, guestGuard, roleGuard } from './auth/auth-guard-guard';
+import { authGuard, guestGuard, roleGuard } from './auth/auth-guard';
 
 export const routes: Routes = [
   {
@@ -37,10 +37,10 @@ export const routes: Routes = [
     loadComponent: () => import('./user/ui/user-layout/user-layout'),
     loadChildren: () => import('./user/user.routes'),
   },
-  {
-    path: 'address',
-    loadChildren: () => import('./address/address.routes'),
-  },
+  // {
+  //   path: 'address',
+  //   loadChildren: () => import('./address/address.routes'),
+  // },
   {
     path: ROUTE_SEGMENTS.parkingLot,
     canActivate: [authGuard],
@@ -48,8 +48,10 @@ export const routes: Routes = [
     loadChildren: () => import('./parking-lot/parking-lot.routes'),
   },
   {
-    path: 'parking-spot',
-    loadChildren: () => import('./spot/parking-spots.routes'),
+    path: ROUTE_SEGMENTS.parkingSpot,
+    canActivate: [authGuard],
+    loadComponent: () => import('./spot/ui/parking-spot-layout/parking-spot-layout'),
+    loadChildren: () => import('./spot/parking-spot.routes')
   },
   {
     path: ROUTE_SEGMENTS.vehicle,

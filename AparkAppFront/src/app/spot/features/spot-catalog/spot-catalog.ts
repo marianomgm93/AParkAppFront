@@ -7,6 +7,7 @@ import { ParkingSpotModel } from '../../data-access/spot-model';
 import { ParkingLotService } from '../../../parking-lot/data-access/parking-lot.service';
 import { ParkingLotModel } from '../../../parking-lot/data-access/parking-lot.model';
 import { AuthService } from '../../../auth/auth-service';
+import { ROUTE_COMMANDS } from '../../../app.route.segments';
 
 @Component({
   imports: [CommonModule],
@@ -19,7 +20,7 @@ export default class SpotCatalog implements OnInit {
   private readonly parkingLotService = inject(ParkingLotService);
   protected readonly authService = inject(AuthService);
   private readonly router = inject(Router);
-
+  protected readonly commands = ROUTE_COMMANDS;
   private readonly spots = signal<ParkingSpotModel[]>([]);
   readonly parkingLots = signal<ParkingLotModel[]>([]);
   readonly selectedLotId = signal<string>('');
@@ -39,7 +40,7 @@ export default class SpotCatalog implements OnInit {
       const lotCompare = (a.parkingLotName || '').localeCompare(b.parkingLotName || '');
       if (lotCompare !== 0) return lotCompare;
       return a.number - b.number;
-    })
+    }),
   );
 
   async ngOnInit() {
@@ -50,9 +51,10 @@ export default class SpotCatalog implements OnInit {
   async loadParkingLots() {
     try {
       const role = this.userRole();
-      const lots = role === 'ROLE_ADMIN'
-        ? await firstValueFrom(this.parkingLotService.getAllParkingLots())
-        : await firstValueFrom(this.parkingLotService.getMyParkingLots());
+      const lots =
+        role === 'ROLE_ADMIN'
+          ? await firstValueFrom(this.parkingLotService.getAllParkingLots())
+          : await firstValueFrom(this.parkingLotService.getMyParkingLots());
       this.parkingLots.set(lots);
     } catch (err) {
       console.error('Error al cargar estacionamientos:', err);
@@ -61,9 +63,8 @@ export default class SpotCatalog implements OnInit {
 
   loadSpots() {
     const role = this.userRole();
-    const fetch$ = role === 'ROLE_ADMIN'
-      ? this.service.getAllParkingSpots()
-      : this.service.getMyParkingSpots();
+    const fetch$ =
+      role === 'ROLE_ADMIN' ? this.service.getAllParkingSpots() : this.service.getMyParkingSpots();
 
     fetch$.subscribe({
       next: (list) => this.spots.set(list),
@@ -77,15 +78,13 @@ export default class SpotCatalog implements OnInit {
   }
 
   create() {
-    this.router.navigate(['/parking-spot/parking-spot-form']);
+    this.router.navigate(this.commands.parkingSpotCreate);
   }
-
   viewDetail(id: string) {
-    this.router.navigate(['/parking-spot/parking-spot-detail', id]);
+    this.router.navigate(this.commands.parkingSpotDetail(id));
   }
-
   edit(id: string) {
-    this.router.navigate(['/parking-spot/parking-spot-form', id]);
+    this.router.navigate(this.commands.parkingSpotEdit(id));
   }
 
   toggleActive(spot: ParkingSpotModel) {
@@ -94,20 +93,18 @@ export default class SpotCatalog implements OnInit {
       this.service.deleteParkingSpot(spot.id).subscribe({
         next: () =>
           this.spots.update((list) =>
-            list.map((s) => (s.id === spot.id ? { ...s, active: false } : s))
+            list.map((s) => (s.id === spot.id ? { ...s, active: false } : s)),
           ),
-        error: (err) =>
-          alert('Error al dar de baja: ' + (err?.error?.message || err?.message)),
+        error: (err) => alert('Error al dar de baja: ' + (err?.error?.message || err?.message)),
       });
     } else {
       if (!confirm(`¿Dar de alta el lugar "${spot.name}" (N° ${spot.number})?`)) return;
       this.service.restoreParkingSpot(spot.id).subscribe({
         next: () =>
           this.spots.update((list) =>
-            list.map((s) => (s.id === spot.id ? { ...s, active: true } : s))
+            list.map((s) => (s.id === spot.id ? { ...s, active: true } : s)),
           ),
-        error: (err) =>
-          alert('Error al dar de alta: ' + (err?.error?.message || err?.message)),
+        error: (err) => alert('Error al dar de alta: ' + (err?.error?.message || err?.message)),
       });
     }
   }
@@ -117,10 +114,9 @@ export default class SpotCatalog implements OnInit {
     this.service.occupyParkingSpot(spot.id).subscribe({
       next: () =>
         this.spots.update((list) =>
-          list.map((s) => (s.id === spot.id ? { ...s, status: 'OCCUPIED' } : s))
+          list.map((s) => (s.id === spot.id ? { ...s, status: 'OCCUPIED' } : s)),
         ),
-      error: (err) =>
-        alert('Error al ocupar lugar: ' + (err?.error?.message || err?.message)),
+      error: (err) => alert('Error al ocupar lugar: ' + (err?.error?.message || err?.message)),
     });
   }
 
@@ -129,10 +125,9 @@ export default class SpotCatalog implements OnInit {
     this.service.releaseParkingSpot(spot.id).subscribe({
       next: () =>
         this.spots.update((list) =>
-          list.map((s) => (s.id === spot.id ? { ...s, status: 'FREE' } : s))
+          list.map((s) => (s.id === spot.id ? { ...s, status: 'FREE' } : s)),
         ),
-      error: (err) =>
-        alert('Error al liberar lugar: ' + (err?.error?.message || err?.message)),
+      error: (err) => alert('Error al liberar lugar: ' + (err?.error?.message || err?.message)),
     });
   }
 }

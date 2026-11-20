@@ -5,6 +5,7 @@ import { ParkingSpotService } from '../../data-access/spot-client';
 import { ParkingSpotModel } from '../../data-access/spot-model';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../../auth/auth-service';
+import { ROUTE_COMMANDS } from '../../../app.route.segments';
 
 @Component({
   imports: [CommonModule],
@@ -17,6 +18,7 @@ export default class ParkingSpotDetail implements OnInit {
   protected readonly authService = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+protected readonly commands = ROUTE_COMMANDS;
 
   readonly spot = signal<ParkingSpotModel | undefined>(undefined);
   readonly loading = signal(true);
@@ -62,11 +64,10 @@ export default class ParkingSpotDetail implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/parking-spot/parking-spot-list']);
+    this.router.navigate(this.commands.parkingSpotList);
   }
-
   goEdit() {
     const s = this.spot();
-    if (s) this.router.navigate(['/parking-spot/parking-spot-form', s.id]);
+    if (s) this.router.navigate(this.commands.parkingSpotEdit(s.id));
   }
 }
