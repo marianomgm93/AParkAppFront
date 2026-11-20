@@ -35,5 +35,9 @@ export const routes: Routes = [
     path: 'parking-lot',
     loadChildren: () => import('./parking-lot/parking-lot.routes'),
   },
+  {
+    path: ROUTE_SEGMENTS.vehicles ?? 'vehicle',
+    loadChildren: () => import('./vehicle/vehicle.routes'),
+  },
   { path: '**', redirectTo: '/' },
 ];

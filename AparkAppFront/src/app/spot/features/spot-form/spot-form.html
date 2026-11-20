@@ -26,7 +26,7 @@
           <input
             id="spotNumber"
             type="number"
-            min="1"
+          
             [formField]="spotForm.number"
           />
           @for (err of spotForm.number().errors(); track err.kind) {
