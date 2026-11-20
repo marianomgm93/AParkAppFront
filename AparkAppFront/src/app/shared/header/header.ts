@@ -5,7 +5,7 @@ import { ROUTE_COMMANDS } from '../../app.route.segments';
 
 @Component({
   imports: [RouterLinkActive, RouterLink],
-  selector: 'app-header',
+  selector: 'header',
   styleUrl: './header.css',
   templateUrl: './header.html',
 })

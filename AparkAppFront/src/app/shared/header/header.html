@@ -19,17 +19,17 @@
       <a routerLink="/vehicle/vehicle-list" routerLinkActive="active">Vehículos</a>
     }
     @if (userRole() === 'ROLE_CLIENT') {
-      <a [routerLink]="commands.reservations" routerLinkActive="active">Mis Reservas</a>
+      <a [routerLink]="commands.reservationList" routerLinkActive="active">Mis Reservas</a>
     }
     @if (userRole() === 'ROLE_CLIENT' || userRole() === 'ROLE_OWNER') {
-      <a [routerLink]="commands.offers" routerLinkActive="active">Ofertas</a>
+      <a [routerLink]="commands.offerList" routerLinkActive="active">Ofertas</a>
     }
     @if (userRole() === 'ROLE_OWNER' || userRole() === 'ROLE_CLIENT') {
       <a [routerLink]="commands.tickets" routerLinkActive="active">Tickets</a>
     }
     @if (userRole() === 'ROLE_OWNER' || userRole() === 'ROLE_EMPLOYEE') {
-      <a routerLink="/offer-list/new" routerLinkActive="active">Nueva Oferta</a>
-      <a [routerLink]="commands.reservations" routerLinkActive="active">Reservas</a>
+      <a [routerLink]="commands.offerCreate" routerLinkActive="active">Nueva Oferta</a>
+      <a [routerLink]="commands.reservationList" routerLinkActive="active">Reservas</a>
     }
     <a (click)="logout()">Cerrar sesión</a>
   } @else {

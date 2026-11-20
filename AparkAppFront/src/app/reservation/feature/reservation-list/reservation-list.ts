@@ -4,6 +4,7 @@ import { ReservationModel } from '../../data-access/reservation.model';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../../auth/auth-service';
 import { RouterLink } from '@angular/router';
+import { ROUTE_COMMANDS } from '../../../app.route.segments';
 
 @Component({
   imports: [DatePipe, RouterLink],
@@ -18,7 +19,7 @@ export default class ReservationList implements OnInit {
   readonly reservations = signal<ReservationModel[]>([]);
   readonly sortOrder = signal<'asc' | 'desc'>('desc');
   readonly statusFilter = signal<'ALL' | ReservationModel['status']>('ALL');
-
+  protected readonly commands= ROUTE_COMMANDS;
   readonly statusLabels: Record<'ALL' | ReservationModel['status'], string> = {
     ALL: 'Todos',
     RESERVED: 'Reservadas',

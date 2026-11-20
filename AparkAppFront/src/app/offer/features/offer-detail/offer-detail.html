@@ -1,0 +1,16 @@
+@let item = offer();
+<section class="offer-detail">
+  <a [routerLink]="commands.offerList">← Volver al listado</a>
+  @if (item) {
+    <h2>Detalle de Oferta</h2>
+    <div class="detail-card">
+      <p><strong>Estacionamiento:</strong> {{ item.parkingLotName || item.parkingLotId }}</p>
+      <p><strong>Tipo de estadía:</strong> {{ item.stayType }}</p>
+      <p><strong>Inicio:</strong> {{ item.startTime | date: 'dd/MM/yyyy HH:mm' }}</p>
+      <p><strong>Fin:</strong> {{ item.endTime | date: 'dd/MM/yyyy HH:mm' }}</p>
+      <p><strong>Estado:</strong> {{ item.active ? 'Activa' : 'Inactiva' }}</p>
+    </div>
+  } @else {
+    <p>Cargando información de la oferta...</p>
+  }
+</section>

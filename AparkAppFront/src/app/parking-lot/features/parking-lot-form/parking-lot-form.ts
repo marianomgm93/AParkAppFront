@@ -10,6 +10,7 @@ import { UserClient } from '../../../user/data-access/user-client';
 import { User } from '../../../user/data-access/user';
 import { AuthService } from '../../../auth/auth-service';
 import { CommonModule } from '@angular/common';
+import { ROUTE_COMMANDS } from '../../../app.route.segments';
 
 type WizardStep = 'address' | 'parking-lot';
 
@@ -26,7 +27,7 @@ export default class ParkingLotForm implements OnInit {
   protected readonly authService = inject(AuthService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-
+  protected readonly commands = ROUTE_COMMANDS;
   readonly editingParkingLot = input<ParkingLotModel>();
   readonly editedParkingLot = output<ParkingLotModel>();
 
@@ -82,7 +83,7 @@ export default class ParkingLotForm implements OnInit {
         action: async (fieldTree) => {
           if (!this.authService.isAuthenticated() || !this.authService.accessToken()) {
             alert('Su sesión ha expirado o no ha iniciado sesión. Por favor inicie sesión.');
-            this.router.navigate(['/auth/login']);
+            this.router.navigate(this.commands.login);
             return;
           }
 
@@ -150,7 +151,7 @@ export default class ParkingLotForm implements OnInit {
               alert('Estacionamiento modificado');
               this.editedParkingLot.emit(edited);
               if (this.routeParkingLot()) {
-                this.router.navigate(['/parking-lot/parking-lot-list']);
+                this.router.navigate(this.commands.parkingLotList);
               }
             } else {
               if (this.authService.userRole() !== 'ROLE_ADMIN') {
@@ -181,14 +182,14 @@ export default class ParkingLotForm implements OnInit {
   async ngOnInit() {
     if (!this.authService.isAuthenticated()) {
       alert('Debe iniciar sesión para crear o editar un estacionamiento.');
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(this.commands.login);
       return;
     }
 
     const role = this.authService.userRole();
     if (role !== 'ROLE_ADMIN' && role !== 'ROLE_OWNER') {
       alert('Solo los administradores y propietarios tienen permiso para crear o editar estacionamientos.');
-      this.router.navigate(['/parking-lot/parking-lot-list']);
+      this.router.navigate(this.commands.parkingLotList);
       return;
     }
 

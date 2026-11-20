@@ -1,5 +1,4 @@
-:host{
-
+:host {
 }
 form {
   background-color: var(--bg-secondary);
@@ -8,7 +7,10 @@ form {
   border: 1px solid var(--border-color);
   max-height: 75vh;
   min-width: 60vw;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
   color: var(--text-primary);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
@@ -18,7 +20,10 @@ form {
   flex-direction: column;
   margin-bottom: 1rem;
 }
-
+h2 {
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
 label {
   margin-bottom: 0.5rem;
   font-weight: 500;
@@ -33,7 +38,9 @@ input {
   padding: 0.75rem 1rem;
   border-radius: 4px;
   font-size: 1rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 input:focus {
@@ -50,7 +57,7 @@ input:focus {
   align-items: center;
 }
 
-button[type="submit"] {
+button[type='submit'] {
   width: 100%;
   background-color: var(--color-accent);
   color: var(--text-on-accent);
@@ -60,19 +67,21 @@ button[type="submit"] {
   font-weight: 600;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
   margin-top: 1rem;
 }
 
-button[type="submit"]:hover:not(:disabled) {
+button[type='submit']:hover:not(:disabled) {
   background-color: var(--color-accent-hover);
 }
 
-button[type="submit"]:active:not(:disabled) {
+button[type='submit']:active:not(:disabled) {
   background-color: var(--color-accent-active);
 }
 
-button[type="submit"]:disabled {
+button[type='submit']:disabled {
   background-color: var(--border-color);
   color: var(--text-secondary);
   cursor: not-allowed;
