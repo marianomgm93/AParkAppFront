@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ROUTE_COMMANDS } from '../app.route.segments';
+import { AuthService } from '../auth/auth-service';
 
 @Component({
   selector: 'app-home',
@@ -10,4 +11,5 @@ import { ROUTE_COMMANDS } from '../app.route.segments';
 })
 export default class Home {
   protected readonly commands = ROUTE_COMMANDS;
+  protected readonly authService= inject(AuthService);
 }

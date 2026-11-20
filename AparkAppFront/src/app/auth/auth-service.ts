@@ -74,7 +74,7 @@ export class AuthService {
     if (!this.accessToken()) return;
     this.userClient.getMe().subscribe({
       next: (user) => this._currentUser.set(user),
-      error: () => this.logout(),
+      error: (err) => console.error('Error al cargar perfil de usuario:', err),
     });
   }
 }

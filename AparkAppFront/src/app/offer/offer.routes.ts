@@ -1,12 +1,17 @@
 import { Routes } from '@angular/router';
 import { ROUTE_SEGMENTS } from '../app.route.segments';
+import { authGuard, roleGuard } from '../auth/auth-guard-guard';
 const offerRoutes: Routes = [
   {
     path: ROUTE_SEGMENTS.offerList,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ROLE_OWNER', 'ROLE_EMPLOYEE', 'ROLE_CLIENT'] },
     loadComponent: () => import('./features/offer-list/offer-list'),
   },
   {
     path: ROUTE_SEGMENTS.offerCreate,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ROLE_OWNER', 'ROLE_EMPLOYEE'] },
     loadComponent: () => import('./features/offer-form/offer-form'),
   },
 ];

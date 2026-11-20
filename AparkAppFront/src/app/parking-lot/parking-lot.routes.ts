@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { ROUTE_SEGMENTS } from '../app.route.segments';
+import { authGuard, roleGuard } from '../auth/auth-guard-guard';
 
 const parkingLotRoutes: Routes = [
   {
@@ -7,15 +9,20 @@ const parkingLotRoutes: Routes = [
     redirectTo: 'parking-lot-form',
   },
   {
-    path: 'parking-lot-form',
+    path: ROUTE_SEGMENTS.parkingLotForm,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ROLE_ADMIN'] },
     loadComponent: () => import('./features/parking-lot-form/parking-lot-form'),
   },
   {
-    path: 'parking-lot-form/:id',
+    path: `${ROUTE_SEGMENTS.parkingLotForm}/:id`,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ROLE_ADMIN'] },
     loadComponent: () => import('./features/parking-lot-form/parking-lot-form'),
   },
   {
-    path: 'parking-lot-list',
+    path: ROUTE_SEGMENTS.parkingLotList,
+    canActivate: [authGuard],
     loadComponent: () => import('./features/parking-lot-list/parking-lot-list'),
   },
 ];

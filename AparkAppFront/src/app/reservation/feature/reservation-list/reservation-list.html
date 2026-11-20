@@ -28,7 +28,7 @@
             </p>
           }
           <small>Estado: {{ res.status }} | Inicio: {{ res.startTime | date: 'dd/MM/yyyy HH:mm' }}</small>
-          <a [routerLink]="[res.id]">Ver detalle</a>
+          <a [routerLink]= commands.reservationDetail(res.id)>Ver detalle</a>
         </div>
         @if (userRole() === 'ROLE_CLIENT' && res.status === 'RESERVED') {
           <button (click)="onCancel(res.id)">Cancelar</button>

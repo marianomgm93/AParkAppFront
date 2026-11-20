@@ -1,29 +1,39 @@
 import { Routes } from '@angular/router';
 import { ROUTE_SEGMENTS } from './app.route.segments';
+import { authGuard, guestGuard, roleGuard } from './auth/auth-guard-guard';
 
 export const routes: Routes = [
   {
-    path: ROUTE_SEGMENTS.home,
+    path: '',
     pathMatch: 'full',
+    redirectTo: ROUTE_SEGMENTS.home,
+  },
+  {
+    path: ROUTE_SEGMENTS.home,
     loadComponent: () => import('./home/home'),
   },
   {
     path: ROUTE_SEGMENTS.offer,
+    canActivate: [authGuard],
     loadComponent: () => import('./offer/ui/offer-layout/offer-layout'),
     loadChildren: () => import('./offer/offer.routes'),
   },
   {
-    path: ROUTE_SEGMENTS.reservations,
+    path: ROUTE_SEGMENTS.reservation,
+    canActivate: [authGuard],
     loadComponent: () => import('./reservation/ui/reservation-layout/reservation-layout'),
     loadChildren: () => import('./reservation/reservation.routes'),
   },
   {
     path: ROUTE_SEGMENTS.auth,
+    canActivate: [guestGuard],
     loadComponent: () => import('./auth/ui/auth-layout/auth-layout'),
     loadChildren: () => import('./auth/auth.routes'),
   },
   {
     path: ROUTE_SEGMENTS.users,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ROLE_ADMIN'] },
     loadComponent: () => import('./user/ui/user-layout/user-layout'),
     loadChildren: () => import('./user/user.routes'),
   },
@@ -32,7 +42,9 @@ export const routes: Routes = [
     loadChildren: () => import('./address/address.routes'),
   },
   {
-    path: 'parking-lot',
+    path: ROUTE_SEGMENTS.parkingLot,
+    canActivate: [authGuard],
+    loadComponent: () => import('./parking-lot/ui/parking-lot-layout/parking-lot-layout'),
     loadChildren: () => import('./parking-lot/parking-lot.routes'),
   },
 

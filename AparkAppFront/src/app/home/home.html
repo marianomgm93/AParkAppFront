@@ -39,7 +39,9 @@
   </p>
 </section>
 
-<section class="cta">
-  <a [routerLink]="commands.signup" class="cta-button">Crear cuenta</a>
-  <a [routerLink]="commands.login" class="cta-button cta-secondary">Iniciar sesión</a>
-</section>
+@if (!authService.isAuthenticated()) {
+  <section class="cta">
+    <a [routerLink]="commands.signup" class="cta-button">Crear cuenta</a>
+    <a [routerLink]="commands.login" class="cta-button cta-secondary">Iniciar sesión</a>
+  </section>
+}
