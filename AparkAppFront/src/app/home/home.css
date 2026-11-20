@@ -1,0 +1,191 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  gap: 2.5rem;
+  background-color: var(--bg-primary);
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  background-color: var(--bg-primary);
+}
+
+.hero-logo {
+  width: 180px;
+  height: auto;
+  background-color: transparent;
+  filter: drop-shadow(0 4px 24px rgba(255, 213, 0, 0.25));
+}
+
+.hero h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+}
+
+.brand {
+  color: var(--color-accent);
+  background-color: var(--bg-primary);
+}
+
+.tagline {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  max-width: 520px;
+  line-height: 1.6;
+  background-color: var(--bg-primary);
+}
+
+.about {
+  text-align: center;
+  background-color: var(--bg-primary);
+}
+
+.description {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 680px;
+  background-color: var(--bg-primary);
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  background-color: var(--bg-primary);
+}
+
+.feature-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.feature-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-4px);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.75rem;
+  background-color: var(--bg-secondary);
+}
+
+.feature-card h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: 0.5rem;
+  background-color: var(--bg-secondary);
+}
+
+.feature-card p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  background-color: var(--bg-secondary);
+}
+
+.for-owners {
+  text-align: center;
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  width: 100%;
+  background-color: var(--bg-secondary);
+}
+
+.for-owners h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  background-color: var(--bg-secondary);
+}
+
+.for-owners p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 540px;
+  margin: 0 auto;
+  background-color: var(--bg-secondary);
+}
+
+.cta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: var(--bg-primary);
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  font-family: inherit;
+  border: none;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  cursor: pointer;
+
+  background-color: var(--color-accent);
+  color: var(--text-on-accent);
+}
+
+.cta-button:hover {
+  background-color: var(--color-accent-hover);
+  transform: translateY(-2px);
+}
+
+.cta-button:active {
+  background-color: var(--color-accent-active);
+  transform: translateY(0);
+}
+
+.cta-secondary {
+  background-color: transparent;
+  color: var(--color-accent);
+  border: 2px solid var(--color-accent);
+}
+
+.cta-secondary:hover {
+  background-color: var(--color-accent-subtle);
+}
+
+.cta-secondary:active {
+  background-color: var(--color-accent-subtle);
+}
+
+@media (max-width: 600px) {
+  .hero-logo {
+    width: 140px;
+  }
+
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+}

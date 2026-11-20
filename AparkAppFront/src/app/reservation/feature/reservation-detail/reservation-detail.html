@@ -1,0 +1,18 @@
+@let res = reservation();
+<section class="reservation-detail">
+  <a [routerLink]="commands.reservationList">← Volver al listado</a>
+  @if (res) {
+    <h2>Detalle de Reserva</h2>
+    <div class="detail-card">
+      <p><strong>Estacionamiento:</strong> {{ res.parkingLotName || res.parkingLotId }}</p>
+      <p><strong>Estado:</strong> {{ res.status }}</p>
+      <p><strong>Vehículo / Patente:</strong> {{ res.vehiclePlate || res.vehicleId }}</p>
+      <p><strong>Cliente:</strong> {{ res.userName || res.userId }}</p>
+      <p><strong>Tipo de estadía:</strong> {{ res.stayType }}</p>
+      <p><strong>Inicio:</strong> {{ res.startTime | date:'medium' }}</p>
+      <p><strong>Fin:</strong> {{ res.endTime | date:'medium' }}</p>
+    </div>
+  } @else {
+    <p>Cargando información de la reserva...</p>
+  }
+</section>

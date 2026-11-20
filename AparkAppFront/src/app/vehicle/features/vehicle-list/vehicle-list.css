@@ -1,0 +1,138 @@
+.list-wrapper {
+  background-color: var(--bg-secondary);
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  min-width: 60vw;
+  max-height: 75vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+
+  h2 {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    margin: 0;
+  }
+}
+
+.new-btn {
+  background-color: var(--color-accent);
+  color: var(--text-on-accent);
+  border: none;
+  padding: 0.65rem 1.25rem;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-accent-hover);
+  }
+}
+
+.vehicle-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+
+  thead th {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 2px solid var(--border-color);
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  tbody td {
+    padding: 0.75rem;
+    vertical-align: middle;
+  }
+}
+
+.plate-link {
+  font-weight: 600;
+  color: var(--color-accent);
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover {
+    text-decoration: underline;
+    color: var(--color-accent-hover);
+  }
+}
+
+.sub-text {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.type-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+
+  button {
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .edit-btn {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+
+    &:hover {
+      border-color: var(--border-focus);
+      color: var(--color-accent);
+    }
+  }
+
+  .del-btn {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-error);
+
+    &:hover {
+      border-color: var(--text-error);
+      background-color: rgba(229, 57, 53, 0.1);
+    }
+  }
+}
+
+.empty-msg {
+  padding: 1.5rem;
+  color: var(--text-secondary);
+  text-align: center;
+}

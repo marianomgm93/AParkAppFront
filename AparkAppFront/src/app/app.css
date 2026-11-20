@@ -1,0 +1,28 @@
+:host {
+  display: grid;
+  grid-template-areas:
+    'header'
+    'main'
+    'footer';
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+main {
+  grid-area: main;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 0;
+}
+footer {
+  grid-area: footer;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  padding: 1rem 0;
+}

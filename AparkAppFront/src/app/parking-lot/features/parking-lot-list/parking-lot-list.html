@@ -1,0 +1,78 @@
+<section class="list-wrapper">
+  <h2>
+    Estacionamientos
+    @if (isAdmin()) {
+      <span class="role-hint">(Vista Administrador: Todos)</span>
+    } @else if (isOwner()) {
+      <span class="role-hint">(Mis Estacionamientos)</span>
+    } @else {
+      <span class="role-hint">(Estacionamientos Disponibles)</span>
+    }
+  </h2>
+
+  @if (sortedParkingLots().length === 0) {
+    <p class="empty-msg">No hay estacionamientos disponibles para mostrar.</p>
+  } @else {
+    <table class="parking-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Capacidad</th>
+          @if (isAdmin() || isOwner()) {
+            <th>Estado</th>
+            <th>Responsable</th>
+          }
+          <th>Dirección</th>
+          @if (isAdmin() || isOwner()) {
+            <th class="actions-col">Acciones</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (lot of sortedParkingLots(); track lot.id) {
+          <tr>
+            <td>{{ lot.name }}</td>
+            <td>{{ lot.capacity }}</td>
+            @if (isAdmin() || isOwner()) {
+              <td>
+                <span class="badge" [class.active]="lot.active" [class.inactive]="!lot.active">
+                  {{ lot.active ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+              <td>{{ lot.ownerUsername }}</td>
+            }
+            <td>
+              @if (lot.street) {
+                <div class="address-main">{{ lot.street }} {{ lot.number }}</div>
+                <small class="address-subtext">CP {{ lot.zipCode }}{{ lot.notes ? ' · ' + lot.notes : '' }}</small>
+              } @else {
+                <small class="address-subtext">{{ lot.addressId }}</small>
+              }
+            </td>
+            @if (isAdmin() || isOwner()) {
+              <td class="actions">
+                <button type="button" class="edit-btn"
+                        (click)="edit(lot.id)">
+                   Editar
+                </button>
+                @if (isAdmin()) {
+                  @if (lot.active) {
+                    <button type="button" class="del-btn"
+                            (click)="toggleActive(lot)">
+                       Dar de baja
+                    </button>
+                  } @else {
+                    <button type="button" class="activate-btn"
+                            (click)="toggleActive(lot)">
+                       Dar de alta
+                    </button>
+                  }
+                }
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</section>

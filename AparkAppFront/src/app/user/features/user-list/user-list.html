@@ -1,0 +1,68 @@
+@let users = this.users();
+<section class="user-list">
+  <h1>Usuarios</h1>
+  <ul>
+    @for (user of users; track user.id) {
+      <li class="user-container" [class.inactive]="!user.active">
+        <div class="user-info">
+          <div class="user-name-row">
+            <p class="user-name">{{ user.name }}</p>
+            <span
+              class="role-badge"
+              [class.badge-admin]="hasRole(user, 'ROLE_ADMIN')"
+              [class.badge-owner]="hasRole(user, 'ROLE_OWNER')"
+              [class.badge-client]="hasRole(user, 'ROLE_CLIENT')"
+            >
+              {{ getRoleLabel(user) }}
+            </span>
+            @if (!user.active) {
+              <span class="badge-inactive">Inactivo</span>
+            }
+          </div>
+          <p class="user-email">{{ user.email }}</p>
+        </div>
+        <div class="user-actions">
+          <div class="role-switch" role="group" aria-label="Cambiar rol">
+            <button
+              type="button"
+              class="switch-btn switch-client"
+              [class.active]="hasRole(user, 'ROLE_CLIENT')"
+              (click)="selectRole(user, 'ROLE_CLIENT')"
+            >
+              Cliente
+            </button>
+            <button
+              type="button"
+              class="switch-btn switch-owner"
+              [class.active]="hasRole(user, 'ROLE_OWNER')"
+              (click)="selectRole(user, 'ROLE_OWNER')"
+            >
+              Owner
+            </button>
+            <button
+              type="button"
+              class="switch-btn switch-admin"
+              [class.active]="hasRole(user, 'ROLE_ADMIN')"
+              (click)="selectRole(user, 'ROLE_ADMIN')"
+            >
+              Admin
+            </button>
+          </div>
+          <button
+            type="button"
+            class="btn-status"
+            [class.btn-alta]="!user.active"
+            [class.btn-baja]="user.active"
+            (click)="toggleStatus(user)"
+          >
+            {{ user.active ? 'Dar de Baja' : 'Dar de Alta' }}
+          </button>
+        </div>
+      </li>
+    } @empty {
+      <li class="user-container">
+        <p>No se encontraron usuarios registrados.</p>
+      </li>
+    }
+  </ul>
+</section>

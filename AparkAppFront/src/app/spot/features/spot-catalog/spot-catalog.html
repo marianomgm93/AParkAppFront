@@ -1,0 +1,83 @@
+@let spots = this.sortedSpots();
+@let lots = this.parkingLots();
+<section class="spot-list">
+  <div class="spot-header">
+    <h1>{{ userRole() === 'ROLE_OWNER' ? 'Mis Lugares de Estacionamiento' : 'Lugares de Estacionamiento' }}</h1>
+    @if (isAdmin() || isOwner()) {
+      <button class="btn-new" (click)="create()">
+        + Nuevo Lugar
+      </button>
+    }
+  </div>
+
+  @if (lots.length > 1) {
+    <div class="filter-container">
+      <label for="lotFilter">Filtrar por estacionamiento:</label>
+      <select id="lotFilter" [value]="selectedLotId()" (change)="onFilterChange($event)">
+        <option value="">Todos mis estacionamientos</option>
+        @for (lot of lots; track lot.id) {
+          <option [value]="lot.id">{{ lot.name }}</option>
+        }
+      </select>
+    </div>
+  }
+
+  <ul>
+    @for (spot of spots; track spot.id) {
+      <li class="spot-container">
+        <div class="spot-info">
+          <p>
+            <span class="spot-title" (click)="viewDetail(spot.id)" title="Ver detalle">
+              {{ spot.name }}
+            </span>
+            <span class="spot-num">(Lugar N° {{ spot.number }})</span>
+            - {{ spot.parkingLotName || 'Estacionamiento' }}
+          </p>
+          <small>
+            Estado:
+            <span [class]="spot.active ? 'status-active' : 'status-inactive'">
+              {{ spot.active ? 'Activo' : 'Inactivo' }}
+            </span>
+            &nbsp;•&nbsp;
+            Ocupación:
+            <span [class]="spot.status === 'OCCUPIED' ? 'status-occupied' : 'status-free'">
+              {{ spot.status === 'OCCUPIED' ? 'Ocupado' : 'Libre' }}
+            </span>
+          </small>
+        </div>
+
+        <div class="spot-actions">
+          @if (isAdmin() || isOwner()) {
+            <button class="btn-edit" (click)="edit(spot.id)">
+              Editar
+            </button>
+
+            @if (spot.active) {
+              @if (spot.status === 'OCCUPIED') {
+                <button class="btn-release" (click)="releaseSpot(spot)">
+                  Liberar
+                </button>
+              } @else {
+                <button class="btn-occupy" (click)="occupySpot(spot)">
+                  Ocupar
+                </button>
+              }
+
+              <button class="btn-cancel" (click)="toggleActive(spot)">
+                Dar de baja
+              </button>
+            } @else {
+              <button class="btn-activate" (click)="toggleActive(spot)">
+                Dar de alta
+              </button>
+            }
+          }
+        </div>
+      </li>
+    } @empty {
+      <li class="spot-container empty">
+        <p>No se encontraron lugares de estacionamiento registrados.</p>
+      </li>
+    }
+  </ul>
+</section>

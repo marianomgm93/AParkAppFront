@@ -1,0 +1,136 @@
+{
+  "users": [
+    {
+      "id": "u1-uuid",
+      "email": "owner@aparkapp.com",
+      "password": "1234",
+      "role": "OWNER",
+      "name": "Dueño Cochera Centro"
+    },
+    {
+      "id": "u2-uuid",
+      "email": "client@aparkapp.com",
+      "password": "1234",
+      "role": "CLIENT",
+      "name": "Cliente Frecuente"
+    },
+    {
+      "id": "c019b996-3ab6-48e9-92d8-b222ede791df",
+      "email": "mariano@aparkapp.com",
+      "password": "asd123",
+      "name": "mariano",
+      "role": "CLIENT"
+    },
+    {
+      "id": "9b7e6189-dd1b-455b-bf35-464265f240c2",
+      "email": "asdasdasdasdasdasd@asd",
+      "password": "adsasdas",
+      "name": "21312321",
+      "role": "CLIENT"
+    },
+    {
+      "id": "2aa31f52-0579-4542-b7f0-8f3cad28e5be",
+      "email": "marianomgm93@gmail.com",
+      "password": "asd123",
+      "name": "mariano gonzalez",
+      "role": "CLIENT"
+    }
+  ],
+  "vehicles": [
+    {
+      "id": "v1-uuid",
+      "clientId": "u2-uuid",
+      "licensePlate": "AB123CD",
+      "vehicleType": "Car"
+    }
+  ],
+  "garages": [
+    {
+      "id": "g1-uuid",
+      "ownerId": "u1-uuid",
+      "name": "Cochera Central",
+      "address": "Av. Principal 123"
+    }
+  ],
+  "parking-spots": [
+    {
+      "id": "s1-uuid",
+      "garageId": "g1-uuid",
+      "spotNumber": "A1",
+      "isActive": true
+    },
+    {
+      "id": "s2-uuid",
+      "garageId": "g1-uuid",
+      "spotNumber": "A2",
+      "isActive": true
+    }
+  ],
+  "offers": [
+    {
+      "id": "o1-uuid",
+      "garageId": "g1-uuid",
+      "parkingSpotId": null,
+      "title": "Estadía Mensual - Disponibilidad General",
+      "isActive": true,
+      "priceInfo": "Sujeto a cálculo por StayType"
+    },
+    {
+      "id": "o2-uuid",
+      "garageId": "g1-uuid",
+      "parkingSpotId": "s1-uuid",
+      "title": "Lugar Fijo A1 - Fin de semana",
+      "isActive": true,
+      "priceInfo": "Promoción fin de semana"
+    }
+  ],
+  "reservations": [
+    {
+      "id": "r1-uuid",
+      "clientId": "u2-uuid",
+      "vehicleId": "v1-uuid",
+      "garageId": "g1-uuid",
+      "offerId": "o1-uuid",
+      "parkingSpotId": null,
+      "startDate": "2026-10-25T10:00:00Z",
+      "endDate": "2026-10-25T14:00:00Z",
+      "stayType": "Hourly",
+      "status": "RESERVED"
+    },
+    {
+      "id": "r2-uuid",
+      "clientId": "u2-uuid",
+      "vehicleId": "v1-uuid",
+      "garageId": "g1-uuid",
+      "offerId": null,
+      "parkingSpotId": "s2-uuid",
+      "startDate": "2026-10-22T08:00:00Z",
+      "endDate": "2026-10-22T18:00:00Z",
+      "stayType": "Daily",
+      "status": "CHECKED_IN"
+    }
+  ],
+  "tickets": [
+    {
+      "id": "t1-uuid",
+      "reservationId": "r2-uuid",
+      "amount": 5000,
+      "paid": 2500,
+      "creationDate": "2026-10-22T08:05:00Z",
+      "status": "PARTIALLY_PAID",
+      "note": "Pago parcial al ingreso"
+    }
+  ],
+  "spots": [
+    {
+      "id": 1,
+      "spotNumber": 101,
+      "status": "FREE"
+    },
+    {
+      "id": 2,
+      "spotNumber": 102,
+      "status": "OCCUPIED"
+    }
+  ]
+}

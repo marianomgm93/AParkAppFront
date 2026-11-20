@@ -1,0 +1,82 @@
+<section class="form-wrapper">
+  <form [formRoot]="spotForm" class="spot-form">
+    <div class="form-header">
+      <h2>{{ isEditing() ? 'Editar Lugar de Estacionamiento' : 'Nuevo Lugar de Estacionamiento' }}</h2>
+      <p class="form-subtitle">
+        {{ isEditing() ? 'Modifica los datos del lugar de estacionamiento.' : 'Completa la información para dar de alta una nueva plaza.' }}
+      </p>
+    </div>
+
+    <div class="form-control">
+      <label for="parkingLotId">Estacionamiento</label>
+      <select id="parkingLotId" [formField]="spotForm.parkingLotId" (change)="onParkingLotChange($event)">
+        <option value="">Seleccione un estacionamiento</option>
+        @for (lot of parkingLots(); track lot.id) {
+          <option [value]="lot.id">{{ lot.name }}</option>
+        }
+      </select>
+      @if (spotForm.parkingLotId().touched() && spotForm.parkingLotId().invalid()) {
+        <small class="error-message">
+          <svg class="error-icon" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+          </svg>
+          <span>{{ spotForm.parkingLotId().errors()[0]?.message }}</span>
+        </small>
+      }
+    </div>
+
+    <div class="form-row">
+      <div class="form-control flex-2">
+        <label for="name">Nombre / Identificador</label>
+        <input id="name" type="text" [formField]="spotForm.name" placeholder="Ej: A-1, Nivel 1 - Plaza 5..." />
+        @if (spotForm.name().touched() && spotForm.name().invalid()) {
+          <small class="error-message">
+            <svg class="error-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            <span>{{ spotForm.name().errors()[0]?.message }}</span>
+          </small>
+        }
+      </div>
+
+      <div class="form-control flex-1">
+        <label for="number">N° de Lugar</label>
+        <input id="number" type="number" [formField]="spotForm.number" placeholder="Ej: 1" />
+        @if (spotForm.number().touched() && spotForm.number().invalid()) {
+          <small class="error-message">
+            <svg class="error-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            </svg>
+            <span>{{ spotForm.number().errors()[0]?.message }}</span>
+          </small>
+        }
+      </div>
+    </div>
+
+    @if (suggestedNumber(); as sug) {
+      <div class="hint-box">
+        <svg class="hint-icon" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+        </svg>
+        <span>Sugerencia: El próximo número libre en este estacionamiento es <strong>#{{ sug }}</strong>.</span>
+      </div>
+    }
+
+    <div class="toggle-control">
+      <label class="switch-container">
+        <input type="checkbox" [formField]="spotForm.active" id="activeCheckbox" />
+        <span class="switch-slider"></span>
+        <span class="switch-text">Lugar activo y disponible para su uso</span>
+      </label>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn-submit" [disabled]="spotForm().submitting() || spotForm().invalid()">
+        {{ isEditing() ? 'Guardar Cambios' : 'Crear Lugar' }}
+      </button>
+      <button type="button" class="btn-cancel" (click)="router.navigate(['/parking-spot/parking-spot-list'])">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</section>

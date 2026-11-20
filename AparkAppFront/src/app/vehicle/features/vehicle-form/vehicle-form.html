@@ -1,0 +1,115 @@
+<form [formRoot]="VehicleForm">
+  <h2>{{ isEditing() ? 'Editar Vehículo' : 'Registrar Vehículo' }}</h2>
+
+  <fieldset>
+    <legend>Datos del Vehículo</legend>
+
+    <div class="form-row">
+      <div class="form-control">
+        <label for="plate">Patente:</label>
+        <input type="text" id="plate" placeholder="Ej: ABC 123" [formField]="VehicleForm.plate" />
+        @if (VehicleForm.plate().touched() && VehicleForm.plate().invalid()) {
+          @for (error of VehicleForm.plate().errors(); track $index) {
+            <small class="error-message">{{ error.message }}</small>
+          }
+        }
+      </div>
+
+      <div class="form-control">
+        <label for="vehicleType">Tipo:</label>
+        <select id="vehicleType" [formField]="VehicleForm.vehicleType">
+          @for (type of vehicleTypes; track type) {
+            <option [value]="type">{{ type }}</option>
+          }
+        </select>
+        @if (VehicleForm.vehicleType().touched() && VehicleForm.vehicleType().invalid()) {
+          @for (error of VehicleForm.vehicleType().errors(); track $index) {
+            <small class="error-message">{{ error.message }}</small>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-control">
+        <label for="brand">Marca:</label>
+        <input type="text" id="brand" placeholder="Ej: Ford" [formField]="VehicleForm.brand" />
+        @if (VehicleForm.brand().touched() && VehicleForm.brand().invalid()) {
+          @for (error of VehicleForm.brand().errors(); track $index) {
+            <small class="error-message">{{ error.message }}</small>
+          }
+        }
+      </div>
+
+      <div class="form-control">
+        <label for="model">Modelo:</label>
+        <input type="text" id="model" placeholder="Ej: Focus" [formField]="VehicleForm.model" />
+        @if (VehicleForm.model().touched() && VehicleForm.model().invalid()) {
+          @for (error of VehicleForm.model().errors(); track $index) {
+            <small class="error-message">{{ error.message }}</small>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-control">
+        <label for="color">Color:</label>
+        <input type="text" id="color" placeholder="Ej: Rojo" [formField]="VehicleForm.color" />
+        @if (VehicleForm.color().touched() && VehicleForm.color().invalid()) {
+          @for (error of VehicleForm.color().errors(); track $index) {
+            <small class="error-message">{{ error.message }}</small>
+          }
+        }
+      </div>
+
+      <div class="form-control">
+        <label for="note">Notas (opcional):</label>
+        @if (VehicleForm.note; as noteField) {
+        <input type="text" id="note" [formField]="noteField" placeholder="..." />
+       }
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Propietario</legend>
+
+    @if (isAdmin() || isOwner()) {
+      <div class="form-control">
+        <label for="userId">Usuario propietario:</label>
+        <select id="userId" [formField]="VehicleForm.userId">
+          <option value="">-- Seleccione un usuario --</option>
+          @for (user of users(); track user.id) {
+            <option [value]="user.id">{{ user.name }} ({{ user.email }})</option>
+          }
+          @if (users().length === 0) {
+            <option disabled>No hay usuarios disponibles</option>
+          }
+        </select>
+        @if (VehicleForm.userId().touched() && VehicleForm.userId().invalid()) {
+          @for (error of VehicleForm.userId().errors(); track $index) {
+            <small class="error-message">{{ error.message }}</small>
+          }
+        }
+      </div>
+    } @else {
+      <div class="form-control">
+        <label>Propietario asignado:</label>
+        <input
+          type="text"
+          [value]="authService.currentUser()?.name ? authService.currentUser()!.name + ' (' + authService.currentUser()!.email + ')' : 'Usted'"
+          disabled
+        />
+        <small class="toggle-label">El vehículo quedará asociado a su cuenta.</small>
+      </div>
+    }
+  </fieldset>
+
+  <div class="action">
+    <button type="submit" [disabled]="VehicleForm().invalid()">
+      {{ isEditing() ? 'Guardar Cambios' : 'Registrar Vehículo' }}
+    </button>
+    <button type="button" (click)="router.navigate(commands.vehicles)">Cancelar</button>
+  </div>
+</form>

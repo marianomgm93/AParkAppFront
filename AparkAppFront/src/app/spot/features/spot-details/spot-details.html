@@ -1,0 +1,61 @@
+@if (loading()) {
+  <p class="loading-msg">Cargando detalle del lugar de estacionamiento...</p>
+} @else if (error()) {
+  <p class="error-msg">{{ error() }}</p>
+} @else if (spot(); as s) {
+  <div class="detail-wrapper">
+    <div class="detail-header">
+      <h2>{{ s.name }}</h2>
+
+      <div class="header-actions">
+        @if (isAdmin() || isOwner()) {
+          <button type="button" class="edit-btn" (click)="goEdit()">
+            Editar
+          </button>
+        }
+        <button type="button" class="back-btn" (click)="goBack()">
+          Volver
+        </button>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <span class="detail-label">Número</span>
+        <span class="detail-value">#{{ s.number }}</span>
+      </div>
+
+      <div class="detail-card">
+        <span class="detail-label">Ocupación</span>
+        @if (s.status === 'OCCUPIED') {
+          <span class="badge occupied">Ocupado</span>
+        } @else {
+          <span class="badge free">Libre</span>
+        }
+      </div>
+
+      <div class="detail-card">
+        <span class="detail-label">Estado</span>
+        @if (s.active) {
+          <span class="badge active">Activo</span>
+        } @else {
+          <span class="badge inactive">Inactivo</span>
+        }
+      </div>
+    </div>
+
+    @if ((isAdmin() || isOwner()) && s.active) {
+      <div class="status-actions">
+        @if (s.status === 'OCCUPIED') {
+          <button type="button" class="release-btn" (click)="releaseSpot()">
+            Liberar lugar
+          </button>
+        } @else {
+          <button type="button" class="occupy-btn" (click)="occupySpot()">
+            Marcar ocupado
+          </button>
+        }
+      </div>
+    }
+  </div>
+}
