@@ -38,5 +38,5 @@ body {
     sans-serif;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  font-size: clamp(0.75rem, 0.75rem + 0.25vw, 1.125rem);
 }

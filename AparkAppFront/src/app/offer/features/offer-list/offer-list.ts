@@ -3,9 +3,11 @@ import { OfferService } from '../../data-acces/offer.service';
 import { OfferModel, VehicleOption } from '../../data-acces/offer';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '../../../auth/auth-service';
+import { ROUTE_COMMANDS } from '../../../app.route.segments';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [DatePipe],
+  imports: [DatePipe, RouterLink],
   selector: 'app-offer-list',
   styleUrl: './offer-list.css',
   templateUrl: './offer-list.html',
@@ -16,6 +18,7 @@ export default class OfferList implements OnInit {
   readonly offers = signal<OfferModel[]>([]);
   readonly userVehicles = signal<VehicleOption[]>([]);
   readonly userRole = this.authService.userRole;
+  protected readonly commands = ROUTE_COMMANDS;
   cancelOffer(offerId: string): void {
     if (!confirm('¿Confirma la cancelación de esta oferta?')) return;
     this.offerService.deleteOffer(offerId).subscribe({
