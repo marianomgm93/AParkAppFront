@@ -33,7 +33,7 @@ export default class ParkingLotForm implements OnInit {
 
   private readonly routeParkingLot = signal<ParkingLotModel | undefined>(undefined);
   private readonly currentParkingLot = computed(
-    () => this.editingParkingLot() ?? this.routeParkingLot()
+    () => this.editingParkingLot() ?? this.routeParkingLot(),
   );
 
   readonly users = signal<User[]>([]);
@@ -48,7 +48,7 @@ export default class ParkingLotForm implements OnInit {
         return roles.includes('ROLE_OWNER') || roles.includes('OWNER');
       }
       return false;
-    })
+    }),
   );
 
   readonly createdAddress = signal<AddressModel | undefined>(undefined);
@@ -69,10 +69,10 @@ export default class ParkingLotForm implements OnInit {
   protected readonly AddressForm = form(
     this.addressFormModel,
     (address) => {
-      required(address.street,  { message: 'Calle requerida' });
-      required(address.number,  { message: 'Número requerido' });
+      required(address.street, { message: 'Calle requerida' });
+      required(address.number, { message: 'Número requerido' });
       required(address.zipCode, { message: 'Código postal requerido' });
-      min(address.number, 0,    { message: 'Número debe ser >= 0' });
+      min(address.number, 0, { message: 'Número debe ser >= 0' });
     },
     {
       submission: {
@@ -84,25 +84,20 @@ export default class ParkingLotForm implements OnInit {
           }
 
           if (this.authService.userRole() !== 'ROLE_ADMIN') {
-            alert('Solo los administradores tienen permiso para registrar un nuevo estacionamiento.');
+            alert(
+              'Solo los administradores tienen permiso para registrar un nuevo estacionamiento.',
+            );
             this.router.navigate(['/parking-lot/parking-lot-list']);
             return;
           }
 
-          if (!confirm('¿Confirmar los datos del domicilio?')) return;
-          try {
-            const address = fieldTree().value();
-            const created = await firstValueFrom(this.addressService.addAddress(address));
-            this.createdAddress.set(created);
-            this.parkingLotFormModel.update(v => ({ ...v, addressId: created.id as string }));
-            this.step.set('parking-lot');
-          } catch (error: any) {
-            console.error('Error al guardar dirección:', error);
-            const msg = error?.error?.message || error?.error?.error || error?.message || 'Error de conexión con el servidor';
-            alert(`No se pudo crear la dirección: ${msg}`);
-          }
+          const address = fieldTree().value();
+          this.createdAddress.set({ ...address, id: 'pending' });
+          this.parkingLotFormModel.update((v) => ({ ...v, addressId: 'pending' }));
+          this.step.set('parking-lot');
         },
-        onInvalid: () => alert('¡Revise los datos de la dirección! Complete todos los campos obligatorios.'),
+        onInvalid: () =>
+          alert('¡Revise los datos de la dirección! Complete todos los campos obligatorios.'),
       },
     },
   );
@@ -123,11 +118,11 @@ export default class ParkingLotForm implements OnInit {
   protected readonly ParkingLotForm = form(
     this.parkingLotFormModel,
     (parkingLot) => {
-      required(parkingLot.name,      { message: 'Nombre requerido' });
-      required(parkingLot.capacity,  { message: 'Capacidad requerida' });
-      min(parkingLot.capacity, 1,    { message: 'Capacidad mínima: 1' });
+      required(parkingLot.name, { message: 'Nombre requerido' });
+      required(parkingLot.capacity, { message: 'Capacidad requerida' });
+      min(parkingLot.capacity, 1, { message: 'Capacidad mínima: 1' });
       required(parkingLot.addressId, { message: 'Dirección requerida' });
-      required(parkingLot.ownerId,   { message: 'Responsable requerido' });
+      required(parkingLot.ownerId, { message: 'Responsable requerido' });
     },
     {
       submission: {
@@ -138,27 +133,43 @@ export default class ParkingLotForm implements OnInit {
             const id = this.currentParkingLot()?.id;
 
             if (this.isEditing() && id !== undefined) {
-              const edited = await firstValueFrom(
-                this.client.updateParkingLot(parkingLot, id),
-              );
+              const edited = await firstValueFrom(this.client.updateParkingLot(parkingLot, id));
               alert('Estacionamiento modificado');
               this.editedParkingLot.emit(edited);
               if (this.routeParkingLot()) {
                 this.router.navigate(this.commands.parkingLotList);
               }
-            } else {
-              if (this.authService.userRole() !== 'ROLE_ADMIN') {
-                alert('Solo los administradores tienen permiso para crear estacionamientos.');
-                return;
-              }
-              await firstValueFrom(this.client.addParkingLot(parkingLot));
+              return;
+            }
+
+            if (this.authService.userRole() !== 'ROLE_ADMIN') {
+              alert('Solo los administradores tienen permiso para crear estacionamientos.');
+              return;
+            }
+
+            const createdAddress = await firstValueFrom(
+              this.addressService.addAddress(this.addressFormModel()),
+            );
+            try {
+              await firstValueFrom(
+                this.client.addParkingLot({ ...parkingLot, addressId: createdAddress.id }),
+              );
               alert('¡Estacionamiento agregado!');
               this.fullReset();
+            } catch (lotError) {
+              await firstValueFrom(this.addressService.deleteAddress(createdAddress.id));
+              throw lotError;
             }
           } catch (error: any) {
             console.error('Error al guardar estacionamiento:', error);
-            const msg = error?.error?.message || error?.error?.error || error?.message || 'Error de conexión con el servidor';
-            alert(`No se pudo ${this.isEditing() ? 'modificar' : 'crear'} el estacionamiento: ${msg}`);
+            const msg =
+              error?.error?.message ||
+              error?.error?.error ||
+              error?.message ||
+              'Error de conexión con el servidor';
+            alert(
+              `No se pudo ${this.isEditing() ? 'modificar' : 'crear'} el estacionamiento: ${msg}`,
+            );
           }
         },
         onInvalid: () => alert('¡Revise el formulario!'),
@@ -179,7 +190,9 @@ export default class ParkingLotForm implements OnInit {
 
     const role = this.authService.userRole();
     if (role !== 'ROLE_ADMIN' && role !== 'ROLE_OWNER') {
-      alert('Solo los administradores y propietarios tienen permiso para crear o editar estacionamientos.');
+      alert(
+        'Solo los administradores y propietarios tienen permiso para crear o editar estacionamientos.',
+      );
       this.router.navigate(this.commands.parkingLotList);
       return;
     }
@@ -212,7 +225,8 @@ export default class ParkingLotForm implements OnInit {
       try {
         const lot = await firstValueFrom(this.client.getParkingLotById(idParam));
         if (role === 'ROLE_OWNER') {
-          const me = this.authService.currentUser() ?? await firstValueFrom(this.userClient.getMe());
+          const me =
+            this.authService.currentUser() ?? (await firstValueFrom(this.userClient.getMe()));
           if (lot.ownerId !== me?.id) {
             alert('No tiene permiso para editar un estacionamiento que no le pertenece.');
             this.router.navigate(['/parking-lot/parking-lot-list']);
@@ -238,9 +252,6 @@ export default class ParkingLotForm implements OnInit {
   }
 
   protected goBackToAddress() {
-    this.createdAddress.set(undefined);
-    this.parkingLotFormModel.update(v => ({ ...v, addressId: '' }));
-    this.resetAddressForm();
     this.step.set('address');
   }
 
