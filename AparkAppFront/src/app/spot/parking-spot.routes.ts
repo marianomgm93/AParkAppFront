@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { ROUTE_SEGMENTS } from '../app.route.segments';
-import { roleGuard } from '../auth/auth-guard';
+import { roleGuard } from '../auth/guards/role-guard-guard';
 
 const parkingSpotRoutes: Routes = [
   {
